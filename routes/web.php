@@ -1,7 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/landing', [LandingController::class, 'index'])->name('landing');
+
+Route::get('/login-pilihan', [AuthController::class, 'showLoginChoice'])->name('login.choice');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+Route::get('/login_tamu', [AuthController::class, 'showLoginTamu'])->name('login.tamu');
+Route::post('/login_tamu', [AuthController::class, 'loginTamu'])->name('login.tamu.post');
+
+Route::get('/dashboard_admin', function () {
+    return 'Selamat datang di Dashboard Admin';
+})->name('dashboard.admin');
+
+Route::get('/dashboard_resepsionis', function () {
+    return 'Selamat datang di Dashboard Resepsionis';
+})->name('dashboard.resepsionis');
+
+Route::get('/dashboard_tamu', function () {
+    return 'Selamat datang di Dashboard Tamu';
+})->name('dashboard.tamu');
