@@ -24,5 +24,5 @@ Route::get('/dashboard_resepsionis', function () {
 })->name('dashboard.resepsionis');
 
 Route::get('/dashboard_tamu', function () {
-    return 'Selamat datang di Dashboard Tamu';
-})->name('dashboard.tamu');
+    return view('dashboard_tamu');
+});
