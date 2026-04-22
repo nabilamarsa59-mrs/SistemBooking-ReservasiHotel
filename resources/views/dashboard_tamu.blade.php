@@ -40,6 +40,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulas Dashboard - Guest</title>
+    @extends('layouts.app')
+    @section('content')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -64,11 +66,11 @@
         <!-- FILTER BUTTONS -->
         <section class="mb-10 flex flex-wrap gap-2">
             <input type="text" placeholder="Cari tipe kamar..." class="flex-1 border border-gray-300 px-4 py-2 rounded focus:border-black outline-none transition">
-            <button onclick="filterKamar('all')" class="bg-black text-white px-4 py-2 rounded text-sm hover:opacity-80">Semua</button>
-            <button onclick="filterKamar('standard')" class="border border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Standard</button>
-            <button onclick="filterKamar('deluxe')" class="border border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Deluxe</button>
-            <button onclick="filterKamar('suite')" class="border border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Suite</button>
-            <button onclick="filterKamar('presidential')" class="border border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Presidential</button>
+            <button onclick="filterKamar('all')" class="btn-primary border-black text-white px-4 py-2 rounded text-sm hover:opacity-80">Semua</button>
+            <button onclick="filterKamar('standard')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Standard</button>
+            <button onclick="filterKamar('deluxe')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Deluxe</button>
+            <button onclick="filterKamar('suite')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Suite</button>
+            <button onclick="filterKamar('presidential')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Presidential</button>
         </section>
 
         <div id="container-kamar" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -107,10 +109,6 @@
 
 
 
-<!-- Modal toggle -->
-<button data-modal-target="default-modal" data-modal-toggle="default-modal" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" type="button">
-  Toggle modal
-</button>
 
 <!-- Main modal -->
 <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -136,14 +134,7 @@
                     The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
                 </p>
             </div>
-            <!-- Modal footer -->
-            <div class="flex items-center border-t border-default space-x-4 pt-4 md:pt-5">
-                <button data-modal-hide="default-modal" type="button" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">I accept</button>
-                <button data-modal-hide="default-modal" type="button" class="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Decline</button>
-            </div>
-        </div>
-    </div>
-</div>
+           
 
 </body>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>

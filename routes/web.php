@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardTamuController;
+use App\Http\Controllers\RoomController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -31,6 +32,11 @@ Route::get('/dashboard_tamu', function () {
 Route::get('/statistik_admin', function () {
     return view('statistik_admin');
 });
+
+Route::get('/room', [RoomController::class, 'index']); {
+    return view('room');
+};
+
 
 use App\Http\Controllers\StatistikController;
 
