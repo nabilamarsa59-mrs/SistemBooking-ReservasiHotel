@@ -8,12 +8,12 @@ class AuthController extends Controller
 {
     public function showLoginChoice()
     {
-        return view('login-choice');
+        return view('pages.login-choice');
     }
 
     public function showLogin()
     {
-        return view('login');
+        return view('pages.login');
     }
 
     public function login(Request $request)
@@ -37,7 +37,7 @@ class AuthController extends Controller
 
     public function showLoginTamu()
     {
-        return view('login_tamu');
+        return view('pages.login_tamu');
     }
 
     public function loginTamu(Request $request)

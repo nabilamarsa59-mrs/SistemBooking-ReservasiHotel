@@ -82,15 +82,26 @@
             border-radius: 50px;
             outline: none;
         }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
     </style>
 </head>
 <body>
+
+    <x-navbar />
 
     <main>
         <div class="content-card">
             @yield('content')
         </div>
     </main>
+
+    <x-footer />
 
 </body>
 </html>

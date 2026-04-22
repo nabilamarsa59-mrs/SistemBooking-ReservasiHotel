@@ -1,3 +1,6 @@
+@extends('layouts.app')
+@section('title', 'Nama Halaman')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,24 +13,6 @@
 
     <div class="w-full min-h-screen bg-[#ece6da]">
         
-        <!-- Navbar -->
-        <nav class="w-full border-b border-gray-400 px-10 py-5 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="{{ asset('images/logo_PBL.jpeg') }}" alt="Logo Pulas" class="h-[75px] object-contain mix-blend-multiply">
-            </div>
-
-            <div class="flex items-center gap-14 text-[#243b53] text-[18px]">
-                <a href="{{ route('landing') }}#beranda" class="hover:text-[#527792] transition">Beranda</a>
-                <a href="{{ route('landing') }}#kategori" class="hover:text-[#527792] transition">Kategori</a>
-                <a href="{{ route('landing') }}#bantuan" class="hover:text-[#527792] transition">Bantuan</a>
-            </div>
-
-            <a href="{{ route('login.choice') }}"
-               class="border border-[#7ea1ba] rounded-full px-6 py-3 bg-[#ece6da] text-[#243b53] text-[16px] hover:bg-[#7ea1ba] hover:text-white transition">
-                Daftar/Masuk
-            </a>
-        </nav>
-
         <!-- Hero -->
         <section id="beranda" class="px-10 pt-8">
             <div class="border border-gray-400 bg-[#f2eee6] h-[320px] flex flex-col items-center justify-center text-center">
@@ -179,9 +164,7 @@
 
                 </div>
 
-                <p class="text-center text-[15px] mt-5 text-[#243b53]">
-                    2026 Politeknik Negeri Batam - Projek PBL IFPagi 2A-09
-                </p>
+                
             </div>
         </footer>
 
@@ -229,3 +212,4 @@
 </body>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 </html>
+@endsection

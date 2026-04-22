@@ -58,7 +58,7 @@ class LandingController extends Controller
             });
         }
 
-        return view('landing', [
+        return view('pages.landing', [
             'rooms' => $rooms,
             'selectedCategory' => $selectedCategory,
             'search' => $search,

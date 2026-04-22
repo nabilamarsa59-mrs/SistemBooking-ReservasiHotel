@@ -1,3 +1,6 @@
+@extends('layouts.app')
+@section('title', 'Dashboard Tamu')
+@section('content')
 @php
     // SIMPAN DATA KAMAR DI SINI (Kepala 2kb pasti aman edit ini)
     // Cukup edit tulisan di dalam tanda petik saja
@@ -139,4 +142,4 @@
 </body>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 </html>
-
+@endsection

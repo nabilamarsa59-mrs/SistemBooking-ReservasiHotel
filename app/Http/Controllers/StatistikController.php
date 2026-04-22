@@ -15,7 +15,7 @@ class StatistikController extends Controller {
         $previous = MonthlyStat::where('month', 'April')->first();
 
         // Mengirim variabel ke file statistik_admin.blade.php
-        return view('statistik_admin', compact('stats', 'current', 'previous'));
+        return view('pages.statistik_admin', compact('stats', 'current', 'previous'));
     }
 }
 
