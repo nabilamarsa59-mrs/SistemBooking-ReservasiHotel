@@ -4,104 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Pulas')</title>
-    <style>
-        :root {
-            --bg-color: #F2EDE4;
-            --card-bg: #EBE4D8;
-            --text-primary: #1A2A40;
-            --accent-blue: #8E9AAF;
-            --border-color: #D1CCC0;
-            --white: #FFFFFF;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-        }
-
-        .logo {
-            font-weight: bold;
-            font-size: 24px;
-        }
-
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .btn-auth {
-            border: 1px solid var(--border-color);
-            padding: 8px 20px;
-            border-radius: 50px;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        main {
-            padding: 20px 50px;
-        }
-
-        .content-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 60px;
-            text-align: center;
-            min-height: 400px;
-        }
-
-        .btn-primary {
-            border: 2px solid #333;
-            color: black;
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            background-color: transparent;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-blue);
-            color: white;
-            border: 2px solid var(--accent-blue);
-        }
-
-        .input-rounded {
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 50px;
-            outline: none;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-
-    <x-navbar />
+<body class="min-h-screen bg-[#ece6da] text-[#243b53] font-serif">
+@if (!Route::is(['login', 'login.tamu']))
+<x-navbar />
+@endif
 
     <main>
-        <div class="content-card">
-            @yield('content')
-        </div>
+        @yield('content')
     </main>
 
     <x-footer />
 
+    <div
+        id="login-modal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 px-4"
+    >
+        <div class="relative w-full max-w-md rounded-2xl border border-gray-300 bg-[#f2eee6] p-6 shadow-lg">
+            <button
+                type="button"
+                class="absolute right-4 top-3 text-2xl text-[#243b53] hover:text-red-500"
+                data-modal-hide="login-modal"
+            >
+                &times;
+            </button>
+
+            <div class="text-center">
+                <h2 class="mb-2 text-[24px] font-semibold text-[#243b53]">
+                    Pilih Login
+                </h2>
+                <p class="mb-6 text-[16px] text-[#243b53]">
+                    Masuk sebagai siapa?
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <a
+                    href="{{ route('login') }}"
+                    class="rounded-xl border border-[#7ea1ba] bg-[#c6d6e2] px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
+                >
+                    Login Admin / Resepsionis
+                </a>
+
+                <a
+                    href="{{ route('login.tamu') }}"
+                    class="rounded-xl border border-[#7ea1ba] bg-white px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
+                >
+                    Login Tamu
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 </body>
 </html>

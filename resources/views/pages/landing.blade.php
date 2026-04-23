@@ -1,215 +1,184 @@
 @extends('layouts.app')
-@section('title', 'Nama Halaman')
+
+@section('title', 'Landing')
+
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulas Landing</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-[#d9d2c3] font-serif m-0 p-0">
+<div class="min-h-screen bg-[#ece6da] font-serif">
+    <!-- Hero -->
+    <section id="beranda" class="px-6 pt-8 md:px-10">
+        <div class="flex min-h-[320px] flex-col items-center justify-center border border-gray-400 bg-[#f2eee6] px-6 text-center">
+            <h1 class="mb-8 text-[34px] font-semibold text-[#243b53]">
+                Selamat Datang di Pulas
+            </h1>
 
-    <div class="w-full min-h-screen bg-[#ece6da]">
-        
-        <!-- Hero -->
-        <section id="beranda" class="px-10 pt-8">
-            <div class="border border-gray-400 bg-[#f2eee6] h-[320px] flex flex-col items-center justify-center text-center">
-                <h1 class="text-[34px] font-semibold text-[#243b53] mb-10">
-                    Selamat Datang di Pulas
-                </h1>
+            <p class="max-w-[900px] text-[22px] leading-[55px] text-[#243b53]">
+                Temukan kamar favorit Anda dan lakukan pemesanan
+                <br>
+                dengan praktis untuk menikmati kenyamanan tanpa batas
+            </p>
+        </div>
+    </section>
 
-                <p class="text-[22px] leading-[55px] text-[#243b53] max-w-[900px]">
-                    Temukan kamar favorit Anda dan lakukan pemesanan
-                    <br>
-                    dengan praktis untuk menikmati kenyamanan tanpa batas
-                </p>
-            </div>
-        </section>
+    <!-- Search dan kategori -->
+    <section class="px-6 pt-5 md:px-10">
+        <div class="flex flex-wrap items-center gap-3 text-[15px]">
+            <form action="{{ route('landing') }}" method="GET" class="flex flex-wrap items-center gap-3">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ $search }}"
+                    placeholder="Cari berdasarkan tipe kamar..."
+                    class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-2 outline-none"
+                >
 
-        <!-- Search dan kategori -->
-        <section id="kategori" class="px-10 pt-5">
-            <div class="flex flex-wrap items-center gap-3 text-[15px]">
+                <button
+                    type="submit"
+                    class="rounded-full border border-gray-500 bg-white px-5 py-2 transition hover:bg-[#c6d6e2]"
+                >
+                    Cari
+                </button>
+            </form>
 
-                <form action="{{ route('landing') }}" method="GET" class="flex items-center gap-3 flex-wrap">
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ $search }}"
-                        placeholder="Cari berdasarkan tipe kamar..."
-                        class="border border-gray-500 rounded-full px-5 py-2 w-[330px] bg-white outline-none"
-                    >
+            <a
+                href="{{ route('landing') }}"
+                class="rounded-full border border-gray-500 px-5 py-2 {{ empty($selectedCategory) ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
+            >
+                Semua
+            </a>
 
-                    <button type="submit" class="border border-gray-500 rounded-full px-5 py-2 bg-white hover:bg-[#c6d6e2] transition">
-                        Cari
-                    </button>
-                </form>
+            <a
+                href="{{ route('landing', ['category' => 'deluxe']) }}"
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'deluxe' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
+            >
+                Kamar Deluxe
+            </a>
 
-                <a href="{{ route('landing') }}"
-                   class="border border-gray-500 rounded-full px-5 py-2 {{ empty($selectedCategory) ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
-                    Semua
-                </a>
+            <a
+                href="{{ route('landing', ['category' => 'suite']) }}"
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'suite' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
+            >
+                Kamar Suite
+            </a>
 
-                <a href="{{ route('landing', ['category' => 'deluxe']) }}"
-                   class="border border-gray-500 rounded-full px-5 py-2 {{ $selectedCategory == 'deluxe' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
-                    Kamar Deluxe
-                </a>
+            <a
+                href="{{ route('landing', ['category' => 'standar']) }}"
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'standar' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
+            >
+                Kamar Standar
+            </a>
 
-                <a href="{{ route('landing', ['category' => 'suite']) }}"
-                   class="border border-gray-500 rounded-full px-5 py-2 {{ $selectedCategory == 'suite' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
-                    Kamar Suite
-                </a>
+            <a
+                href="{{ route('landing', ['category' => 'presidential']) }}"
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'presidential' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
+            >
+                Kamar Presidential
+            </a>
+        </div>
+    </section>
 
-                <a href="{{ route('landing', ['category' => 'standar']) }}"
-                   class="border border-gray-500 rounded-full px-5 py-2 {{ $selectedCategory == 'standar' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
-                    Kamar Standar
-                </a>
+    <!-- Card kamar -->
+    <section id="kamar" class="px-6 pb-10 pt-6 md:px-10">
+        <div class="grid grid-cols-1 items-start gap-7 md:grid-cols-2 xl:grid-cols-3">
+            @forelse ($rooms as $room)
+                @php
+                    $image = '';
 
-                <a href="{{ route('landing', ['category' => 'presidential']) }}"
-                   class="border border-gray-500 rounded-full px-5 py-2 {{ $selectedCategory == 'presidential' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
-                    Kamar Presidential
-                </a>
-            </div>
-        </section>
+                    if (strtolower($room['name']) == 'standar') {
+                        $image = 'images/kamar/kamar_standard.jpeg';
+                    } elseif (strtolower($room['name']) == 'suite') {
+                        $image = 'images/kamar/kamar_suite.jpeg';
+                    } elseif (strtolower($room['name']) == 'deluxe') {
+                        $image = 'images/kamar/kamar_deluxe.jpeg';
+                    } elseif (strtolower($room['name']) == 'presidential') {
+                        $image = 'images/kamar/kamar_presidential.jpeg';
+                    }
+                @endphp
 
-        <!-- Card kamar -->
-        <section class="px-10 pt-6 pb-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7">
+                <div class="flex h-full flex-col border border-gray-400 bg-[#f2eee6] p-4">
+                    <div class="flex h-[220px] items-center justify-center overflow-hidden border border-gray-400 bg-[#f7f4ee]">
+                        @if($image)
+                            <img
+                                src="{{ asset($image) }}"
+                                alt="{{ $room['name'] }}"
+                                class="h-full w-full object-cover"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+                        @endif
 
-                @forelse ($rooms as $room)
-                    @php
-                        $image = '';
-
-                        if (strtolower($room['name']) == 'standar') {
-                            $image = 'images/kamar/kamar_standard.jpeg';
-                        } elseif (strtolower($room['name']) == 'suite') {
-                            $image = 'images/kamar/kamar_suite.jpeg';
-                        } elseif (strtolower($room['name']) == 'deluxe') {
-                            $image = 'images/kamar/kamar_deluxe.jpeg';
-                        } elseif (strtolower($room['name']) == 'presidential') {
-                            $image = 'images/kamar/kamar_presidential.jpeg';
-                        }
-                    @endphp
-
-                    <div class="border border-gray-400 bg-[#f2eee6] p-4">
-                        <div class="border border-gray-400 h-[220px] bg-[#f7f4ee] overflow-hidden flex items-center justify-center">
-                            @if($image)
-                                <img src="{{ asset($image) }}"
-                                     alt="{{ $room['name'] }}"
-                                     class="w-full h-full object-cover"
-                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            @endif
-
-                            <div class="w-full h-full items-center justify-center text-[#243b53] text-[16px] hidden">
-                                Gambar kamar
-                            </div>
+                        <div class="hidden h-full w-full items-center justify-center text-[16px] text-[#243b53]">
+                            Gambar kamar
                         </div>
+                    </div>
 
-                        <div class="mt-4 text-[22px] text-[#243b53]">
-                            <p class="mb-3 font-medium">{{ $room['name'] }}</p>
-                        </div>
+                    <div class="mt-4 flex flex-col items-start text-left text-[#243b53]">
+                        <p class="mb-3 text-[22px] font-medium">
+                            {{ $room['name'] }}
+                        </p>
 
-                        <div class="text-[18px] leading-9 text-[#243b53]">
+                        <div class="text-[18px] leading-9">
                             <p>{{ $room['capacity'] }}</p>
                             <p>{{ $room['bed'] }}</p>
                             <p>{{ $room['breakfast'] }}</p>
                         </div>
-
-                        <div class="text-right mt-5 text-[22px] text-[#243b53] font-medium">
-                            Rp {{ number_format($room['price'], 0, ',', '.') }}
-                        </div>
-
-                        <button class="w-full mt-4 border border-gray-500 rounded-full py-3 text-[17px] bg-white hover:bg-[#7ea1ba] hover:text-white transition">
-                            Lihat detail
-                        </button>
-                    </div>
-                @empty
-                    <div class="md:col-span-2 xl:col-span-3 border border-gray-400 bg-[#f2eee6] p-8 text-center text-[#243b53] text-[18px]">
-                        Kamar yang dicari tidak ditemukan.
-                    </div>
-                @endforelse
-
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer id="bantuan" class="px-10 pb-6">
-            <div class="border-t border-gray-400 pt-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-                    <div class="border border-gray-400 rounded-md px-4 py-4 bg-[#f2eee6] flex items-center gap-3">
-                        <div class="text-2xl"></div>
-                        <div>
-                            <p class="text-[17px] text-[#243b53]">WhatsApp Admin</p>
-                            <p class="text-[14px] text-gray-500">+62 812 2233 4455</p>
-                        </div>
                     </div>
 
-                    <div class="border border-gray-400 rounded-md px-4 py-4 bg-[#f2eee6] flex items-center gap-3">
-                        <div class="text-2xl"></div>
-                        <div>
-                            <p class="text-[17px] text-[#243b53]">Email Support</p>
-                            <p class="text-[14px] text-gray-500">pulas@gmail.com</p>
-                        </div>
+                    <div class="mt-5 text-right text-[22px] font-medium text-[#243b53]">
+                        Rp {{ number_format($room['price'], 0, ',', '.') }}
                     </div>
 
-                    <div class="border border-gray-400 rounded-md px-4 py-4 bg-[#f2eee6] flex items-center gap-3">
-                        <div class="text-2xl"></div>
-                        <div>
-                            <p class="text-[17px] text-[#243b53]">Hotline Hotel</p>
-                            <p class="text-[14px] text-gray-500">(021) 222 212</p>
-                        </div>
-                    </div>
-
+                    <button
+                        class="mt-4 w-full rounded-full border border-gray-500 bg-white py-3 text-[17px] transition hover:bg-[#7ea1ba] hover:text-white">
+                        Lihat detail
+                    </button>
                 </div>
+            @empty
+                <div class="border border-gray-400 bg-[#f2eee6] p-8 text-center text-[18px] text-[#243b53] md:col-span-2 xl:col-span-3">
+                    Kamar yang dicari tidak ditemukan.
+                </div>
+            @endforelse
+        </div>
+    </section>
 
-                
-            </div>
-        </footer>
+    <div
+        id="login-modal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 px-4"
+    >
+        <div class="relative w-full max-w-md rounded-2xl border border-gray-300 bg-[#f2eee6] p-6 shadow-lg">
+            <button
+                type="button"
+                class="absolute right-4 top-3 text-2xl text-[#243b53] hover:text-red-500"
+                data-modal-hide="login-modal"
+            >
+                &times;
+            </button>
 
-    </div>
-
-
-<!-- Modal toggle -->
-<button data-modal-target="default-modal" data-modal-toggle="default-modal" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none" type="button">
-  Toggle modal
-</button>
-
-<!-- Main modal -->
-<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
-                <h3 class="text-lg font-medium text-heading">
-                    Terms of Service
-                </h3>
-                <button type="button" class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="space-y-4 md:space-y-6 py-4 md:py-6">
-                <p class="leading-relaxed text-body">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="leading-relaxed text-body">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
+            <div class="text-center">
+                <h2 class="mb-2 text-[24px] font-semibold text-[#243b53]">
+                    Pilih Login
+                </h2>
+                <p class="mb-6 text-[16px] text-[#243b53]">
+                    Masuk sebagai siapa?
                 </p>
             </div>
-            <!-- Modal footer -->
-            <div class="flex items-center border-t border-default space-x-4 pt-4 md:pt-5">
-                <button data-modal-hide="default-modal" type="button" class="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">I accept</button>
-                <button data-modal-hide="default-modal" type="button" class="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Decline</button>
+
+            <div class="flex flex-col gap-4">
+                <a
+                    href="{{ route('login') }}"
+                    class="rounded-xl border border-[#7ea1ba] bg-[#c6d6e2] px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
+                >
+                    Login sebagai Admin / Resepsionis
+                </a>
+
+                <a
+                    href="{{ route('login.tamu') }}"
+                    class="rounded-xl border border-[#7ea1ba] bg-white px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
+                >
+                    Login sebagai Tamu
+                </a>
             </div>
         </div>
     </div>
 </div>
-
-</body>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-</html>
 @endsection

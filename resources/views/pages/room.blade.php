@@ -15,7 +15,6 @@
 <div class="max-w-6xl mx-auto bg-white shadow-lg border p-6" x-data="{ 
     filter: 'Semua',
     search: '',
-    rooms: {{ $rooms->toJson() }},
     get filteredRooms() {
         return this.rooms.filter(room => {
             const matchesFilter = this.filter === 'Semua' || room.status === this.filter;
@@ -24,7 +23,7 @@
             return matchesFilter && matchesSearch;
         });
     }
-}">
+}"></div>
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Manajemen Kamar</h1>
@@ -35,23 +34,23 @@
     <div class="grid grid-cols-4 gap-4 mb-8 text-center">
         <div class="border p-4">
             <p class="text-sm">Total kamar</p>
-            <p class="text-4xl font-bold">{{ $stats['total'] }}</p>
+            <p class="text-4xl font-bold"></p>
             <p class="text-xs text-gray-500">4 tipe kamar</p>
         </div>
         <div class="border p-4">
             <p class="text-sm">Tersedia</p>
-            <p class="text-4xl font-bold">{{ $stats['available'] }}</p>
-            <p class="text-xs text-gray-500">{{ number_format(($stats['available'] / $stats['total']) * 100) }}% Dari total</p>
+            <p class="text-4xl font-bold"></p>
+            <p class="text-xs text-gray-500">% Dari total</p>
         </div>
         <div class="border p-4">
             <p class="text-sm text-red-600">Terisi</p>
-            <p class="text-4xl font-bold">{{ $stats['occupied'] }}</p>
-            <p class="text-xs text-gray-500">{{ number_format(($stats['occupied'] / $stats['total']) * 100) }}% Dari total</p>
+            <p class="text-4xl font-bold"></p>
+            <p class="text-xs text-gray-500">% Dari total</p>
         </div>
         <div class="border p-4">
             <p class="text-sm">Perbaikan</p>
-            <p class="text-4xl font-bold">{{ $stats['maintenance'] }}</p>
-            <p class="text-xs text-gray-500">{{ number_format(($stats['maintenance'] / $stats['total']) * 100) }}% Dari total</p>
+            <p class="text-4xl font-bold"></p>
+            <p class="text-xs text-gray-500">% Dari total</p>
         </div>
     </div>
 

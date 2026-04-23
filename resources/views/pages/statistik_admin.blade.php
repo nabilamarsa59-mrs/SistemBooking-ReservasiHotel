@@ -31,21 +31,18 @@
             <h2 class="font-semibold mb-4 text-md">Pendapatan bulanan</h2>
             <div class="h-64 mb-6">
                 <!-- Kita simpan data di sini untuk dibaca JS -->
-                <canvas id="revenueChart" 
-                    data-labels="{{ $stats->pluck('month') }}" 
-                    data-values="{{ $stats->pluck('revenue') }}">
-                </canvas>
+  
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="border p-4">
                     <p class="text-xs text-gray-400">Total pendapatan bulan ini</p>
-                    <p class="font-bold">{{ $current->month ?? 'belum ada data' }}</p>
-                    <p class="text-lg">Rp. {{ number_format($current->revenue ?? 0, 0, ',', '.') }}</p>
+                    <p class="font-bold"></p>
+                    <p class="text-lg">Rp. </p>
                 </div>
                 <div class="border p-4">
                     <p class="text-xs text-gray-400">Total pendapatan sebelum bulan ini</p>
-                    <p class="font-bold">{{ $previous->month ?? 'belum ada data' }}</p>
-                    <p class="text-lg">Rp. {{ number_format($previous->revenue ?? 0, 0, ',', '.') }}</p>
+                    <p class="font-bold"></p>
+                    <p class="text-lg">Rp.</p>
                 </div>
             </div>
         </div>
@@ -55,20 +52,20 @@
             <h2 class="font-semibold mb-4 text-md">Kunjungan bulanan</h2>
             <div class="h-64 mb-6">
                 <canvas id="visitorChart" 
-                    data-labels="{{ $stats->pluck('month') }}" 
-                    data-values="{{ $stats->pluck('visitors') }}">
+                    data-labels="" 
+                    data-values=">
                 </canvas>
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div class="border p-4">
                     <p class="text-xs text-gray-400">Total kunjungan bulan ini</p>
-                    <p class="font-bold">{{ $current->month ?? 'belum ada data' }}</p>
-                    <p class="text-lg">{{ $current->visitors ?? 'belum ada data' }} Tamu</p>
+                    <p class="font-bold"></p>
+                    <p class="text-lg"></p>
                 </div>
                 <div class="border p-4">
                     <p class="text-xs text-gray-400">Total kunjungan sebelum bulan ini</p>
-                    <p class="font-bold">{{ $previous->month ?? 'belum ada data'}}</p>
-                    <p class="text-lg">{{ $previous->visitors ?? 'belum ada data' }} Tamu</p>
+                    <p class="font-bold"></p>
+                    <p class="text-lg"> Tamu</p>
                 </div>
             </div>
         </div>

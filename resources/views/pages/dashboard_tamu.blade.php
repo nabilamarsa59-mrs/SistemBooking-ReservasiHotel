@@ -2,8 +2,7 @@
 @section('title', 'Dashboard Tamu')
 @section('content')
 @php
-    // SIMPAN DATA KAMAR DI SINI (Kepala 2kb pasti aman edit ini)
-    // Cukup edit tulisan di dalam tanda petik saja
+
     $daftar_kamar = [
         [
             'tipe' => 'standard',
@@ -35,30 +34,6 @@
         ],
     ];
 @endphp
-
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulas Dashboard - Guest</title>
-    @extends('layouts.app')
-    @section('content')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 text-gray-800">
-
-    <header class="bg-white border-b px-8 py-4 flex justify-between items-center shadow-sm">
-        <img src="{{ asset('images/logo_PBL.jpeg') }}" alt="Logo Pulas" class="h-[75px] object-contain mix-blend-multiply">
-        <nav class="flex gap-8 items-center text-sm font-semibold">
-            <a href="#" class="hover:text-blue-600">Beranda</a>
-            <a href="#" class="hover:text-blue-600">Kamar</a>
-            <a href="#" class="hover:text-blue-600">Pemesanan</a>
-            <a href="#" class="hover:text-blue-600 text-blue-600">Bantuan</a>
-            <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center border border-gray-300">👤</div>
-        </nav>
-    </header>
 
     <main class="max-w-6xl mx-auto p-8">
         <section class="mb-8">
@@ -92,10 +67,6 @@
         </div>
     </main>
 
-    <footer class="bg-blue-50 text-center py-6 mt-20 text-[10px] font-bold text-blue-900 border-t border-blue-100">
-        2026 POLITEKNIK NEGERI BATAM - PROJEK PBL IF PAGI 2A-09
-    </footer>
-
     <script>
         function filterKamar(tipe) {
             const items = document.querySelectorAll('.kamar-item');
@@ -108,7 +79,6 @@
             });
         }
     </script>
-</body>
 
 
 

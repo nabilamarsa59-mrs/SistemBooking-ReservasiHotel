@@ -1,15 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Nama Halaman')
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Tamu</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-[#d9d2c3] font-serif">
 
     <div class="max-w-[900px] mx-auto mt-8 border-[8px] border-[#7ea1ba] bg-[#ece6da] min-h-screen flex items-center justify-center px-6 py-10">
         <div class="w-full max-w-[760px] bg-[#f2eee6] border border-gray-400 rounded-[18px] overflow-hidden">
@@ -62,7 +53,4 @@
             </div>
         </div>
     </div>
-
-</body>
-</html>
 @endsection
