@@ -6,6 +6,8 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardTamuController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\pemesanan;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -30,6 +32,16 @@ Route::get('/dashboard_tamu', function () {
     return view('pages.dashboard_tamu');
 });
 
+Route::get('/pemesanan', function () {
+    return view('pages.pemesanan');
+});
+
+
+
 Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman']);
 
 Route::get('/room', [RoomController::class, 'index']);
+
+
+
+
