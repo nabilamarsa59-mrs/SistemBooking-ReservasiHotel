@@ -35,6 +35,22 @@
     ];
 @endphp
 
+<<<<<<< HEAD
+=======
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulas Dashboard - Guest</title>
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+
+>>>>>>> 346367225c2fcb8913f2a40941bb28991caf7085
     <main class="max-w-6xl mx-auto p-8">
         <section class="mb-8">
             <h1 class="text-3xl font-bold italic">Selamat datang, Revan!</h1>
@@ -66,7 +82,6 @@
             @endforeach
         </div>
     </main>
-
     <script>
         function filterKamar(tipe) {
             const items = document.querySelectorAll('.kamar-item');
