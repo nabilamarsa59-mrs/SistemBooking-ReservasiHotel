@@ -19,6 +19,6 @@ class RoomController extends Controller
             'maintenance' => $rooms->where('status', 'Perbaikan')->count(),
         ];
 
-        return view('pages.room', compact('pages.rooms', 'stats'));
+        return view('pages.room', compact('rooms', 'stats'));
     }
 }

@@ -20,9 +20,8 @@
                 <p class="text-xs text-gray-500 italic">Rekap dan analisis semua sumber pendapatan dan pertumbuhan hotel.</p>
             </div>
             <div class="flex items-center gap-4 text-sm font-medium">
-                <a href="#">Beranda</a>
-                <a href="#">Verifikasi</a>
-                <div class="w-8 h-8 bg-black rounded-full text-white flex items-center justify-center">👤</div>
+               
+                <div class="w-8 h-8 bg-black rounded-full text-white flex items-center justify-center"></div>
             </div>
         </div>
 
