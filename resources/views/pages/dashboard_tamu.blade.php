@@ -77,7 +77,7 @@
                     <h3 class="font-bold text-lg">{{ $kamar['nama'] }}</h3>
                     <p class="text-[10px] text-gray-500 mb-4 uppercase tracking-tighter">{{ $kamar['fasilitas'] }}</p>
                     <p class="text-right font-bold text-gray-900 mb-2">Rp {{ $kamar['harga'] }}</p>
-                    <a href="about:blank" target="_blank" class="block text-center border-2 border-black py-2 text-[10px] font-black hover:bg-black hover:text-white transition">LIHAT DETAIL</a>
+                    <a href="pemesanan" target="pemesanan" class="block text-center border-2 border-black py-2 text-[10px] font-black hover:bg-black hover:text-white transition">LIHAT DETAIL</a>
                 </div>
             @endforeach
         </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\pemesanan;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -40,3 +41,14 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('verifikasi.admin');
+Route::get('/pemesanan', function () {
+    return view('pages.pemesanan');
+});
+
+Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman']);
+
+Route::get('/room', [RoomController::class, 'index']);
+
+
+
+
