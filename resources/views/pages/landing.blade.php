@@ -5,8 +5,12 @@
 @section('content')
 <div class="min-h-screen bg-[#ece6da] font-serif">
     <!-- Hero -->
-    <section id="beranda" class="px-6 pt-8 md:px-10">
-        <div class="flex min-h-[320px] flex-col items-center justify-center border border-gray-400 bg-[#f2eee6] px-6 text-center">
+<section id="beranda" class="px-6 pt-8 md:px-10">
+    <div
+        class="flex min-h-[320px] flex-col items-center justify-center border border-gray-400 px-6 text-center bg-cover bg-center"
+        style="background-image:
+        linear-gradient(rgba(236,230,218,0.82), rgba(236,230,218,0.82)),
+        url('{{ asset('images/hotel.png') }}');">
             <h1 class="mb-8 text-[34px] font-semibold text-[#243b53]">
                 Selamat Datang di Pulas
             </h1>
@@ -30,13 +34,6 @@
                     placeholder="Cari berdasarkan tipe kamar..."
                     class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-2 outline-none"
                 >
-
-                <button
-                    type="submit"
-                    class="rounded-full border border-gray-500 bg-white px-5 py-2 transition hover:bg-[#c6d6e2]"
-                >
-                    Cari
-                </button>
             </form>
 
             <a
@@ -127,9 +124,38 @@
                     </div>
 
                     <button
+                        type="button"
+                        onclick="document.getElementById('popup-{{ $loop->index }}').classList.remove('hidden')"
                         class="mt-4 w-full rounded-full border border-gray-500 bg-white py-3 text-[17px] transition hover:bg-[#7ea1ba] hover:text-white">
                         Lihat detail
                     </button>
+
+                    <div
+    id="popup-{{ $loop->index }}"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 px-4"
+>
+    <div class="w-full max-w-md rounded-2xl border border-gray-400 bg-[#f2eee6] p-6 text-[#243b53] shadow-lg">
+        <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-[24px] font-semibold">{{ $room['name'] }}</h2>
+
+            <button
+                type="button"
+                onclick="document.getElementById('popup-{{ $loop->index }}').classList.add('hidden')"
+                class="text-2xl hover:text-red-500">
+                &times;
+            </button>
+        </div>
+
+            <p class="mb-4 text-[16px] leading-7">
+                Kamar {{ $room['name'] }} memiliki fasilitas nyaman untuk tamu hotel.
+            </p>
+
+            <p><strong>Kapasitas:</strong> {{ $room['capacity'] }}</p>
+            <p><strong>Tempat tidur:</strong> {{ $room['bed'] }}</p>
+            <p><strong>Sarapan:</strong> {{ $room['breakfast'] }}</p>
+            <p><strong>Harga:</strong> Rp {{ number_format($room['price'], 0, ',', '.') }}</p>
+        </div>
+    </div>
                 </div>
             @empty
                 <div class="border border-gray-400 bg-[#f2eee6] p-8 text-center text-[18px] text-[#243b53] md:col-span-2 xl:col-span-3">
@@ -138,6 +164,38 @@
             @endforelse
         </div>
     </section>
+    
+<section id="bantuan" class="border-t border-gray-300 bg-[#ece6da] px-8 py-4">
+    <div class="grid w-full grid-cols-3 gap-8 text-[#243b53]">
+
+        <div class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
+            <span class="text-[28px]">☎</span>
+            <div class="leading-tight">
+                <p class="text-[14px] font-semibold">WhatsApp Admin</p>
+                <p class="text-[13px] text-[#7b8794]">+62 812 1111 1111</p>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
+            <span class="text-[28px]">✉</span>
+            <div class="leading-tight">
+                <p class="text-[14px] font-semibold">Email Support</p>
+                <p class="text-[13px] text-[#7b8794]">support@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- Hotline -->
+        <div class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
+            <span class="text-[28px]">☎</span>
+            <div class="leading-tight">
+                <p class="text-[14px] font-semibold">Hotline Hotel</p>
+                <p class="text-[13px] text-[#7b8794]">(021) 222 212</p>
+            </div>
+        </div>
+
+    </div>
+</section>
 
     <div
         id="login-modal"

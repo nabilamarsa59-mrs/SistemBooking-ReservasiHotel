@@ -8,7 +8,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiController;
-use App\Http\Controllers\pemesanan;
+use App\Http\Controllers\RegisterTamuController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -49,6 +49,8 @@ Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])
 
 Route::get('/room', [RoomController::class, 'index']);
 
+Route::get('/register-tamu', [RegisterTamuController::class, 'show'])
+    ->name('register.tamu');
 
-
-
+Route::post('/register-tamu', [RegisterTamuController::class, 'store'])
+    ->name('register.tamu.post');

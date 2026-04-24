@@ -35,8 +35,6 @@
     ];
 @endphp
 
-<<<<<<< HEAD
-=======
 
 <!DOCTYPE html>
 <html lang="id">
@@ -50,7 +48,6 @@
 <body class="bg-gray-50 text-gray-800">
 
 
->>>>>>> 346367225c2fcb8913f2a40941bb28991caf7085
     <main class="max-w-6xl mx-auto p-8">
         <section class="mb-8">
             <h1 class="text-3xl font-bold italic">Selamat datang, Revan!</h1>
