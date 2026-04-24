@@ -33,17 +33,17 @@ class AuthController extends Controller
             $request->email === 'admin@gmail.com' &&
             $request->password === 'admin123'
         ) {
-            return redirect()->route('dashboard.admin');
+            return redirect()->route('statistik.admin');
         }
 
         // LOGIN RESEPSIONIS
-        if (
-            $request->role === 'resepsionis' &&
-            $request->email === 'resepsionis@gmail.com' &&
-            $request->password === 'resepsionis123'
-        ) {
-            return redirect()->route('dashboard.resepsionis');
-        }
+if (
+    $request->role === 'resepsionis' &&
+    $request->email === 'resepsionis@gmail.com' &&
+    $request->password === 'resepsionis123'
+) {
+    return redirect()->route('dashboard.resepsionis');
+}
 
         return back()->with('error', 'Email atau password salah.');
     }

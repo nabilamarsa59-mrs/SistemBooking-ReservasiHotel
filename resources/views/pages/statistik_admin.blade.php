@@ -1,79 +1,98 @@
-
 @extends('layouts.app')
-@section('title', 'Nama Halaman')
+
+@section('title', 'Statistik Admin')
+
 @section('content')
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Manajemen</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
-</head>
-<body class="bg-gray-100 p-8">
+<div class="min-h-screen bg-[#ece6da] px-10 py-8 font-serif text-[#243b53]">
 
-    <div class="max-w-4xl mx-auto bg-white shadow-lg p-6 rounded-md">
-        <!-- Header -->
-        <div class="flex justify-between items-center border-b pb-4 mb-6">
-            <div>
-                <h1 class="text-xl font-bold">Manajemen Pendapatan dan Pertumbuhan</h1>
-                <p class="text-xs text-gray-500 italic">Rekap dan analisis semua sumber pendapatan dan pertumbuhan hotel.</p>
-            </div>
-            <div class="flex items-center gap-4 text-sm font-medium">
-               
-                <div class="w-8 h-8 bg-black rounded-full text-white flex items-center justify-center"></div>
-            </div>
-        </div>
-
-        <!-- Section Pendapatan -->
-        <div class="mb-10">
-            <h2 class="font-semibold mb-4 text-md">Pendapatan bulanan</h2>
-            <div class="h-64 mb-6">
-                <!-- Kita simpan data di sini untuk dibaca JS -->
-  
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="border p-4">
-                    <p class="text-xs text-gray-400">Total pendapatan bulan ini</p>
-                    <p class="font-bold"></p>
-                    <p class="text-lg">Rp. </p>
-                </div>
-                <div class="border p-4">
-                    <p class="text-xs text-gray-400">Total pendapatan sebelum bulan ini</p>
-                    <p class="font-bold"></p>
-                    <p class="text-lg">Rp.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section Kunjungan -->
-        <div>
-            <h2 class="font-semibold mb-4 text-md">Kunjungan bulanan</h2>
-            <div class="h-64 mb-6">
-                <canvas id="visitorChart" 
-                    data-labels="" 
-                    data-values=">
-                </canvas>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="border p-4">
-                    <p class="text-xs text-gray-400">Total kunjungan bulan ini</p>
-                    <p class="font-bold"></p>
-                    <p class="text-lg"></p>
-                </div>
-                <div class="border p-4">
-                    <p class="text-xs text-gray-400">Total kunjungan sebelum bulan ini</p>
-                    <p class="font-bold"></p>
-                    <p class="text-lg"> Tamu</p>
-                </div>
-            </div>
-        </div>
-        
-        <footer class="mt-10 text-center text-[10px] text-gray-400 border-t pt-4">
-            2024 Politeknik Negeri Batam - Projek PBL IFPagi 24-09
-        </footer>
+    <div class="mb-8">
+        <h1 class="text-[28px] font-semibold">
+            Manajemen Pendapatan dan Pertumbuhan
+        </h1>
+        <p class="mt-1 text-[16px]">
+            Rekap dan analisis semua sumber pendapatan dan pertumbuhan hotel.
+        </p>
     </div>
 
-</body>
-</html>
+    <!-- Pendapatan -->
+    <section class="mb-8 border border-gray-400 bg-[#f2eee6] p-6">
+        <h2 class="mb-6 text-[22px] font-semibold">
+            Pendapatan bulanan
+        </h2>
+
+        <div class="flex h-[300px] items-end justify-around border-b border-l border-gray-400 px-8">
+            @php
+                $pendapatan = [
+                    ['bulan' => 'Jan', 'tinggi' => '45%', 'nilai' => 'Rp 45.000.000'],
+                    ['bulan' => 'Feb', 'tinggi' => '58%', 'nilai' => 'Rp 58.000.000'],
+                    ['bulan' => 'Mar', 'tinggi' => '53%', 'nilai' => 'Rp 53.000.000'],
+                    ['bulan' => 'Apr', 'tinggi' => '48%', 'nilai' => 'Rp 48.000.000'],
+                    ['bulan' => 'Mei', 'tinggi' => '70%', 'nilai' => 'Rp 85.000.000'],
+                ];
+            @endphp
+
+            @foreach ($pendapatan as $item)
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-12 bg-[#243b53]" style="height: {{ $item['tinggi'] }}"></div>
+                    <p class="text-[16px] font-semibold">{{ $item['bulan'] }}</p>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="border border-gray-400 bg-[#f2eee6] p-5">
+            <p class="text-[15px]">Total pendapatan bulan ini</p>
+            <h3 class="mt-2 text-[20px] font-semibold">Mei</h3>
+            <p class="mt-2 text-[22px] font-semibold">Rp. 85.000.000</p>
+        </div>
+
+        <div class="border border-gray-400 bg-[#f2eee6] p-5">
+            <p class="text-[15px]">Total pendapatan sebelum bulan ini</p>
+            <h3 class="mt-2 text-[20px] font-semibold">April</h3>
+            <p class="mt-2 text-[22px] font-semibold">Rp. 63.000.000</p>
+        </div>
+    </div>
+
+    <!-- Kunjungan -->
+    <section class="mb-8 border border-gray-400 bg-[#f2eee6] p-6">
+        <h2 class="mb-6 text-[22px] font-semibold">
+            Kunjungan bulanan
+        </h2>
+
+        <div class="flex h-[300px] items-end justify-around border-b border-l border-gray-400 px-8">
+            @php
+                $kunjungan = [
+                    ['bulan' => 'Jan', 'tinggi' => '42%', 'nilai' => '45 Tamu'],
+                    ['bulan' => 'Feb', 'tinggi' => '48%', 'nilai' => '50 Tamu'],
+                    ['bulan' => 'Mar', 'tinggi' => '38%', 'nilai' => '42 Tamu'],
+                    ['bulan' => 'Apr', 'tinggi' => '52%', 'nilai' => '55 Tamu'],
+                    ['bulan' => 'Mei', 'tinggi' => '62%', 'nilai' => '60 Tamu'],
+                ];
+            @endphp
+
+            @foreach ($kunjungan as $item)
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-12 bg-[#243b53]" style="height: {{ $item['tinggi'] }}"></div>
+                    <p class="text-[16px] font-semibold">{{ $item['bulan'] }}</p>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div class="border border-gray-400 bg-[#f2eee6] p-5">
+            <p class="text-[15px]">Total kunjungan bulan ini</p>
+            <h3 class="mt-2 text-[20px] font-semibold">Mei</h3>
+            <p class="mt-2 text-[22px] font-semibold">60 Tamu</p>
+        </div>
+
+        <div class="border border-gray-400 bg-[#f2eee6] p-5">
+            <p class="text-[15px]">Total kunjungan sebelum bulan ini</p>
+            <h3 class="mt-2 text-[20px] font-semibold">April</h3>
+            <p class="mt-2 text-[22px] font-semibold">55 Tamu</p>
+        </div>
+    </div>
+
+</div>
 @endsection

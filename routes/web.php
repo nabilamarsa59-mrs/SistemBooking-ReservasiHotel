@@ -26,7 +26,7 @@ Route::get('/dashboard_admin', function () {
 })->name('dashboard.admin');
 
 Route::get('/dashboard_resepsionis', function () {
-    return 'Selamat datang di Dashboard Resepsionis';
+    return view('pages.home_resepsionis');
 })->name('dashboard.resepsionis');
 
 Route::get('/dashboard_tamu', function () {
@@ -54,3 +54,7 @@ Route::get('/register-tamu', [RegisterTamuController::class, 'show'])
 
 Route::post('/register-tamu', [RegisterTamuController::class, 'store'])
     ->name('register.tamu.post');
+
+Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
+
+Route::get('/data_kamar', [RoomController::class, 'index'])->name('data.kamar');

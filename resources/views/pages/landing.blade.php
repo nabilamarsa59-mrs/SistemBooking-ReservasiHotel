@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="min-h-screen bg-[#ece6da] font-serif">
-    <!-- Hero -->
 <section id="beranda" class="px-6 pt-8 md:px-10">
     <div
         class="flex min-h-[320px] flex-col items-center justify-center border border-gray-400 px-6 text-center bg-cover bg-center"
@@ -23,7 +22,6 @@
         </div>
     </section>
 
-    <!-- Search dan kategori -->
     <section class="px-6 pt-5 md:px-10">
         <div class="flex flex-wrap items-center gap-3 text-[15px]">
             <form action="{{ route('landing') }}" method="GET" class="flex flex-wrap items-center gap-3">
@@ -32,48 +30,41 @@
                     name="search"
                     value="{{ $search }}"
                     placeholder="Cari berdasarkan tipe kamar..."
-                    class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-2 outline-none"
-                >
+                    class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-2 outline-none">
             </form>
 
             <a
                 href="{{ route('landing') }}"
-                class="rounded-full border border-gray-500 px-5 py-2 {{ empty($selectedCategory) ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
-            >
+                class="rounded-full border border-gray-500 px-5 py-2 {{ empty($selectedCategory) ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
                 Semua
             </a>
 
             <a
                 href="{{ route('landing', ['category' => 'deluxe']) }}"
-                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'deluxe' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
-            >
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'deluxe' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
                 Kamar Deluxe
             </a>
 
             <a
                 href="{{ route('landing', ['category' => 'suite']) }}"
-                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'suite' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
-            >
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'suite' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
                 Kamar Suite
             </a>
 
             <a
                 href="{{ route('landing', ['category' => 'standar']) }}"
-                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'standar' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
-            >
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'standar' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
                 Kamar Standar
             </a>
 
             <a
                 href="{{ route('landing', ['category' => 'presidential']) }}"
-                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'presidential' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}"
-            >
+                class="rounded-full border border-gray-500 px-5 py-2 {{ $selectedCategory == 'presidential' ? 'bg-[#7ea1ba] text-white' : 'bg-white text-[#243b53]' }}">
                 Kamar Presidential
             </a>
         </div>
     </section>
 
-    <!-- Card kamar -->
     <section id="kamar" class="px-6 pb-10 pt-6 md:px-10">
         <div class="grid grid-cols-1 items-start gap-7 md:grid-cols-2 xl:grid-cols-3">
             @forelse ($rooms as $room)
@@ -98,8 +89,7 @@
                                 src="{{ asset($image) }}"
                                 alt="{{ $room['name'] }}"
                                 class="h-full w-full object-cover"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                            >
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         @endif
 
                         <div class="hidden h-full w-full items-center justify-center text-[16px] text-[#243b53]">
@@ -165,7 +155,7 @@
         </div>
     </section>
     
-<section id="bantuan" class="border-t border-gray-300 bg-[#ece6da] px-8 py-4">
+<section id="Bantuan" class="border-t border-gray-300 bg-[#ece6da] px-8 py-4">
     <div class="grid w-full grid-cols-3 gap-8 text-[#243b53]">
 
         <div class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
