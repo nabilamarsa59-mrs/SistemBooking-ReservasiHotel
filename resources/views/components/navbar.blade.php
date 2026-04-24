@@ -44,7 +44,7 @@
         <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
             <a href="{{ url('/landing') }}" class="hover:text-[#7ea1ba]">Beranda</a>
             <a href="{{ url('/room') }}" class="hover:text-[#7ea1ba]">Kamar</a>
-            <a href="{{ url('/login') }}" class="hover:text-[#7ea1ba]">Login</a>
+            <a href="{{ url('/bantuan') }}" class="hover:text-[#7ea1ba]">bantuan</a>
         </nav>
 
         <div class="flex justify-end">
