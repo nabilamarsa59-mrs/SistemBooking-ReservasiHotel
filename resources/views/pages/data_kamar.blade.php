@@ -3,6 +3,8 @@
 @section('title', 'Data Kamar')
 
 @section('content')
+<!-- file: resources/views/kamar/index.blade.php -->
+
 <div class="min-h-screen bg-[#ece6da] px-10 py-6 font-serif text-[#243b53]">
 
     <div class="mb-8 flex items-center justify-between">

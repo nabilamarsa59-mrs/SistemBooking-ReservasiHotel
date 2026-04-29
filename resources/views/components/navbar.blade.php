@@ -23,7 +23,7 @@
     </div>
 </header>
 
-@elseif (Route::is(['dashboard.tamu', 'verifikasi.admin', 'statistik.admin', 'profile']))
+@elseif (Route::is(['verifikasi.admin', 'statistik.admin', 'profile']))
 
 <header class="w-full border-b border-gray-400 bg-[#ece6da] px-10 py-5">
     <div class="grid grid-cols-3 items-center">
@@ -59,7 +59,7 @@
 
         <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
             <a href="#beranda" class="hover:text-[#7ea1ba]">Beranda</a>
-            <a href="#kamar" class="hover:text-[#7ea1ba]">Kamar</a>
+            <a href="#container-kamar" class="hover:text-[#7ea1ba]">Kamar</a>
             <a href="#bantuan" class="hover:text-[#7ea1ba]">Bantuan</a>
         </nav>
 
