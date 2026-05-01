@@ -37,7 +37,7 @@
 
         <div class="border border-gray-400 bg-white px-6 py-5">
             <p class="text-[24px] font-semibold">12</p>
-            <p class="text-[14px]">Tamu menginap</p>
+            <p class="text-[14px]">Check-In hari ini</p>
         </div>
 
     </div>

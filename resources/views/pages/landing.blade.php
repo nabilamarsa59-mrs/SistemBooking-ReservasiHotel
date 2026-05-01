@@ -191,14 +191,12 @@
         id="login-modal"
         tabindex="-1"
         aria-hidden="true"
-        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 px-4"
-    >
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 px-4">
         <div class="relative w-full max-w-md rounded-2xl border border-gray-300 bg-[#f2eee6] p-6 shadow-lg">
             <button
                 type="button"
                 class="absolute right-4 top-3 text-2xl text-[#243b53] hover:text-red-500"
-                data-modal-hide="login-modal"
-            >
+                data-modal-hide="login-modal">
                 &times;
             </button>
 
@@ -214,15 +212,13 @@
             <div class="flex flex-col gap-4">
                 <a
                     href="{{ route('login') }}"
-                    class="rounded-xl border border-[#7ea1ba] bg-[#c6d6e2] px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
-                >
+                    class="rounded-xl border border-[#7ea1ba] bg-[#c6d6e2] px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white">
                     Login sebagai Admin / Resepsionis
                 </a>
 
                 <a
                     href="{{ route('login.tamu') }}"
-                    class="rounded-xl border border-[#7ea1ba] bg-white px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white"
-                >
+                    class="rounded-xl border border-[#7ea1ba] bg-white px-5 py-3 text-center text-[18px] font-semibold text-[#243b53] transition hover:bg-[#7ea1ba] hover:text-white">
                     Login sebagai Tamu
                 </a>
             </div>

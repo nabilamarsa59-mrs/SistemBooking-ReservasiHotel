@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardTamuController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiController;
@@ -35,26 +36,22 @@ Route::get('/dashboard_tamu', function () {
 
 Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
 
-Route::get('/room', [RoomController::class, 'index']);
-
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('verifikasi.admin');
+
 Route::get('/pemesanan', function () {
-    return view('pages.pemesanan');
-});
+return view('pages.pemesanan');
+})->name('pemesanan');
 
-Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman']);
+Route::get('/register-tamu', [RegisterTamuController::class, 'show'])->name('register.tamu');
+Route::post('/register-tamu', [RegisterTamuController::class, 'store'])->name('register.tamu.post');
 
-Route::get('/room', [RoomController::class, 'index']);
+Route::get('/data_kamar', function () {
+    return view('pages.data_kamar');
+})->name('data.kamar');
 
-Route::get('/register-tamu', [RegisterTamuController::class, 'show'])
-    ->name('register.tamu');
-
-Route::post('/register-tamu', [RegisterTamuController::class, 'store'])
-    ->name('register.tamu.post');
-
-Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
-
-Route::get('/data_kamar', [RoomController::class, 'index'])->name('data.kamar');
+Route::get('/data_reservasi', function () {
+    return view('pages.data_reservasi');
+})->name('data.reservasi');

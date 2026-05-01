@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
     public function showLoginChoice()
     {
-        return view('pages.login-choice');
+        return view('pages.login');
     }
 
 
@@ -27,32 +28,43 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+
         // LOGIN ADMIN
         if (
             $request->role === 'admin' &&
             $request->email === 'admin@gmail.com' &&
             $request->password === 'admin123'
         ) {
+
+            session(['role' => 'admin']);
+
             return redirect()->route('statistik.admin');
         }
 
+
         // LOGIN RESEPSIONIS
-if (
-    $request->role === 'resepsionis' &&
-    $request->email === 'resepsionis@gmail.com' &&
-    $request->password === 'resepsionis123'
-) {
-    return redirect()->route('dashboard.resepsionis');
-}
+        if (
+            $request->role === 'resepsionis' &&
+            $request->email === 'resepsionis@gmail.com' &&
+            $request->password === 'resepsionis123'
+        ) {
+
+            session(['role' => 'resepsionis']);
+
+            return redirect()->route('dashboard.resepsionis');
+        }
+
 
         return back()->with('error', 'Email atau password salah.');
     }
+
 
 
     public function showLoginTamu()
     {
         return view('pages.login_tamu');
     }
+
 
 
     // LOGIN TAMU
@@ -63,25 +75,45 @@ if (
             'password' => 'required',
         ]);
 
+
         // LOGIN TAMU DUMMY
         if (
             $request->email === 'tamu@gmail.com' &&
             $request->password === 'tamu123'
         ) {
+
+            session(['role' => 'tamu']);
+
             return redirect()->route('dashboard.tamu');
         }
 
-        // LOGIN TAMU DARI SESSION REGISTER
+
+        // LOGIN TAMU DARI REGISTER SESSION
         $tamu = session('tamu_registered');
+
 
         if (
             $tamu &&
             $request->email === $tamu['email'] &&
             $request->password === $tamu['password']
         ) {
+
+            session(['role' => 'tamu']);
+
             return redirect()->route('dashboard.tamu');
         }
 
+
         return back()->with('error', 'Email atau password salah.');
     }
+
+
+    // LOGOUT
+    public function logout()
+    {
+        session()->forget('role');
+
+        return redirect()->route('landing');
+    }
+
 }

@@ -7,16 +7,14 @@
     class="flex min-h-screen items-center justify-center bg-cover bg-center px-6 py-10 font-serif"
     style="background-image:
     linear-gradient(rgba(236,230,218,0.88), rgba(236,230,218,0.88)),
-    url('{{ asset('images/hotel.png') }}');"
->
+    url('{{ asset('images/hotel.png') }}');">
     <div class="w-full max-w-[760px] overflow-hidden rounded-[18px] border border-gray-400 bg-[#f2eee6] shadow-lg">
         <div class="border-b border-gray-400 px-6 py-8 text-center">
             <div class="mb-2 flex justify-center">
                 <img
                     src="{{ asset('images/logo_PBL.jpeg') }}"
                     class="h-[80px] object-contain mix-blend-multiply"
-                    alt="Logo Pulas"
-                >
+                    alt="Logo Pulas">
             </div>
 
             <h1 class="text-[28px] font-semibold text-[#243b53]">
@@ -63,8 +61,7 @@
                         name="email"
                         placeholder="Masukkan Email Anda"
                         class="h-[62px] w-full rounded-lg border border-gray-400 bg-[#faf8f3] px-5 text-[16px] outline-none"
-                        required
-                    >
+                        required>
                 </div>
 
                 <div class="mb-10">
@@ -74,14 +71,12 @@
                         name="password"
                         placeholder="Masukkan Kata Sandi"
                         class="h-[62px] w-full rounded-lg border border-gray-400 bg-[#faf8f3] px-5 text-[16px] outline-none"
-                        required
-                    >
+                        required>
                 </div>
 
                 <button
                     type="submit"
-                    class="h-[64px] w-full rounded-xl bg-[#7ea1ba] text-[22px] font-semibold text-white transition hover:bg-[#62859f]"
-                >
+                    class="h-[64px] w-full rounded-xl bg-[#7ea1ba] text-[22px] font-semibold text-white transition hover:bg-[#62859f]">
                     Masuk
                 </button>
             </form>
