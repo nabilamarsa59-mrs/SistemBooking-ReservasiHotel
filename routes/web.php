@@ -55,3 +55,8 @@ Route::get('/data_kamar', function () {
 Route::get('/data_reservasi', function () {
     return view('pages.data_reservasi');
 })->name('data.reservasi');
+
+Route::get('/logout', function () {
+    session()->flush();
+    return redirect()->route('login');
+})->name('logout');

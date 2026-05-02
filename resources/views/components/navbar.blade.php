@@ -5,7 +5,6 @@
 <header class="w-full border-b border-gray-400 bg-[#ece6da] px-10 py-5">
     <div class="grid grid-cols-3 items-center">
 
-        <!-- LOGO -->
         <div>
             <a href="{{ route('landing') }}">
                 <img src="{{ asset('images/logo_PBL.jpeg') }}"
