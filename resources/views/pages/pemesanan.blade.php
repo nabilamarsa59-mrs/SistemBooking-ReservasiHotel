@@ -1,130 +1,89 @@
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulas - Formulir Pemesanan</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com"></script>
-    <style>
-        /* Menghilangkan panah pada input number agar lebih bersih */
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    </style>
-</head>
-<body class="bg-[#F4F4F4] font-sans antialiased text-black">
+@section('content')
+<div class="min-h-screen bg-[#ece6da] font-serif text-[#243b53] p-10">
+    <div class="max-w-5xl mx-auto border border-gray-400 bg-[#f2eee6] p-8 shadow-sm">
+        <h1 class="text-center text-2xl font-bold mb-8 uppercase tracking-widest">Formulir Pemesanan</h1>
 
-    <div class="max-w-6xl mx-auto px-6 py-4" x-data="{ 
-        hargaSatuan: 250000, 
-        jumlahKamar: 2,
-        get totalHarga() { return this.hargaSatuan * this.jumlahKamar }
-    }">
-        
-
-        <!-- Main Form Container -->
-        <main class="bg-white border-2 border-black p-8 md:p-12">
-            <h1 class="text-3xl font-black uppercase text-center mb-12 tracking-tight">Formulir Pemesanan</h1>
-
-            <form action="/proses-pemesanan" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-10">
-                @csrf
-                
-                <!-- Left: Room Summary Card -->
-                <div class="md:col-span-4 space-y-6">
-                    <div class="border-2 border-black p-5">
-                        <div class="aspect-square bg-gray-200 border border-black flex items-center justify-center mb-5 group overflow-hidden">
-                            <!-- Placeholder Image / Icon -->
-                            <svg class="w-24 h-24 text-gray-400 group-hover:scale-110 transition duration-500" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
-                        </div>
-                        <div class="space-y-2 text-sm border-t-2 border-black pt-4">
-                            <h3 class="font-black text-lg uppercase tracking-tight text-black">Standard Room</h3>
-                            <ul class="space-y-1 font-medium text-gray-600 italic">
-                                <li>• 2 Dewasa</li>
-                                <li>• 1 Ranjang</li>
-                                <li>• Tanpa Sarapan</li>
-                                <li class="text-black font-bold">• Non-Refundable</li>
-                            </ul>
-                        </div>
-                        <div class="mt-6 text-right border-t border-gray-200 pt-4">
-                            <p class="text-2xl font-black">Rp 250.000</p>
-                            <p class="text-xs text-red-600 font-black uppercase mt-1 animate-pulse">Hanya Sisa 2 Kamar!</p>
-                        </div>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- SISI KIRI: Detail Kamar -->
+            <div class="border border-gray-400 p-4 bg-white">
+                <div class="h-48 border border-gray-300 bg-gray-100 mb-4 overflow-hidden">
+                    <img src="{{ asset($selectedRoom['image']) }}" class="w-full h-full object-cover">
                 </div>
+                <h3 class="font-bold border-b border-gray-300 pb-2 mb-2">{{ $type }}</h3>
+                <div class="text-sm space-y-1 mb-6 text-gray-600">
+                    <p>2 Dewasa</p>
+                    <p>{{ $selectedRoom['desc'] }}</p>
+                    <p>Tidak bisa refund</p>
+                </div>
+                <div class="text-right border-t border-gray-300 pt-4">
+                    <p class="text-xs">Rp {{ number_format($selectedRoom['price'], 0, ',', '.') }}</p>
+                    <p class="font-bold text-lg">Total {{ number_format($selectedRoom['price'], 0, ',', '.') }}</p>
+                    <p class="text-[10px] text-gray-500">(tidak termasuk pajak)</p>
+                    <p class="text-red-600 text-xs font-bold mt-2 italic">Sisa 2 kamar!</p>
+                </div>
+                <button class="none"></button>
+            </div>
 
-                <!-- Right: Form Inputs -->
-                <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-                    
-                    @php 
-                        $fields = [
-                            ['label' => 'Nama Lengkap', 'name' => 'nama', 'type' => 'text', 'placeholder' => 'Nama lengkap'],
-                            ['label' => 'NIK', 'name' => 'nik', 'type' => 'text', 'placeholder' => 'NIK'],
-                            ['label' => 'No. Telepon', 'name' => 'telp', 'type' => 'tel', 'placeholder' => 'No.tlp'],
-                            ['label' => 'Email', 'name' => 'email', 'type' => 'email', 'placeholder' => 'email'],
-                            ['label' => 'Check-in', 'name' => 'check_in', 'type' => 'date', 'placeholder' => ''],
-                            ['label' => 'Check-out', 'name' => 'check_out', 'type' => 'date', 'placeholder' => ''],
-                        ];
-                    @endphp
-
-                    @foreach($fields as $field)
-                    <div class="flex flex-col">
-                        <label class="font-black uppercase text-xs mb-1">{{ $field['label'] }}</label>
-                        <input type="{{ $field['type'] }}" name="{{ $field['name'] }}" 
-                               placeholder="{{ $field['placeholder'] }}"
-                               class="border-2 border-black p-3 focus:bg-yellow-50 outline-none transition font-medium">
+            <!-- SISI KANAN: Formulir -->
+            <div class="md:col-span-2 grid grid-cols-2 gap-4">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Nama Lengkap</label>
+                        <input type="text" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" placeholder="Nama lengkap">
                     </div>
-                    @endforeach
-
-                    <!-- Jumlah Kamar (Interaktif) -->
-                    <div class="flex flex-col">
-                        <label class="font-black uppercase text-xs mb-1">Jumlah Kamar</label>
-                        <input type="number" x-model="jumlahKamar" name="jumlah_kamar"
-                               class="border-2 border-black p-3 focus:bg-yellow-50 outline-none transition font-medium">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">No. Telepon</label>
+                        <input type="text" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" placeholder="No.tlp">
                     </div>
-
-                    <!-- Jumlah Tamu -->
-                    <div class="flex flex-col">
-                        <label class="font-black uppercase text-xs mb-1">Jumlah Tamu</label>
-                        <input type="number" name="jumlah_tamu" value="2"
-                               class="border-2 border-black p-3 focus:bg-yellow-50 outline-none transition font-medium">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Check-in</label>
+                        <input type="date" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none">
                     </div>
-
-                    <!-- Metode Pembayaran -->
-                    <div class="flex flex-col">
-                        <label class="font-black uppercase text-xs mb-1">Metode Pembayaran</label>
-                        <select name="metode" class="border-2 border-black p-3 bg-white font-medium outline-none">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Jumlah kamar</label>
+                        <input type="number" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" value="1">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Metode Pembayaran</label>
+                        <select class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none">
                             <option>Transfer Bank</option>
-                            <option>E-Wallet (OVO/Dana)</option>
-                            <option>Kartu Kredit</option>
+                            <option>E-Wallet</option>
                         </select>
                     </div>
-
-                    <!-- Total Pembayaran -->
-                    <div class="flex flex-col">
-                        <label class="font-black uppercase text-xs mb-1">Total Pembayaran</label>
-                        <div class="border-2 border-black p-3 bg-gray-100 font-black text-xl">
-                            Rp <span x-text="totalHarga.toLocaleString('id-ID')"></span>
-                        </div>
-                        <input type="hidden" name="total" :value="totalHarga">
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="sm:col-span-2 mt-6">
-                        <button type="submit" 
-                                class="w-full bg-white text-black p-4 font-black uppercase text-lg tracking-widest hover:bg-blue-400 border-2 border-black transition-all rounded-full">
-                            Konfirmasi Pesanan
-                        </button>
-                    </div>
-
                 </div>
-            </form>
-        </main>
 
-        <!-- Footer -->
-        <footer class="mt-12 text-center text-sm font-bold uppercase tracking-widest text-gray-500">
-            &copy; 2026 Politeknik Negeri Batam - Projek PBL IFPagi 2A-09
-        </footer>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">NIK</label>
+                        <input type="text" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" placeholder="NIK">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Email</label>
+                        <input type="email" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" placeholder="example@gmail.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Check-out</label>
+                        <input type="date" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Jumlah Tamu</label>
+                        <input type="number" class="w-full border border-gray-400 bg-white/50 px-3 py-2 outline-none" value="2">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Total Pembayaran</label>
+                        <input type="text" readonly class="w-full border border-gray-400 bg-gray-200 px-3 py-2 outline-none font-bold" value="Rp {{ number_format($selectedRoom['price'], 0, ',', '.') }}">
+                    </div>
+                </div>
+
+                <div class="col-span-2 flex justify-center mt-6">
+                    <button class="w-full mt-4 border border-gray-800 py-1 font-bold hover:bg-gray-800 hover:text-white transition">Konfirmasi pesanan</button>
+                </div>
+            </div>
+        </div>
     </div>
+    
 
-</body>
-</html>
+</div>
+@endsection

@@ -10,6 +10,7 @@ use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\RegisterTamuController;
+use App\Http\Controllers\PemesananController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -30,9 +31,7 @@ Route::get('/dashboard_resepsionis', function () {
     return view('pages.home_resepsionis');
 })->name('dashboard.resepsionis');
 
-Route::get('/dashboard_tamu', function () {
-    return view('pages.dashboard_tamu');
-})->name('dashboard.tamu');
+Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])->name('dashboard_tamu');
 
 Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
 
@@ -41,9 +40,8 @@ Route::post('/profile', [ProfileController::class, 'update'])->name('profile.upd
 
 Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('verifikasi.admin');
 
-Route::get('/pemesanan', function () {
-return view('pages.pemesanan');
-})->name('pemesanan');
+
+Route::get('/pemesanan', [PemesananController::class, 'showPemesanan'])->name('pemesanan');
 
 Route::get('/register-tamu', [RegisterTamuController::class, 'show'])->name('register.tamu');
 Route::post('/register-tamu', [RegisterTamuController::class, 'store'])->name('register.tamu.post');
