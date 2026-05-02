@@ -31,7 +31,7 @@ Route::get('/dashboard_resepsionis', function () {
     return view('pages.home_resepsionis');
 })->name('dashboard.resepsionis');
 
-Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])->name('dashboard_tamu');
+Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])->name('dashboard.tamu');
 
 Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
 
