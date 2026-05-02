@@ -1,127 +1,175 @@
 @extends('layouts.app')
+
 @section('title', 'Dashboard Tamu')
+
 @section('content')
-@php
-
-    $daftar_kamar = [
-        [
-            'tipe' => 'standard',
-            'nama' => 'Standard Room',
-            'harga' => '250.000',
-            'fasilitas' => '2 Dewasa | 1 Ranjang | No Breakfast',
-            'icon' => ''
-        ],
-        [
-            'tipe' => 'deluxe',
-            'nama' => 'Deluxe Room',
-            'harga' => '1.100.000',
-            'fasilitas' => '2 Dewasa | 1 Ranjang | Breakfast',
-            'icon' => ''
-        ],
-        [
-            'tipe' => 'suite',
-            'nama' => 'Suite Room',
-            'harga' => '1.500.000',
-            'fasilitas' => '2 Dewasa | 1 Ranjang | Breakfast',
-            'icon' => ''
-        ],
-        [
-            'tipe' => 'presidential',
-            'nama' => 'Presidential Room',
-            'harga' => '1.900.000',
-            'fasilitas' => '2 Dewasa | 1 Ranjang | Breakfast',
-            'icon' => ''
-        ],
-    ];
-@endphp
-
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulas Dashboard - Guest</title>
+<div class="min-h-screen bg-[#ece6da] font-serif text-[#243b53]">
     
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 text-gray-800">
-
-
-    <main class="max-w-6xl mx-auto p-8">
-        <section class="mb-8">
-            <h1 class="text-3xl font-bold italic">Selamat datang, Revan!</h1>
-            <p class="text-gray-500 text-sm">Senin, 20 April 2026 - Batam, Kepulauan Riau</p>
-        </section>
-
-        <!-- FILTER BUTTONS -->
-        <section class="mb-10 flex flex-wrap gap-2">
-            <input type="text" placeholder="Cari tipe kamar..." class="flex-1 border border-gray-300 px-4 py-2 rounded focus:border-black outline-none transition">
-            <button onclick="filterKamar('all')" class="btn-primary border-black text-white px-4 py-2 rounded text-sm hover:opacity-80">Semua</button>
-            <button onclick="filterKamar('standard')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Standard</button>
-            <button onclick="filterKamar('deluxe')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Deluxe</button>
-            <button onclick="filterKamar('suite')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Suite</button>
-            <button onclick="filterKamar('presidential')" class="btn-primary border-black px-4 py-2 rounded text-sm hover:bg-black hover:text-white transition">Presidential</button>
-        </section>
-
-        <div id="container-kamar" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {{-- INI ADALAH LOGIKA LOOPING BLADE (Sangat bersih & profesional) --}}
-            @foreach($daftar_kamar as $kamar)
-                <div class="kamar-item {{ $kamar['tipe'] }} border border-gray-300 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition">
-                    <div class="bg-gray-100 aspect-video mb-4 flex items-center justify-center text-5xl rounded">
-                        {{ $kamar['icon'] }}
-                    </div>
-                    <h3 class="font-bold text-lg">{{ $kamar['nama'] }}</h3>
-                    <p class="text-[10px] text-gray-500 mb-4 uppercase tracking-tighter">{{ $kamar['fasilitas'] }}</p>
-                    <p class="text-right font-bold text-gray-900 mb-2">Rp {{ $kamar['harga'] }}</p>
-                    <a href="pemesanan" target="pemesanan" class="block text-center border-2 border-black py-2 text-[10px] font-black hover:bg-black hover:text-white transition">LIHAT DETAIL</a>
-                </div>
-            @endforeach
+    <!-- HEADER: Selamat Datang -->
+    <section id="beranda" class="px-6 pt-8 md:px-10">
+        <div class="mb-6">
+            <h1 class="text-[34px] font-semibold">Selamat datang, Refandy!</h1>
+            <p class="text-sm text-gray-600 italic">Kamis, 08 April 2026 - Batam, Kepulauan Riau</p>
         </div>
-    </main>
-    <script>
-        function filterKamar(tipe) {
-            const items = document.querySelectorAll('.kamar-item');
-            items.forEach(item => {
-                if (tipe === 'all' || item.classList.contains(tipe)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
 
+        <!-- FILTER & SEARCH (Mekanisme diperbaiki agar tetap di halaman ini) -->
+        <div class="flex flex-wrap items-center gap-3 text-[15px] mb-8">
+            <form action="{{ url()->current() }}" method="GET" class="flex flex-wrap items-center gap-3">
+                {{-- Agar kategori tetap terpilih saat search --}}
+                @if(request('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Cari berdasarkan tipe kamar..."
+                    class="w-[330px] rounded-sm border border-gray-500 bg-white px-5 py-1 outline-none">
+            </form>
 
-
-
-<!-- Main modal -->
-<div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between border-b border-default pb-4 md:pb-5">
-                <h3 class="text-lg font-medium text-heading">
-                    Terms of Service
-                </h3>
-                <button type="button" class="text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
+            <div class="flex flex-wrap gap-2">
+                {{-- Tombol Semua --}}
+                <a href="{{ url()->current() }}" 
+                   class="border border-gray-500 px-5 py-1 transition {{ empty(request('category')) ? 'bg-[#7ea1ba] text-white' : 'bg-white' }}">
+                    Semua
+                </a>
+                {{-- Looping Kategori --}}
+                @foreach(['deluxe', 'suite', 'standar', 'presidential'] as $cat)
+                    <a href="{{ url()->current() . '?category=' . $cat }}{{ request('search') ? '&search=' . request('search') : '' }}"
+                       class="border border-gray-500 px-5 py-1 transition {{ request('category') == $cat ? 'bg-[#7ea1ba] text-white' : 'bg-white' }}">
+                       Kamar {{ ucfirst($cat) }}
+                    </a>
+                @endforeach
             </div>
-            <!-- Modal body -->
-            <div class="space-y-4 md:space-y-6 py-4 md:py-6">
-                <p class="leading-relaxed text-body">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="leading-relaxed text-body">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-            </div>
-           
+        </div>
+    </section>
 
-</body>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-</html>
+    <!-- RESERVASI AKTIF -->
+    <section class="px-6 md:px-10 mb-10">
+        <div class="border border-gray-400 p-6 bg-[#f2eee6] shadow-sm">
+            <h3 class="text-lg font-bold mb-4 border-b border-gray-300 pb-2 uppercase tracking-wide">Reservasi aktif</h3>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <h4 class="text-[22px] font-bold">Suite - Room 301</h4>
+                    <p class="text-sm text-gray-500 font-mono">#RSV-011</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center w-full md:w-auto">
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold">Check-in</p>
+                        <p class="font-semibold text-[15px]">07 April 2026</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold">Check-out</p>
+                        <p class="font-semibold text-[15px]">09 April 2026</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold">Durasi</p>
+                        <p class="font-semibold text-[15px]">2 Malam</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase text-gray-500 font-bold">Pembayaran</p>
+                        <p class="font-bold text-[17px] text-[#243b53]">Rp 1.500.000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DAFTAR KAMAR -->
+    <section id="kamar" class="px-6 pb-10 md:px-10">
+        <h3 class="text-[20px] font-bold mb-6">Pilihan kamar tersedia</h3>
+        <div class="grid grid-cols-1 items-start gap-7 md:grid-cols-2 xl:grid-cols-3">
+            @forelse ($rooms as $room)
+                @php
+                    $roomSlug = strtolower($room['name']);
+                    $imageMap = [
+                        'standar' => 'images/kamar/kamar_standard.jpeg',
+                        'suite' => 'images/kamar/kamar_suite.jpeg',
+                        'deluxe' => 'images/kamar/kamar_deluxe.jpeg',
+                        'presidential' => 'images/kamar/kamar_presidential.jpeg',
+                    ];
+                    $image = $imageMap[$roomSlug] ?? null;
+                @endphp
+
+                <div class="flex flex-col border border-gray-400 bg-[#f2eee6] p-4 shadow-sm hover:shadow-md transition">
+                    {{-- Container Gambar --}}
+                    <div class="h-[220px] border border-gray-400 bg-white mb-4 overflow-hidden flex items-center justify-center">
+                        @if($image)
+                            <img src="{{ asset($image) }}" class="w-full h-full object-cover" alt="{{ $room['name'] }}">
+                        @else
+                            <div class="text-gray-400 italic">Gambar Kamar</div>
+                        @endif
+                    </div>
+
+                    {{-- Info Kamar --}}
+                    <h4 class="text-[22px] font-medium mb-3">{{ $room['name'] }}</h4>
+                    <div class="text-[16px] space-y-1 mb-5 text-[#243b53] leading-relaxed">
+                        <p>{{ $room['capacity'] }}</p>
+                        <p>{{ $room['bed'] }}</p>
+                        <p>{{ $room['breakfast'] }}</p>
+                    </div>
+
+                    <div class="text-right font-bold text-[20px] mb-4 border-t border-gray-300 pt-3">
+                        Rp {{ number_format($room['price'], 0, ',', '.') }}
+                    </div>
+
+                    <!-- Button Pemesanan -->
+                     <a href="{{ route('pemesanan', ['type' => $room['name']]) }}"
+                      class="w-full block text-center border border-gray-500 bg-white py-3 text-[17px] hover:bg-[#7ea1ba] hover:text-white transition">
+                      Pesan Sekarang
+                     </a>
+
+
+
+                    <!-- MODAL POPUP -->
+                    <div id="popup-{{ $loop->index }}" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/40 px-4">
+                        <div class="w-full max-w-md rounded-lg border border-gray-400 bg-[#f2eee6] p-6 shadow-xl">
+                            <div class="mb-4 flex items-center justify-between">
+                                <h2 class="text-[24px] font-semibold">{{ $room['name'] }}</h2>
+                                <button onclick="document.getElementById('popup-{{ $loop->index }}').classList.add('hidden')" class="text-3xl hover:text-red-600">&times;</button>
+                            </div>
+                            <div class="space-y-2 mb-6">
+                                <p class="text-gray-700 italic mb-4">Kamar {{ $room['name'] }} memiliki fasilitas nyaman untuk tamu hotel.</p>
+                                <p><strong>Kapasitas:</strong> {{ $room['capacity'] }}</p>
+                                <p><strong>Tempat tidur:</strong> {{ $room['bed'] }}</p>
+                                <p><strong>Sarapan:</strong> {{ $room['breakfast'] }}</p>
+                                <p class="text-lg font-bold mt-4">Harga: Rp {{ number_format($room['price'], 0, ',', '.') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-3 py-16 text-center border border-dashed border-gray-400 bg-[#f2eee6]/50">
+                    <p class="text-lg italic text-gray-500">Kamar yang Anda cari tidak ditemukan.</p>
+                </div>
+            @endforelse
+        </div>
+    </section>
+    
+    <!-- FOOTER: Bantuan -->
+    <footer id="Bantuan" class="border-t border-gray-400 bg-[#ece6da] px-10 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="flex items-center justify-center gap-4 border border-gray-400 bg-[#f2eee6] p-4">
+                <span class="text-2xl text-[#243b53]">☎</span>
+                <div class="leading-tight text-sm">
+                    <p class="font-bold">WhatsApp Admin</p>
+                    <p class="text-gray-500">+62 812 1111 1111</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-4 border border-gray-400 bg-[#f2eee6] p-4">
+                <span class="text-2xl text-[#243b53]">✉</span>
+                <div class="leading-tight text-sm">
+                    <p class="font-bold">Email Support</p>
+                    <p class="text-gray-500">support@gmail.com</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-4 border border-gray-400 bg-[#f2eee6] p-4">
+                <span class="text-2xl text-[#243b53]">📞</span>
+                <div class="leading-tight text-sm">
+                    <p class="font-bold">Hotline Hotel</p>
+                    <p class="text-gray-500">(021) 222 212</p>
+                </div>
+            </div>
+        </div>
+        
 @endsection
