@@ -62,20 +62,20 @@
                     Beranda
                 </a>
 
-                <a href="{{ route('landing') }}#kamar"
-                    class="{{ Route::is('landing') || Route::is('home') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
+                <a href="{{ route('dashboard.tamu') }}#kamar"
+                    class="{{ Route::is('dashboard.tamu') || Route::is('home') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Kamar
                 </a>
 
-                <a href="{{ route('landing') }}#Bantuan" class="text-[#243b53] hover:text-[#7ea1ba]">
+                <a href="{{ route('dashboard.tamu') }}#Bantuan" class="text-[#243b53] hover:text-[#7ea1ba]">
                     Bantuan
                 </a>
             </nav>
         @else
             <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
-                <a href="{{ route('landing') }}#beranda" class="hover:text-[#7ea1ba]">Beranda</a>
-                <a href="{{ route('landing') }}#kamar" class="hover:text-[#7ea1ba]">Kamar</a>
-                <a href="{{ route('landing') }}#Bantuan" class="hover:text-[#7ea1ba]">Bantuan</a>
+                <a href="{{ route('dashboard.tamu') }}#beranda" class="hover:text-[#7ea1ba]">Beranda</a>
+                <a href="{{ route('dashboard.tamu') }}#kamar" class="hover:text-[#7ea1ba]">Kamar</a>
+                <a href="{{ route('dashboard.tamu') }}#Bantuan" class="hover:text-[#7ea1ba]">Bantuan</a>
             </nav>
         @endif
 
