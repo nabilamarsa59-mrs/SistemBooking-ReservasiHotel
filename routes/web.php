@@ -68,5 +68,5 @@ Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
 
 Route::get('/logout', function () {
     session()->flush();
-    return redirect()->route('login');
+    return redirect()->route('landing');
 })->name('logout');
