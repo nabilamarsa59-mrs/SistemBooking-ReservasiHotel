@@ -7,13 +7,11 @@
 
         <div class="relative mx-auto max-w-[1450px] border border-gray-300 bg-[#f7f3eb] px-10 py-8 shadow-sm">
 
-            {{-- TOMBOL CLOSE --}}
             <a href="{{ route('dashboard.tamu') }}"
                 class="absolute right-6 top-6 flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-2xl font-bold text-[#243b53] shadow-sm transition hover:bg-red-100 hover:text-red-600">
                 &times;
             </a>
 
-            {{-- HEADER --}}
             <div class="mb-10 text-center">
                 <p class="mb-2 text-[15px] italic text-[#6b7280]">
                     Hotel Pulas — Kenyamanan Tanpa Batas
@@ -28,10 +26,8 @@
                 </p>
             </div>
 
-            {{-- CONTENT --}}
             <div class="grid grid-cols-1 gap-8 xl:grid-cols-[470px_1fr]">
 
-                {{-- DETAIL KAMAR --}}
                 <div class="h-fit border border-gray-300 bg-white p-5 shadow-sm">
 
                     <div class="h-[250px] overflow-hidden border border-gray-300 bg-[#ece6da]">
@@ -83,7 +79,6 @@
                     </div>
                 </div>
 
-                {{-- FORM --}}
                 <form action="{{ route('pemesanan.store') }}" method="POST">
                     @csrf
 
@@ -164,7 +159,6 @@
                         </div>
                     </div>
 
-                    {{-- BUTTON --}}
                     <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
                         <a href="{{ route('dashboard.tamu') }}"
                             class="rounded-full border border-[#243b53] bg-white py-3 text-center text-[17px] font-bold text-[#243b53] transition hover:bg-red-100 hover:text-red-600">
