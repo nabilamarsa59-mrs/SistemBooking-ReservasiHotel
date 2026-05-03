@@ -121,7 +121,7 @@
         <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             <div>
                 <h1 class="text-[36px] font-bold text-[#0B2A55]">
-                    Manajemen Kamar
+                    Data Kamar
                 </h1>
                 <p class="text-[18px] text-[#47627A] mt-2">
                     Kelola data kamar hotel berdasarkan nomor, tipe, harga, dan status kamar.
@@ -394,7 +394,7 @@
     </div>
 
     <script>
-        const PER_PAGE = 4;
+        const PER_PAGE = 10;
         let currentFilter = 'semua';
         let currentPage = 1;
 

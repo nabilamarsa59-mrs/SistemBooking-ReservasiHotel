@@ -233,8 +233,8 @@
                     class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
                     <span class="text-[28px]">✉</span>
                     <div class="leading-tight">
-                        <p class="text-[14px] font-semibold">Email Support</p>
-                        <p class="text-[13px] text-[#7b8794]">support@gmail.com</p>
+                        <p class="text-[14px] font-semibold">Email</p>
+                        <p class="text-[13px] text-[#7b8794]">hotelpulas@gmail.com</p>
                     </div>
                 </div>
 
@@ -242,7 +242,7 @@
                     class="flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-[#f2eee6] px-4 py-2">
                     <span class="text-[28px]">☎</span>
                     <div class="leading-tight">
-                        <p class="text-[14px] font-semibold">Hotline Hotel</p>
+                        <p class="text-[14px] font-semibold">No.Telepon Hotel</p>
                         <p class="text-[13px] text-[#7b8794]">(021) 222 212</p>
                     </div>
                 </div>

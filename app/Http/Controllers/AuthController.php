@@ -75,8 +75,6 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-
-        // LOGIN TAMU DUMMY
         if (
             $request->email === 'tamu@gmail.com' &&
             $request->password === 'tamu123'

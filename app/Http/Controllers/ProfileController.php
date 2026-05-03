@@ -8,7 +8,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        // simulasi data user (sementara)
+
         $profile = [
             'nama' => 'Nabila Marsa',
             'email' => 'nabilamarsa@gmail.com',

@@ -3,96 +3,171 @@
 @section('title', 'Statistik Admin')
 
 @section('content')
-<div class="min-h-screen bg-[#ece6da] px-10 py-8 font-serif text-[#243b53]">
 
-    <div class="mb-8">
-        <h1 class="text-[28px] font-semibold">
-            Manajemen Pendapatan dan Pertumbuhan
-        </h1>
-        <p class="mt-1 text-[16px]">
-            Rekap dan analisis semua sumber pendapatan dan pertumbuhan hotel.
-        </p>
+    <div class="bg-[#F2EDE4] min-h-screen px-12 py-10 font-serif text-[#243b53]">
+
+        <div class="mb-8">
+            <h1 class="text-[36px] font-bold text-[#0B2A55]">
+                Manajemen Pendapatan & Pertumbuhan
+            </h1>
+
+            <p class="text-[18px] text-[#243b53] mt-2">
+                Rekap dan analisis semua sumber pendapatann hotel.
+            </p>
+        </div>
+
+        <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md mb-8">
+            <h2 class="text-[28px] font-semibold text-[#243b53] mb-4">
+                Pendapatan Bulanan
+            </h2>
+
+            <div class="mb-4 flex items-center gap-2 text-[15px] text-[#47627A]">
+                <span class="inline-block h-3 w-3 rounded bg-[#7BAFC4]"></span>
+                Pendapatan (juta Rp)
+            </div>
+
+            <div class="h-[260px]">
+                <canvas id="chartPendapatan"></canvas>
+            </div>
+        </div>
+
+        @php
+            $pendapatanBulanIni = 85000000;
+            $pendapatanBulanLalu = 48000000;
+            $selisihPendapatan = round((($pendapatanBulanIni - $pendapatanBulanLalu) / $pendapatanBulanLalu) * 100, 1);
+        @endphp
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
+                <p class="text-[17px] text-[#47627A]">Bulan ini</p>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">Mei 2025</h3>
+                <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
+                    Rp {{ number_format($pendapatanBulanIni, 0, ',', '.') }}
+                </p>
+
+            </div>
+
+            <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
+                <p class="text-[17px] text-[#47627A]">Bulan lalu</p>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">April 2025</h3>
+                <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
+                    Rp {{ number_format($pendapatanBulanLalu, 0, ',', '.') }}
+                </p>
+            </div>
+        </div>
+
+        <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md mb-8">
+            <h2 class="text-[28px] font-semibold text-[#243b53] mb-4">
+                Kunjungan Bulanan
+            </h2>
+
+            <div class="mb-4 flex items-center gap-2 text-[15px] text-[#47627A]">
+                <span class="inline-block h-3 w-3 rounded bg-[#7BAFC4]"></span>
+                Jumlah tamu
+            </div>
+
+            <div class="h-[260px]">
+                <canvas id="chartKunjungan"></canvas>
+            </div>
+        </div>
+
+        @php
+            $kunjunganBulanIni = 60;
+            $kunjunganBulanLalu = 55;
+            $selisihKunjungan = round((($kunjunganBulanIni - $kunjunganBulanLalu) / $kunjunganBulanLalu) * 100, 1);
+        @endphp
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
+                <p class="text-[17px] text-[#47627A]">Bulan ini</p>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">Mei 2025</h3>
+                <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
+                    {{ $kunjunganBulanIni }} Tamu
+                </p>
+
+            </div>
+
+            <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
+                <p class="text-[17px] text-[#47627A]">Bulan lalu</p>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">April 2025</h3>
+                <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
+                    {{ $kunjunganBulanLalu }} Tamu
+                </p>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Pendapatan -->
-    <section class="mb-8 border border-gray-400 bg-[#f2eee6] p-6">
-        <h2 class="mb-6 text-[22px] font-semibold">
-            Pendapatan bulanan
-        </h2>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
-        <div class="flex h-[300px] items-end justify-around border-b border-l border-gray-400 px-8">
-            @php
-                $pendapatan = [
-                    ['bulan' => 'Jan', 'tinggi' => '45%', 'nilai' => 'Rp 45.000.000'],
-                    ['bulan' => 'Feb', 'tinggi' => '58%', 'nilai' => 'Rp 58.000.000'],
-                    ['bulan' => 'Mar', 'tinggi' => '53%', 'nilai' => 'Rp 53.000.000'],
-                    ['bulan' => 'Apr', 'tinggi' => '48%', 'nilai' => 'Rp 48.000.000'],
-                    ['bulan' => 'Mei', 'tinggi' => '70%', 'nilai' => 'Rp 85.000.000'],
-                ];
-            @endphp
+    <script>
+        const gridColor = 'rgba(0,0,0,0.08)';
+        const tickColor = '#47627A';
 
-            @foreach ($pendapatan as $item)
-                <div class="flex flex-col items-center gap-3">
-                    <div class="w-12 bg-[#243b53]" style="height: {{ $item['tinggi'] }}"></div>
-                    <p class="text-[16px] font-semibold">{{ $item['bulan'] }}</p>
-                </div>
-            @endforeach
-        </div>
-    </section>
+        const baseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: tickColor,
+                        font: {
+                            size: 13
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: gridColor
+                    },
+                    border: {
+                        display: false
+                    },
+                    ticks: {
+                        color: tickColor,
+                        font: {
+                            size: 13
+                        }
+                    }
+                }
+            }
+        };
 
-    <div class="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div class="border border-gray-400 bg-[#f2eee6] p-5">
-            <p class="text-[15px]">Total pendapatan bulan ini</p>
-            <h3 class="mt-2 text-[20px] font-semibold">Mei</h3>
-            <p class="mt-2 text-[22px] font-semibold">Rp. 85.000.000</p>
-        </div>
+        new Chart(document.getElementById('chartPendapatan'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei'],
+                datasets: [{
+                    data: [45, 58, 53, 48, 85],
+                    backgroundColor: '#7BAFC4',
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: baseOptions
+        });
 
-        <div class="border border-gray-400 bg-[#f2eee6] p-5">
-            <p class="text-[15px]">Total pendapatan sebelum bulan ini</p>
-            <h3 class="mt-2 text-[20px] font-semibold">April</h3>
-            <p class="mt-2 text-[22px] font-semibold">Rp. 63.000.000</p>
-        </div>
-    </div>
+        new Chart(document.getElementById('chartKunjungan'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei'],
+                datasets: [{
+                    data: [45, 50, 42, 55, 60],
+                    backgroundColor: '#7BAFC4',
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: baseOptions
+        });
+    </script>
 
-    <!-- Kunjungan -->
-    <section class="mb-8 border border-gray-400 bg-[#f2eee6] p-6">
-        <h2 class="mb-6 text-[22px] font-semibold">
-            Kunjungan bulanan
-        </h2>
-
-        <div class="flex h-[300px] items-end justify-around border-b border-l border-gray-400 px-8">
-            @php
-                $kunjungan = [
-                    ['bulan' => 'Jan', 'tinggi' => '42%', 'nilai' => '45 Tamu'],
-                    ['bulan' => 'Feb', 'tinggi' => '48%', 'nilai' => '50 Tamu'],
-                    ['bulan' => 'Mar', 'tinggi' => '38%', 'nilai' => '42 Tamu'],
-                    ['bulan' => 'Apr', 'tinggi' => '52%', 'nilai' => '55 Tamu'],
-                    ['bulan' => 'Mei', 'tinggi' => '62%', 'nilai' => '60 Tamu'],
-                ];
-            @endphp
-
-            @foreach ($kunjungan as $item)
-                <div class="flex flex-col items-center gap-3">
-                    <div class="w-12 bg-[#243b53]" style="height: {{ $item['tinggi'] }}"></div>
-                    <p class="text-[16px] font-semibold">{{ $item['bulan'] }}</p>
-                </div>
-            @endforeach
-        </div>
-    </section>
-
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div class="border border-gray-400 bg-[#f2eee6] p-5">
-            <p class="text-[15px]">Total kunjungan bulan ini</p>
-            <h3 class="mt-2 text-[20px] font-semibold">Mei</h3>
-            <p class="mt-2 text-[22px] font-semibold">60 Tamu</p>
-        </div>
-
-        <div class="border border-gray-400 bg-[#f2eee6] p-5">
-            <p class="text-[15px]">Total kunjungan sebelum bulan ini</p>
-            <h3 class="mt-2 text-[20px] font-semibold">April</h3>
-            <p class="mt-2 text-[22px] font-semibold">55 Tamu</p>
-        </div>
-    </div>
-
-</div>
 @endsection

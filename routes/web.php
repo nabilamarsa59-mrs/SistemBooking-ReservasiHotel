@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\RegisterTamuController;
 use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\ProfilTamuController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -42,6 +43,7 @@ Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('v
 
 
 Route::get('/pemesanan', [PemesananController::class, 'showPemesanan'])->name('pemesanan');
+Route::post('/pemesanan', [PemesananController::class, 'store'])->name('pemesanan.store');
 
 Route::get('/register-tamu', [RegisterTamuController::class, 'show'])->name('register.tamu');
 Route::post('/register-tamu', [RegisterTamuController::class, 'store'])->name('register.tamu.post');
@@ -53,6 +55,16 @@ Route::get('/data_kamar', function () {
 Route::get('/data_reservasi', function () {
     return view('pages.data_reservasi');
 })->name('data.reservasi');
+
+Route::get('/profil', [ProfilTamuController::class, 'index'])
+    ->name('profil');
+
+Route::put('/profil', [ProfilTamuController::class, 'update'])
+    ->name('profil.update');
+
+Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
+    ->name('invoice.show');
+
 
 Route::get('/logout', function () {
     session()->flush();

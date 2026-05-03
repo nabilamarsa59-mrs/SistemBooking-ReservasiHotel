@@ -12,7 +12,7 @@ class LandingController extends Controller
             [
                 'name' => 'Standar',
                 'slug' => 'standar',
-                'capacity' => '2 Dewasa',
+                'capacity' => '2 Tamu',
                 'bed' => '1 Ranjang',
                 'breakfast' => 'Tidak termasuk sarapan',
                 'price' => 250000,
@@ -20,7 +20,7 @@ class LandingController extends Controller
             [
                 'name' => 'Suite',
                 'slug' => 'suite',
-                'capacity' => '2 Dewasa',
+                'capacity' => '2 Tamu',
                 'bed' => '1 Ranjang',
                 'breakfast' => 'Termasuk sarapan',
                 'price' => 1500000,
@@ -28,7 +28,7 @@ class LandingController extends Controller
             [
                 'name' => 'Deluxe',
                 'slug' => 'deluxe',
-                'capacity' => '2 Dewasa',
+                'capacity' => '2 Tamu',
                 'bed' => '1 Ranjang',
                 'breakfast' => 'Termasuk sarapan',
                 'price' => 1100000,
@@ -36,7 +36,7 @@ class LandingController extends Controller
             [
                 'name' => 'Presidential',
                 'slug' => 'presidential',
-                'capacity' => '2 Dewasa',
+                'capacity' => '2 Tamu',
                 'bed' => '1 Ranjang',
                 'breakfast' => 'Termasuk sarapan',
                 'price' => 1900000,

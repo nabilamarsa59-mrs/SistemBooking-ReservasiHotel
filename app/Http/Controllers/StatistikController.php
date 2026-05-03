@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\MonthlyStat; // Harus panggil modelnya
+use App\Models\MonthlyStat;
 
 class StatistikController extends Controller {
     public function tampilkanHalaman() {
