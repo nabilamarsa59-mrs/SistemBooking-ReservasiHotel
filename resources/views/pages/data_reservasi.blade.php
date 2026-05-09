@@ -261,7 +261,7 @@
     </div>
 
     <div id="modalDetail" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-4">
-        <div class="w-full max-w-2xl rounded-2xl bg-white shadow-xl font-serif text-[#243b53] overflow-hidden">
+        <div class="w-full max-w-2xl max-h-[600px] overflow-y-auto rounded-2xl bg-white shadow-xl font-serif text-[#243b53] overflow-hidden">
 
             <div class="px-8 py-6 border-b border-[#E2E8F0]">
                 <h2 class="text-[28px] font-bold text-[#0B2A55]">
@@ -356,6 +356,11 @@
                     <button onclick="closeDetailModal()"
                         class="rounded-xl border border-[#D1CCC0] px-7 py-3 hover:bg-gray-100 transition">
                         Tutup
+
+                         <div class="flex justify-end gap-4">
+                    <button onclick="confirmModal()"
+                        class="rounded-xl border border-[#D1CCC0] px-7 py-3 hover:bg-gray-100 transition">
+                        Konfirmasi
                     </button>
                 </div>
 
@@ -520,6 +525,9 @@
         });
 
         render();
+        function confirmModal() {
+            toggle('modalDetail', false);
+        }
     </script>
 
 @endsection
