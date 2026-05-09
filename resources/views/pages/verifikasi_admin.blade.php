@@ -156,7 +156,7 @@
     <div id="modalOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50"
         onclick="handleOverlayClick(event)">
 
-        <div class="bg-white rounded-2xl w-full max-w-xl mx-4 p-7 relative shadow-xl">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[600px] overflow-x-auto p-7 relative shadow-xl">
 
             <button onclick="closeModal()"
                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-[24px] leading-none">
