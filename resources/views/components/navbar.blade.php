@@ -58,12 +58,12 @@
         @elseif($role == 'tamu')
             <nav class="flex justify-center gap-12 text-[20px] font-semibold">
                 <a href="{{ route('dashboard.tamu') }}"
-                    class="{{ Route::is('dashboard.tamu') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
+                    class="{{ Route::is('dashboard.tamu') ? : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Beranda
                 </a>
 
                 <a href="{{ route('dashboard.tamu') }}#kamar"
-                    class="{{ Route::is('dashboard.tamu') || Route::is('home') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
+                    class="{{ Route::is('dashboard.tamu') || Route::is('home') ? : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Kamar
                 </a>
 
