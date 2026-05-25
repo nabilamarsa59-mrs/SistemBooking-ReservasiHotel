@@ -164,9 +164,6 @@
                     @if (request('category'))
                         <input type="hidden" name="category" value="{{ request('category') }}">
                     @endif
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Cari berdasarkan tipe kamar..."
-                        class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-3 outline-none">
                 </form>
 
                 <a href="{{ url()->current() }}"

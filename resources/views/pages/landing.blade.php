@@ -24,9 +24,6 @@
         <section class="px-6 pt-5 md:px-10">
             <div class="flex flex-wrap items-center gap-3 text-[15px]">
                 <form action="{{ route('landing') }}" method="GET" class="flex flex-wrap items-center gap-3">
-                    <input type="text" name="search" value="{{ $search }}"
-                        placeholder="Cari berdasarkan tipe kamar..."
-                        class="w-[330px] rounded-full border border-gray-500 bg-white px-5 py-2 outline-none">
                 </form>
 
                 <a href="{{ route('landing') }}"

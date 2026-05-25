@@ -136,12 +136,6 @@
                         </div>
 
                         <div>
-                            <label class="mb-2 block font-bold">Jumlah Tamu</label>
-                            <input type="number" value="2" min="1"
-                                class="w-full rounded-md border border-gray-300 bg-[#fafafa] px-4 py-3 outline-none focus:border-[#7ea1ba]">
-                        </div>
-
-                        <div>
                             <label class="mb-2 block font-bold">Metode Pembayaran</label>
                             <select
                                 class="w-full rounded-md border border-gray-300 bg-[#fafafa] px-4 py-3 outline-none focus:border-[#7ea1ba]">
@@ -150,13 +144,6 @@
                                 <option>Bayar di Hotel</option>
                             </select>
                         </div>
-
-                        <div>
-                            <label class="mb-2 block font-bold">Total Pembayaran</label>
-                            <input type="text" readonly
-                                value="Rp {{ number_format($selectedRoom['price'], 0, ',', '.') }}"
-                                class="w-full rounded-md border border-gray-300 bg-[#ece6da] px-4 py-3 font-bold text-[#243b53] outline-none">
-                        </div>
                     </div>
 
                     <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -164,7 +151,6 @@
                             class="rounded-full border border-[#243b53] bg-white py-3 text-center text-[17px] font-bold text-[#243b53] transition hover:bg-red-100 hover:text-red-600">
                             Batalkan
                         </a>
-
                         <button type="submit"
                             class="rounded-full bg-[#243b53] py-3 text-[17px] font-bold text-white transition hover:bg-[#7ea1ba]">
                             Konfirmasi Pesanan
