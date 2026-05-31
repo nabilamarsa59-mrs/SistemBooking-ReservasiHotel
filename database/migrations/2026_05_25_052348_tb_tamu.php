@@ -10,11 +10,13 @@ return new class extends Migration
     {
         Schema::create('tamu', function (Blueprint $table) {
             $table->id();
-            $table->string('nik')->unique();
-            $table->string('nama_tamu');
-            $table->string('password');
+            $table->string('nik', 16)->unique();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('phone', 20);
             $table->string('foto_tamu')->nullable();
-            $table->string('no_telepon');
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

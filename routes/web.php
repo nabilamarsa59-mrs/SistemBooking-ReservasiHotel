@@ -16,57 +16,53 @@ use App\Http\Controllers\ProfilTamuController;
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
 
-Route::get('/login-pilihan', [AuthController::class, 'showLoginChoice'])->name('login.choice');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+});
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::middleware('guest:tamu')->group(function () {
+    Route::get('/login_tamu', [RegisterTamuController::class, 'showLoginForm'])->name('login.tamu');
+    Route::post('/login_tamu', [RegisterTamuController::class, 'login'])->name('login.tamu.post');
+    Route::get('/register-tamu', [RegisterTamuController::class, 'showRegisterForm'])->name('register.tamu');
+    Route::post('/register-tamu', [RegisterTamuController::class, 'register'])->name('register.tamu.post');
+});
 
-Route::get('/login_tamu', [AuthController::class, 'showLoginTamu'])->name('login.tamu');
-Route::post('/login_tamu', [AuthController::class, 'loginTamu'])->name('login.tamu.post');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout')
+    ->middleware('auth');
 
-Route::get('/dashboard_admin', function () {
-    return 'Selamat datang di Dashboard Admin';
-})->name('dashboard.admin');
+Route::post('/logout-tamu', [RegisterTamuController::class, 'logout'])
+    ->name('logout.tamu')
+    ->middleware('auth:tamu');
 
-Route::get('/dashboard_resepsionis', function () {
-    return view('pages.home_resepsionis');
-})->name('dashboard.resepsionis');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard_admin', [StatistikController::class, 'index'])->name('dashboard.admin');
+    Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
+    Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('verifikasi.admin');
+    Route::post('/verifikasi/{id}', [VerifikasiController::class, 'approve'])->name('verifikasi.approve');
+    Route::get('/data_kamar', fn() => view('pages.data_kamar'))->name('data.kamar');
+    Route::get('/data_reservasi', fn() => view('pages.data_reservasi'))->name('data.reservasi');
+});
 
-Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])->name('dashboard.tamu');
+Route::middleware(['auth', 'role:resepsionis'])->group(function () {
+    Route::get('/dashboard_resepsionis', fn() => view('pages.home_resepsionis'))->name('dashboard.resepsionis');
+    Route::get('/data_reservasi', fn() => view('pages.data_reservasi'))->name('data.reservasi.resepsionis');
+});
 
-Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])->name('statistik.admin');
+Route::middleware('auth:tamu')->group(function () {
+    Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])->name('dashboard.tamu');
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/pemesanan', [PemesananController::class, 'showPemesanan'])->name('pemesanan');
+    Route::post('/pemesanan', [PemesananController::class, 'store'])->name('pemesanan.store');
 
-Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])->name('verifikasi.admin');
+    Route::get('/profil', [ProfilTamuController::class, 'index'])->name('profil');
+    Route::put('/profil', [ProfilTamuController::class, 'update'])->name('profil.update');
 
+    Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])->name('invoice.show');
+});
 
-Route::get('/pemesanan', [PemesananController::class, 'showPemesanan'])->name('pemesanan');
-Route::post('/pemesanan', [PemesananController::class, 'store'])->name('pemesanan.store');
-
-Route::get('/register-tamu', [RegisterTamuController::class, 'show'])->name('register.tamu');
-Route::post('/register-tamu', [RegisterTamuController::class, 'store'])->name('register.tamu.post');
-
-Route::get('/data_kamar', function () {
-    return view('pages.data_kamar');
-})->name('data.kamar');
-
-Route::get('/data_reservasi', function () {
-    return view('pages.data_reservasi');
-})->name('data.reservasi');
-
-Route::get('/profil', [ProfilTamuController::class, 'index'])
-    ->name('profil');
-
-Route::put('/profil', [ProfilTamuController::class, 'update'])
-    ->name('profil.update');
-
-Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
-    ->name('invoice.show');
-
-
-Route::get('/logout', function () {
-    session()->flush();
-    return redirect()->route('landing');
-})->name('logout');
+Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});

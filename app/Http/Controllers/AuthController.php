@@ -3,115 +3,76 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
 
-    public function showLoginChoice()
-    {
-        return view('pages.login');
-    }
-
-
+    // Tampilkan halaman login admin/resepsionis.
     public function showLogin()
     {
+        if (Auth::check()) {
+            return $this->redirectByRole(Auth::user()->role);
+        }
+
         return view('pages.login');
     }
 
-
-    // LOGIN ADMIN & RESEPSIONIS
+    // Proses login admin / resepsionis.
     public function login(Request $request)
     {
         $request->validate([
-            'role' => 'required',
-            'email' => 'required|email',
+            'role'     => 'required|in:admin,resepsionis',
+            'email'    => 'required|email',
             'password' => 'required',
+        ], [
+            'role.required'     => 'Pilih role terlebih dahulu.',
+            'role.in'           => 'Role tidak valid.',
+            'email.required'    => 'Email wajib diisi.',
+            'email.email'       => 'Format email tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
+        $credentials = $request->only('email', 'password');
 
-        // LOGIN ADMIN
-        if (
-            $request->role === 'admin' &&
-            $request->email === 'admin@gmail.com' &&
-            $request->password === 'admin123'
-        ) {
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
-            session(['role' => 'admin']);
+            // Pastikan role cocok dengan pilihan radio button
+            if ($user->role !== $request->role) {
+                Auth::logout();
+                return back()
+                    ->withInput($request->only('email', 'role'))
+                    ->withErrors(['email' => 'Role yang dipilih tidak sesuai dengan akun Anda.']);
+            }
 
-            return redirect()->route('statistik.admin');
+            $request->session()->regenerate();
+            return $this->redirectByRole($user->role);
         }
 
-
-        // LOGIN RESEPSIONIS
-        if (
-            $request->role === 'resepsionis' &&
-            $request->email === 'resepsionis@gmail.com' &&
-            $request->password === 'resepsionis123'
-        ) {
-
-            session(['role' => 'resepsionis']);
-
-            return redirect()->route('dashboard.resepsionis');
-        }
-
-
-        return back()->with('error', 'Email atau password salah.');
+        return back()
+            ->withInput($request->only('email', 'role'))
+            ->withErrors(['email' => 'Email atau kata sandi salah.']);
     }
 
-
-
-    public function showLoginTamu()
+    // Logout admin / resepsionis.
+    public function logout(Request $request)
     {
-        return view('pages.login_tamu');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')
+            ->with('success', 'Berhasil logout.');
     }
 
-
-
-    // LOGIN TAMU
-    public function loginTamu(Request $request)
+    // Redirect berdasarkan role.
+    private function redirectByRole(string $role)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (
-            $request->email === 'tamu@gmail.com' &&
-            $request->password === 'tamu123'
-        ) {
-
-            session(['role' => 'tamu']);
-
-            return redirect()->route('dashboard.tamu');
-        }
-
-
-        // LOGIN TAMU DARI REGISTER SESSION
-        $tamu = session('tamu_registered');
-
-
-        if (
-            $tamu &&
-            $request->email === $tamu['email'] &&
-            $request->password === $tamu['password']
-        ) {
-
-            session(['role' => 'tamu']);
-
-            return redirect()->route('dashboard.tamu');
-        }
-
-
-        return back()->with('error', 'Email atau password salah.');
+        return match ($role) {
+            'admin'       => redirect()->route('dashboard.admin'),
+            'resepsionis' => redirect()->route('dashboard.resepsionis'),
+            default       => redirect()->route('login'),
+        };
     }
-
-
-    // LOGOUT
-    public function logout()
-    {
-        session()->forget('role');
-
-        return redirect()->route('landing');
-    }
-
 }

@@ -21,17 +21,32 @@
                     <img src="{{ asset('images/logo_PBL.jpeg') }}" class="h-[80px] object-contain mix-blend-multiply"
                         alt="Logo Pulas">
                 </div>
-
                 <h1 class="text-[28px] font-semibold text-[#243b53]">
                     Login Tamu
                 </h1>
-
                 <p class="mt-2 text-[16px] text-[#243b53]">
                     Silahkan masuk ke akun tamu anda
                 </p>
             </div>
 
             <div class="px-12 py-10">
+
+                @if (session('success'))
+                    <div class="mb-5 rounded-md border border-green-300 bg-green-100 p-3 text-green-700 text-[14px]">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="mb-5 rounded-md border border-red-300 bg-red-100 p-3 text-red-700">
+                        <ul class="list-inside list-disc space-y-1 text-[14px]">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('login.tamu.post') }}" method="POST">
                     @csrf
 
@@ -39,24 +54,31 @@
                         <label class="mb-2 block text-[18px] font-semibold text-[#243b53]">
                             Email
                         </label>
-                        <input type="email" name="email" placeholder="Masukkan Email Anda"
-                            class="h-[62px] w-full rounded-lg border border-gray-400 bg-[#faf8f3] px-5 text-[16px] outline-none"
+                        <input type="email" name="email"
+                            value="{{ old('email') }}"
+                            placeholder="Masukkan Email Anda"
+                            class="h-[62px] w-full rounded-lg border {{ $errors->has('email') ? 'border-red-400' : 'border-gray-400' }} bg-[#faf8f3] px-5 text-[16px] outline-none"
                             required>
+                        @error('email')
+                            <p class="mt-1 text-[13px] text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="relative mb-10">
                         <label class="mb-2 block text-[18px] font-semibold text-[#243b53]">
                             Kata Sandi
                         </label>
-
-                        <input type="password" id="passwordTamu" name="password" placeholder="Masukkan Kata Sandi"
-                            class="h-[62px] w-full rounded-lg border border-gray-400 bg-[#faf8f3] px-5 pr-14 text-[16px] outline-none"
+                        <input type="password" id="passwordTamu" name="password"
+                            placeholder="Masukkan Kata Sandi"
+                            class="h-[62px] w-full rounded-lg border {{ $errors->has('password') ? 'border-red-400' : 'border-gray-400' }} bg-[#faf8f3] px-5 pr-14 text-[16px] outline-none"
                             required>
-
                         <button type="button" onclick="togglePasswordTamu()"
                             class="absolute right-4 top-[52px] text-[20px] text-gray-500 hover:text-[#243b53]">
                             👁
                         </button>
+                        @error('password')
+                            <p class="mt-1 text-[13px] text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button type="submit"
@@ -67,11 +89,7 @@
 
                 <div class="my-6 flex items-center">
                     <div class="flex-1 border-t border-gray-300"></div>
-
-                    <span class="px-6 text-[18px] font-semibold text-[#243b53]">
-                        atau
-                    </span>
-
+                    <span class="px-6 text-[18px] font-semibold text-[#243b53]">atau</span>
                     <div class="flex-1 border-t border-gray-300"></div>
                 </div>
 
@@ -88,12 +106,7 @@
     <script>
         function togglePasswordTamu() {
             const passwordInput = document.getElementById("passwordTamu");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
         }
     </script>
 @endsection
