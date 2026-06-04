@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
-    // Tampilkan halaman login admin/resepsionis.
+    // Tampilkan halaman login
     public function showLogin()
     {
         if (Auth::check()) {
@@ -18,7 +17,7 @@ class AuthController extends Controller
         return view('pages.login');
     }
 
-    // Proses login admin / resepsionis.
+    // Proses login
     public function login(Request $request)
     {
         $request->validate([
@@ -33,32 +32,44 @@ class AuthController extends Controller
             'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = [
+            'email'    => $request->email,
+            'password' => $request->password,
+        ];
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            // Pastikan role cocok dengan pilihan radio button
-            if ($user->role !== $request->role) {
-                Auth::logout();
-                return back()
-                    ->withInput($request->only('email', 'role'))
-                    ->withErrors(['email' => 'Role yang dipilih tidak sesuai dengan akun Anda.']);
-            }
 
             $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // Validasi role yang dipilih saat login
+            if ($user->role !== $request->role) {
+
+                Auth::logout();
+
+                return back()
+                    ->withInput($request->only('email', 'role'))
+                    ->withErrors([
+                        'role' => 'Role yang dipilih tidak sesuai dengan akun.'
+                    ]);
+            }
+
             return $this->redirectByRole($user->role);
         }
 
         return back()
             ->withInput($request->only('email', 'role'))
-            ->withErrors(['email' => 'Email atau kata sandi salah.']);
+            ->withErrors([
+                'email' => 'Email atau kata sandi salah.'
+            ]);
     }
 
-    // Logout admin / resepsionis.
+    // Logout
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -66,11 +77,11 @@ class AuthController extends Controller
             ->with('success', 'Berhasil logout.');
     }
 
-    // Redirect berdasarkan role.
+    // Redirect berdasarkan role
     private function redirectByRole(string $role)
     {
         return match ($role) {
-            'admin'       => redirect()->route('dashboard.admin'),
+            'admin'       => redirect()->route('statistik.admin'),
             'resepsionis' => redirect()->route('dashboard.resepsionis'),
             default       => redirect()->route('login'),
         };
