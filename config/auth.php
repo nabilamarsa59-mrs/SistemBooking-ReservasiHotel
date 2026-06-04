@@ -68,11 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-        'tamu' => [                    // <-- TAMBAHKAN INI
-            'driver' => 'eloquent',
-            'model' => App\Models\Tamu::class,
+            'model' => App\Models\pengguna::class,
         ],
     ],
 
