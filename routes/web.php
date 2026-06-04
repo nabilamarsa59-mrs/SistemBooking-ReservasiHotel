@@ -12,6 +12,8 @@ use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\RegisterTamuController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProfilTamuController;
+use App\Http\Controllers\KamarController;
+use App\Http\Controllers\TipeKamarController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -66,3 +68,6 @@ Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::resource('kamar', KamarController::class);
+Route::resource('tipe-kamar', TipeKamarController::class);
