@@ -7,59 +7,67 @@ use Illuminate\Http\Request;
 
 class KamarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $kamar = Kamar::with('tipe')->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $kamar
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_tipe' => 'required|integer',
+            'no_kamar' => 'required|string|max:20|unique:kamar,no_kamar',
+            'status_kamar' => 'required|string'
+        ]);
+
+        $kamar = Kamar::create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kamar berhasil ditambahkan',
+            'data' => $kamar
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Kamar $kamar)
+    public function show($id)
     {
-        //
+        $kamar = Kamar::with('tipe')->findOrFail($id);
+
+        return response()->json($kamar);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Kamar $kamar)
+    public function update(Request $request, $id)
     {
-        //
+        $kamar = Kamar::findOrFail($id);
+
+        $request->validate([
+            'id_tipe' => 'required|integer',
+            'no_kamar' => 'required|string|max:20|unique:kamar,no_kamar,' . $id,
+            'status_kamar' => 'required|string'
+        ]);
+
+        $kamar->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kamar berhasil diperbarui',
+            'data' => $kamar
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Kamar $kamar)
+    public function destroy($id)
     {
-        //
-    }
+        $kamar = Kamar::findOrFail($id);
+        $kamar->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Kamar $kamar)
-    {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => 'Data kamar berhasil dihapus'
+        ]);
     }
 }

@@ -10,12 +10,13 @@ use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\RegisterTamuController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProfilTamuController;
+use App\Http\Controllers\KamarController;
+use App\Http\Controllers\TipeKamarController;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
 
-// Hapus middleware('guest') dan ganti dengan logika manual di AuthController
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
@@ -77,3 +78,6 @@ Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
 });
+
+Route::resource('kamar', KamarController::class);
+Route::resource('tipe-kamar', TipeKamarController::class);
