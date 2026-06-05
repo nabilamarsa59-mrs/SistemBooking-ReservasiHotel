@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterTamuController extends Controller
 {
-    
+
     // Tampilkan form registrasi tamu.
     public function showRegisterForm()
     {
@@ -24,28 +24,28 @@ class RegisterTamuController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nik'      => 'required|string|digits:16|unique:tamu,nik',
-            'name'     => 'required|string|max:100',
-            'email'    => 'required|email|unique:tamu,email',
-            'phone'    => 'required|string|max:20',
+            'nik' => 'required|string|digits:16|unique:tamu,nik',
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|unique:tamu,email',
+            'phone' => 'required|string|max:20',
             'password' => 'required|min:6',
         ], [
-            'nik.required'      => 'NIK wajib diisi.',
-            'nik.digits'        => 'NIK harus 16 digit angka.',
-            'nik.unique'        => 'NIK sudah terdaftar.',
-            'name.required'     => 'Nama wajib diisi.',
-            'email.required'    => 'Email wajib diisi.',
-            'email.unique'      => 'Email sudah terdaftar.',
-            'phone.required'    => 'Nomor telepon wajib diisi.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.digits' => 'NIK harus 16 digit angka.',
+            'nik.unique' => 'NIK sudah terdaftar.',
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'phone.required' => 'Nomor telepon wajib diisi.',
             'password.required' => 'Kata sandi wajib diisi.',
-            'password.min'      => 'Kata sandi minimal 6 karakter.',
+            'password.min' => 'Kata sandi minimal 6 karakter.',
         ]);
 
         $tamu = Tamu::create([
-            'nik'      => $request->nik,
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'phone'    => $request->phone,
+            'nik' => $request->nik,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
@@ -57,14 +57,10 @@ class RegisterTamuController extends Controller
             ->with('success', 'Registrasi berhasil! Selamat datang, ' . $tamu->name . '.');
     }
 
-    
+
     // Tampilkan form login tamu.
     public function showLoginForm()
     {
-        if (Auth::guard('tamu')->check()) {
-            return redirect()->route('dashboard.tamu');
-        }
-
         return view('pages.login_tamu');
     }
 
@@ -73,11 +69,11 @@ class RegisterTamuController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'    => 'required|email',
+            'email' => 'required|email',
             'password' => 'required',
         ], [
-            'email.required'    => 'Email wajib diisi.',
-            'email.email'       => 'Format email tidak valid.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
             'password.required' => 'Kata sandi wajib diisi.',
         ]);
 

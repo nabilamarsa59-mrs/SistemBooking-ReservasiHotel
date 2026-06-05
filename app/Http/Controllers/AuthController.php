@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Tampilkan halaman login
+    // Halaman login - selalu tampilkan form login
     public function showLogin()
     {
         if (Auth::check()) {
-            return $this->redirectByRole(Auth::user()->role);
+            Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
         }
 
         return view('pages.login');
@@ -21,69 +23,65 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'role'     => 'required|in:admin,resepsionis',
+            'role'     => 'required',
             'email'    => 'required|email',
             'password' => 'required',
-        ], [
-            'role.required'     => 'Pilih role terlebih dahulu.',
-            'role.in'           => 'Role tidak valid.',
-            'email.required'    => 'Email wajib diisi.',
-            'email.email'       => 'Format email tidak valid.',
-            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
-        $credentials = [
+        if (!Auth::attempt([
             'email'    => $request->email,
             'password' => $request->password,
-        ];
-
-        if (Auth::attempt($credentials)) {
-
-            $request->session()->regenerate();
-
-            $user = Auth::user();
-
-            // Validasi role yang dipilih saat login
-            if ($user->role !== $request->role) {
-
-                Auth::logout();
-
-                return back()
-                    ->withInput($request->only('email', 'role'))
-                    ->withErrors([
-                        'role' => 'Role yang dipilih tidak sesuai dengan akun.'
-                    ]);
-            }
-
-            return $this->redirectByRole($user->role);
+        ])) {
+            return back()->withErrors([
+                'email' => 'Email atau password salah.'
+            ])->withInput();
         }
 
-        return back()
-            ->withInput($request->only('email', 'role'))
-            ->withErrors([
-                'email' => 'Email atau kata sandi salah.'
-            ]);
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // Cek role yang dipilih saat login
+        if ($user->role !== $request->role) {
+            Auth::logout();
+            return back()->withErrors([
+                'role' => 'Role yang dipilih tidak sesuai dengan akun.'
+            ])->withInput();
+        }
+
+        // Pastikan hanya admin dan resepsionis yang bisa login di sini
+        if (!in_array($user->role, ['admin', 'resepsionis'])) {
+            Auth::logout();
+            return back()->withErrors([
+                'role' => 'Akun ini tidak memiliki akses sebagai Admin atau Resepsionis.'
+            ])->withInput();
+        }
+
+        // Simpan role ke session
+        session(['role' => $user->role]);
+
+        return $this->redirectByRole($user->role);
     }
 
     // Logout
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('login')
-            ->with('success', 'Berhasil logout.');
+        return redirect()->route('landing');
     }
 
     // Redirect berdasarkan role
-    private function redirectByRole(string $role)
+    private function redirectByRole($role)
     {
-        return match ($role) {
-            'admin'       => redirect()->route('statistik.admin'),
-            'resepsionis' => redirect()->route('dashboard.resepsionis'),
-            default       => redirect()->route('login'),
-        };
+        switch ($role) {
+            case 'admin':
+                return redirect()->route('statistik.admin');
+            case 'resepsionis':
+                return redirect()->route('home.resepsionis');
+            default:
+                return redirect()->route('login');
+        }
     }
 }

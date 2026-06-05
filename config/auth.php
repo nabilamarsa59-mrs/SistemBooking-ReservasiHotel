@@ -42,7 +42,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'tamu' => [                    // <-- TAMBAHKAN INI
+        'tamu' => [
             'driver' => 'session',
             'provider' => 'tamu',
         ],
@@ -69,6 +69,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\pengguna::class,
+        ],
+
+        // ✅ DITAMBAHKAN: provider untuk tamu
+        'tamu' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Tamu::class,
         ],
     ],
 
