@@ -3,42 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kamar;
+use App\Models\TipeKamar;
 use Illuminate\Http\Request;
 
 class KamarController extends Controller
 {
     public function index()
     {
-        $kamar = Kamar::with('tipe')->get();
+        $kamar = Kamar::with('tipe')->paginate(10);
+        $tipeKamar = TipeKamar::all();
 
-        return response()->json([
-            'success' => true,
-            'data' => $kamar
-        ]);
+        $total = Kamar::count();
+        $tersedia = Kamar::where('status_kamar', 'tersedia')->count();
+        $terisi = Kamar::where('status_kamar', 'terisi')->count();
+        $perbaikan = Kamar::where('status_kamar', 'perbaikan')->count();
+
+        return view('pages.data_kamar', compact(
+            'kamar', 'tipeKamar', 'total', 'tersedia', 'terisi', 'perbaikan'
+        ));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_tipe' => 'required|integer',
-            'no_kamar' => 'required|string|max:20|unique:kamar,no_kamar',
-            'status_kamar' => 'required|string'
+            'id_tipe'      => 'required|exists:tipe_kamar,id_tipe',
+            'no_kamar'     => 'required|string|max:20|unique:kamar,no_kamar',
+            'status_kamar' => 'required|in:tersedia,terisi,perbaikan'
         ]);
 
-        $kamar = Kamar::create($request->all());
+        Kamar::create($request->only(['id_tipe', 'no_kamar', 'status_kamar']));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data kamar berhasil ditambahkan',
-            'data' => $kamar
-        ], 201);
-    }
-
-    public function show($id)
-    {
-        $kamar = Kamar::with('tipe')->findOrFail($id);
-
-        return response()->json($kamar);
+        return redirect()->route('kamar.index')
+            ->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function update(Request $request, $id)
@@ -46,28 +42,22 @@ class KamarController extends Controller
         $kamar = Kamar::findOrFail($id);
 
         $request->validate([
-            'id_tipe' => 'required|integer',
-            'no_kamar' => 'required|string|max:20|unique:kamar,no_kamar,' . $id,
-            'status_kamar' => 'required|string'
+            'id_tipe'      => 'required|exists:tipe_kamar,id_tipe',
+            'no_kamar'     => 'required|string|max:20|unique:kamar,no_kamar,' . $id,
+            'status_kamar' => 'required|in:tersedia,terisi,perbaikan'
         ]);
 
-        $kamar->update($request->all());
+        $kamar->update($request->only(['id_tipe', 'no_kamar', 'status_kamar']));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data kamar berhasil diperbarui',
-            'data' => $kamar
-        ]);
+        return redirect()->route('kamar.index')
+            ->with('success', 'Kamar berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        $kamar = Kamar::findOrFail($id);
-        $kamar->delete();
+        Kamar::findOrFail($id)->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data kamar berhasil dihapus'
-        ]);
+        return redirect()->route('kamar.index')
+            ->with('success', 'Kamar berhasil dihapus');
     }
 }

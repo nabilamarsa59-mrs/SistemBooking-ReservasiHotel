@@ -9,41 +9,61 @@ class TipeKamarController extends Controller
 {
     public function index()
     {
-        return TipeKamar::all();
+        $tipeKamar = TipeKamar::withCount('kamar')->paginate(10);
+        return view('pages.data_tipe_kamar', compact('tipeKamar'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'detail_kamar' => 'required',
-            'harga_kamar' => 'required|numeric',
-            'fasilitas' => 'required',
-            'foto_kamar' => 'nullable|string'
+            'detail_kamar' => 'required|string',
+            'harga_kamar'  => 'required|numeric|min:0',
+            'fasilitas'    => 'required|string',
+            'foto_kamar'   => 'nullable|image|max:2048'
         ]);
 
-        return TipeKamar::create($request->all());
-    }
+        $data = $request->only(['detail_kamar', 'harga_kamar', 'fasilitas']);
 
-    public function show($id)
-    {
-        return TipeKamar::with('kamar')->findOrFail($id);
+        if ($request->hasFile('foto_kamar')) {
+            $data['foto_kamar'] = $request->file('foto_kamar')
+                ->store('foto_kamar', 'public');
+        }
+
+        TipeKamar::create($data);
+
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Tipe kamar berhasil ditambahkan');
     }
 
     public function update(Request $request, $id)
     {
         $tipe = TipeKamar::findOrFail($id);
 
-        $tipe->update($request->all());
+        $request->validate([
+            'detail_kamar' => 'required|string',
+            'harga_kamar'  => 'required|numeric|min:0',
+            'fasilitas'    => 'required|string',
+            'foto_kamar'   => 'nullable|image|max:2048'
+        ]);
 
-        return $tipe;
+        $data = $request->only(['detail_kamar', 'harga_kamar', 'fasilitas']);
+
+        if ($request->hasFile('foto_kamar')) {
+            $data['foto_kamar'] = $request->file('foto_kamar')
+                ->store('foto_kamar', 'public');
+        }
+
+        $tipe->update($data);
+
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Tipe kamar berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         TipeKamar::findOrFail($id)->delete();
 
-        return response()->json([
-            'message' => 'Data berhasil dihapus'
-        ]);
+        return redirect()->route('tipe-kamar.index')
+            ->with('success', 'Tipe kamar berhasil dihapus');
     }
 }

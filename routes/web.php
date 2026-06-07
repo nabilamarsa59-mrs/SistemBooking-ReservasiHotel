@@ -40,9 +40,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('verifikasi.admin');
     Route::post('/verifikasi/{id}', [VerifikasiController::class, 'approve'])
         ->name('verifikasi.approve');
-    Route::get('/data_kamar', function () {
-        return view('pages.data_kamar');
-    })->name('data.kamar');
+});
+
+Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
+    Route::get('/data_kamar', [KamarController::class, 'index'])->name('data.kamar');
     Route::get('/data_reservasi', function () {
         return view('pages.data_reservasi');
     })->name('data.reservasi');
