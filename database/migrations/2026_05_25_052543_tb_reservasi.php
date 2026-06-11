@@ -11,22 +11,16 @@ return new class extends Migration
         Schema::create('reservasi', function (Blueprint $table) {
             $table->id('id_reservasi');
 
-            $table->foreignId('tamu_id')
-                  ->constrained('tamu')
-                  ->onDelete('cascade');
-
-            $table->foreignId('pengguna_id')
-                  ->constrained('pengguna')
-                  ->onDelete('cascade');
-
-            $table->foreignId('id_tipe')
-                  ->constrained('tipe_kamar', 'id_tipe')
-                  ->onDelete('cascade');
+            $table->unsignedBigInteger('tamu_id');
+            $table->unsignedBigInteger('pengguna_id');
+            $table->unsignedBigInteger('id_tipe');
 
             $table->date('check_in');
             $table->date('check_out');
 
             $table->timestamps();
+
+           
         });
     }
 

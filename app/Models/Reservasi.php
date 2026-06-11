@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reservasi extends Model
 {
     protected $table = 'reservasi';
+
     protected $primaryKey = 'id_reservasi';
 
     protected $fillable = [
@@ -15,26 +16,31 @@ class Reservasi extends Model
         'id_tipe',
         'check_in',
         'check_out',
-        'status',
     ];
 
     protected $casts = [
-        'check_in'  => 'date',
+        'check_in' => 'date',
         'check_out' => 'date',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relasi
+    |--------------------------------------------------------------------------
+    */
 
     public function tamu()
     {
         return $this->belongsTo(Tamu::class, 'tamu_id');
     }
 
-    public function tipeKamar()
+    public function pengguna()
     {
-        return $this->belongsTo(TipeKamar::class, 'id_tipe', 'id_tipe');
+        return $this->belongsTo(pengguna::class, 'pengguna_id');
     }
 
-    public function kamar()
+    public function tipe()
     {
-        return $this->hasOne(Kamar::class, 'id_tipe', 'id_tipe');
+        return $this->belongsTo(TipeKamar::class, 'id_tipe');
     }
 }

@@ -43,19 +43,38 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
-    Route::get('/data_kamar', [KamarController::class, 'index'])->name('data.kamar');
+
+    Route::get('/data_kamar', [KamarController::class, 'index'])
+        ->name('data.kamar');
+
     Route::get('/data_reservasi', function () {
-        return view('pages.data_reservasi');
+        return view('pages.data_reservasi', [
+            'reservasis' => [],
+            'totalPemesanan' => 0,
+            'menunggu' => 0,
+            'dikonfirmasi' => 0,
+            'dibatalkan' => 0,
+        ]);
     })->name('data.reservasi');
+
 });
 
 Route::middleware(['auth', 'role:resepsionis'])->group(function () {
+
     Route::get('/home_resepsionis', function () {
         return view('pages.home_resepsionis');
     })->name('home.resepsionis');
+
     Route::get('/data_reservasi', function () {
-        return view('pages.data_reservasi');
+        return view('pages.data_reservasi', [
+            'reservasis' => [],
+            'totalPemesanan' => 0,
+            'menunggu' => 0,
+            'dikonfirmasi' => 0,
+            'dibatalkan' => 0,
+        ]);
     })->name('data.reservasi.resepsionis');
+
 });
 
 Route::middleware('auth:tamu')->group(function () {
