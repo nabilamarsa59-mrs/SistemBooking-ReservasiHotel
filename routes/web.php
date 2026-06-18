@@ -12,6 +12,7 @@ use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\ProfilTamuController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TipeKamarController;
+use App\Http\Controllers\PembayaranController;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -101,3 +102,22 @@ Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
 
 Route::resource('kamar', KamarController::class);
 Route::resource('tipe-kamar', TipeKamarController::class);
+
+Route::middleware(['auth','role:admin'])->group(function () {
+
+    Route::get(
+        '/verifikasi_pembayaran',
+        [PembayaranController::class, 'index']
+    )->name('verifikasi.pembayaran');
+
+    Route::post(
+        '/verifikasi_pembayaran/{id}/verifikasi',
+        [PembayaranController::class, 'verifikasi']
+    )->name('pembayaran.verifikasi');
+
+    Route::get(
+        '/verifikasi_pembayaran/{id}',
+        [PembayaranController::class, 'detail']
+    )->name('pembayaran.detail');
+
+});
