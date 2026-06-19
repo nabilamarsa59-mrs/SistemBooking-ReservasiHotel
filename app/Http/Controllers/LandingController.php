@@ -3,63 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TipeKamar;
 
 class LandingController extends Controller
 {
     public function index(Request $request)
     {
-        $rooms = [
-            [
-                'name' => 'Standar',
-                'slug' => 'standar',
-                'capacity' => '2 Tamu',
-                'bed' => '1 Ranjang',
-                'breakfast' => 'Tidak termasuk sarapan',
-                'price' => 250000,
-            ],
-            [
-                'name' => 'Suite',
-                'slug' => 'suite',
-                'capacity' => '2 Tamu',
-                'bed' => '1 Ranjang',
-                'breakfast' => 'Termasuk sarapan',
-                'price' => 1500000,
-            ],
-            [
-                'name' => 'Deluxe',
-                'slug' => 'deluxe',
-                'capacity' => '2 Tamu',
-                'bed' => '1 Ranjang',
-                'breakfast' => 'Termasuk sarapan',
-                'price' => 1100000,
-            ],
-            [
-                'name' => 'Presidential',
-                'slug' => 'presidential',
-                'capacity' => '2 Tamu',
-                'bed' => '1 Ranjang',
-                'breakfast' => 'Termasuk sarapan',
-                'price' => 1900000,
-            ],
-        ];
-
         $selectedCategory = $request->query('category');
         $search = $request->query('search');
 
+        // Hanya tampilkan tipe kamar yang punya kamar tersedia
+        $query = TipeKamar::whereHas('kamar', function ($q) {
+            $q->where('status_kamar', 'tersedia');
+        });
+
         if ($selectedCategory) {
-            $rooms = array_filter($rooms, function ($room) use ($selectedCategory) {
-                return $room['slug'] === $selectedCategory;
-            });
+            $query->where('detail_kamar', 'like', '%' . $selectedCategory . '%');
         }
 
         if ($search) {
-            $rooms = array_filter($rooms, function ($room) use ($search) {
-                return str_contains(strtolower($room['name']), strtolower($search));
-            });
+            $query->where('detail_kamar', 'like', '%' . $search . '%');
         }
 
+        $tipeKamar = $query->get();
+
         return view('pages.landing', [
-            'rooms' => $rooms,
+            'rooms' => $tipeKamar,
             'selectedCategory' => $selectedCategory,
             'search' => $search,
         ]);

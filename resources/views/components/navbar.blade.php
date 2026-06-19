@@ -1,5 +1,5 @@
 @php
-    // ✅ Cek guard tamu dulu, baru guard web (admin/resepsionis)
+
     if (Auth::guard('tamu')->check()) {
         $role = 'tamu';
     } elseif (Auth::check()) {
@@ -21,7 +21,6 @@
             </a>
         </div>
 
-        <!-- LANDING -->
         @if ($isLanding)
             <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
                 <a href="{{ route('landing') }}#beranda" class="hover:text-[#7ea1ba]">Beranda</a>
@@ -29,7 +28,6 @@
                 <a href="{{ route('landing') }}#Bantuan" class="hover:text-[#7ea1ba]">Bantuan</a>
             </nav>
 
-        <!-- ADMIN -->
         @elseif($role == 'admin')
             <nav class="flex justify-center gap-12 text-[20px] font-semibold">
                 <a href="{{ route('statistik.admin') }}"
@@ -42,7 +40,6 @@
                 </a>
             </nav>
 
-        <!-- RESEPSIONIS -->
         @elseif($role == 'resepsionis')
             <nav class="flex justify-center gap-12 text-[20px] font-semibold">
                 <a href="{{ route('home.resepsionis') }}"
@@ -53,30 +50,27 @@
                     class="{{ Route::is('data.kamar') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Data Kamar
                 </a>
-                <a href="{{ route('data.reservasi.resepsionis') }}"
-                    class="{{ Route::is('data.reservasi.resepsionis') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
+                <a href="{{ route('data.reservasi') }}"
+                    class="{{ Route::is('data.reservasi') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Data Pemesanan
                 </a>
             </nav>
 
-        <!-- TAMU -->
         @elseif($role == 'tamu')
             <nav class="flex justify-center gap-12 text-[20px] font-semibold">
                 <a href="{{ route('dashboard.tamu') }}"
                     class="{{ Route::is('dashboard.tamu') ? 'text-[#7ea1ba]' : 'text-[#243b53]' }} hover:text-[#7ea1ba]">
                     Beranda
                 </a>
-                <a href="{{ route('dashboard.tamu') }}#kamar"
-                    class="text-[#243b53] hover:text-[#7ea1ba]">
+                <a href="{{ route('dashboard.tamu') }}#kamar" class="text-[#243b53] hover:text-[#7ea1ba]">
                     Kamar
                 </a>
-                <a href="{{ route('dashboard.tamu') }}#Bantuan"
-                    class="text-[#243b53] hover:text-[#7ea1ba]">
+                <a href="{{ route('dashboard.tamu') }}#Bantuan" class="text-[#243b53] hover:text-[#7ea1ba]">
                     Bantuan
                 </a>
             </nav>
 
-        <!-- TIDAK ADA ROLE / BELUM LOGIN -->
+            <!-- TIDAK ADA ROLE / BELUM LOGIN -->
         @else
             <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
                 <a href="{{ route('landing') }}#beranda" class="hover:text-[#7ea1ba]">Beranda</a>

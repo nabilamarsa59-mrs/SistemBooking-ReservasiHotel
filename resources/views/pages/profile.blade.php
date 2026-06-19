@@ -75,11 +75,14 @@
                         Edit Profil
                     </button>
 
-                    <div class="mt-auto">
-                        <a href="{{ route('logout') }}"
-                            class="block w-full rounded-xl border border-red-200 bg-red-50 py-3 text-[17px] font-semibold text-red-600 shadow-sm transition hover:bg-red-100">
-                            Keluar
-                        </a>
+                    <div class="mt-auto pt-4">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="block w-full rounded-xl border border-red-200 bg-red-50 py-3 text-[17px] font-semibold text-red-600 shadow-sm transition hover:bg-red-100">
+                                Keluar
+                            </button>
+                        </form>
                     </div>
                 </div>
 

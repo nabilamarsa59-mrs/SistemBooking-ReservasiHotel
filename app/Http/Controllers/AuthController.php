@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Halaman login - selalu tampilkan form login
+
     public function showLogin()
     {
         if (Auth::check()) {
