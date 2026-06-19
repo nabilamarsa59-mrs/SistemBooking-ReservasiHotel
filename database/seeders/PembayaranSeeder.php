@@ -3,19 +3,21 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Pembayaran;
+use Illuminate\Support\Facades\DB;
 
 class PembayaranSeeder extends Seeder
 {
     public function run(): void
     {
-        Pembayaran::create([
-            'no_faktur' => 1,
-            'tanggal_pembayaran' => now(),
-            'metode_pembayaran' => 'Transfer Bank',
-            'jumlah_bayar' => 1000000,
-            'status_pembayaran' => 'lunas',
-            'bukti_pembayaran' => 'bukti.jpg'
+        DB::table('pembayaran')->insert([
+            [
+                'no_faktur' => 1001,
+                'tanggal_pembayaran' => now(),
+                'metode_pembayaran' => 'Transfer BCA',
+                'jumlah_bayar' => 500000,
+                'status_pembayaran' => 'pending',
+                'bukti_pembayaran' => null,
+            ]
         ]);
     }
 }

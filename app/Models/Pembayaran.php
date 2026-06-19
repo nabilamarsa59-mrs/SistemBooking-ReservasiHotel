@@ -8,12 +8,15 @@ class Pembayaran extends Model
 {
     protected $table = 'pembayaran';
 
+    protected $primaryKey = 'id_pembayaran';
+
     protected $fillable = [
-        'id_pembayaran',    
-        'id_reservasi',   
-        'total_bayar',       
-        'bukti_transfer',    
-        'status_verifikasi', 
+        'no_faktur',
+        'tanggal_pembayaran',
+        'metode_pembayaran',
+        'jumlah_bayar',
+        'status_pembayaran',
+        'bukti_pembayaran',
     ];
 
     protected $casts = [
@@ -64,4 +67,5 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(Reservasi::class, 'id_reservasi');
     }
+
 }

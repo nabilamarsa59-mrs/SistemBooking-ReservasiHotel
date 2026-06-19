@@ -122,7 +122,7 @@
                             <th class="px-5 py-4 text-[15px] font-bold uppercase text-[#47627A]">Check-In</th>
                             <th class="px-5 py-4 text-[15px] font-bold uppercase text-[#47627A]">Check-Out</th>
                             <th class="px-5 py-4 text-[15px] font-bold uppercase text-[#47627A]">Status</th>
-                            <th class="px-5 py-4 text-[15px] font-bold uppercase text-[#47627A] text-center">Aksi</th>
+                            
                         </tr>
                     </thead>
 
@@ -158,11 +158,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-5 py-5 text-center">
-                                    <button onclick="openDetailModal(this)"
-                                        class="rounded-lg border border-[#7EA1BA] px-4 py-2 text-[15px] font-semibold text-[#0B2A55] hover:bg-[#7EA1BA] hover:text-white transition">
-                                        Detail
-                                    </button>
+                                
                                 </td>
                             </tr>
                         @endforeach
