@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TipeKamar;
 use App\Models\Reservasi;
 
 class DashboardTamuController extends Controller
@@ -12,40 +13,32 @@ class DashboardTamuController extends Controller
     {
         $tamu = Auth::guard('tamu')->user();
 
-        $search = $request->query('search');
         $selectedCategory = $request->query('category');
 
-        // Ambil reservasi aktif milik tamu yang login
-        $reservasiAktif = Reservasi::with(['tipeKamar', 'kamar'])
+        $reservasiAktif = Reservasi::with('tipe')
             ->where('tamu_id', $tamu->id)
             ->where('check_out', '>=', now()->toDateString())
-            ->latest()
+            ->latest('id_reservasi')
             ->first();
 
-        $allRooms = [
-            ['name' => 'Standar',      'slug' => 'standar',      'capacity' => '2 Tamu', 'bed' => '1 Ranjang', 'breakfast' => 'Tidak Termasuk Sarapan', 'price' => 250000],
-            ['name' => 'Deluxe',       'slug' => 'deluxe',       'capacity' => '2 Tamu', 'bed' => '1 Ranjang', 'breakfast' => 'Termasuk Sarapan',        'price' => 1100000],
-            ['name' => 'Suite',        'slug' => 'suite',        'capacity' => '2 Tamu', 'bed' => '1 Ranjang', 'breakfast' => 'Termasuk Sarapan',        'price' => 1550000],
-            ['name' => 'Presidential', 'slug' => 'presidential', 'capacity' => '2 Tamu', 'bed' => '2 Ranjang', 'breakfast' => 'Termasuk Sarapan',        'price' => 1900000],
-        ];
-
-        $rooms = collect($allRooms);
+        $query = TipeKamar::whereHas('kamar', function ($q) {
+            $q->where('status_kamar', 'tersedia');
+        });
 
         if ($selectedCategory) {
-            $rooms = $rooms->filter(function ($room) use ($selectedCategory) {
-                return strtolower($room['name']) == strtolower($selectedCategory);
-            });
+            $query->where('detail_kamar', 'like', '%' . $selectedCategory . '%');
         }
 
-        if ($search) {
-            $rooms = $rooms->filter(function ($room) use ($search) {
-                return str_contains(strtolower($room['name']), strtolower($search));
-            });
-        }
+        $rooms = $query->get();
+
+        // Untuk tombol filter kategori — semua tipe yang punya kamar tersedia
+        $tipeList = TipeKamar::whereHas('kamar', function ($q) {
+            $q->where('status_kamar', 'tersedia');
+        })->get();
 
         return view('pages.dashboard_tamu', [
             'rooms'            => $rooms,
-            'search'           => $search,
+            'tipeList'         => $tipeList,
             'selectedCategory' => $selectedCategory,
             'reservasiAktif'   => $reservasiAktif,
             'tamu'             => $tamu,

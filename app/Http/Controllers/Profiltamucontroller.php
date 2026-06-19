@@ -3,21 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; 
 
 class ProfilTamuController extends Controller
 {
     public function index()
     {
-        if (session('role') !== 'tamu') {
+
+        if (!Auth::guard('tamu')->check()) {
             return redirect()->route('login.tamu');
         }
 
+        $tamu = Auth::guard('tamu')->user();
+
         $user = (object) [
-            'name' => session('nama') ?? 'Edo Christian',
-            'email' => session('email') ?? 'edochristian@gmail.com',
-            'telepon' => '0823009810',
-            'jenis_kelamin' => 'Laki-laki',
-            'alamat' => 'Batam',
+            'name' => $tamu->name,
+            'email' => $tamu->email,
+            'telepon' => $tamu->phone ?? '0823009810',
+            'jenis_kelamin' => $tamu->jenis_kelamin ?? 'Laki-laki',
+            'alamat' => $tamu->alamat ?? 'Batam',
         ];
 
         $riwayat = [];
