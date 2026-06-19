@@ -43,41 +43,33 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         ->name('verifikasi.approve');
 });
 
+// Admin & Resepsionis
 Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
+
+    Route::get('/home_resepsionis', function () {
+        return view('pages.home_resepsionis');
+    })->name('home.resepsionis');
 
     Route::get('/data_kamar', [KamarController::class, 'index'])
         ->name('data.kamar');
 
     Route::get('/data_reservasi', function () {
         return view('pages.data_reservasi', [
-            'reservasis' => [],
+            'reservasis'     => [],
             'totalPemesanan' => 0,
-            'menunggu' => 0,
-            'dikonfirmasi' => 0,
-            'dibatalkan' => 0,
+            'menunggu'       => 0,
+            'dikonfirmasi'   => 0,
+            'dibatalkan'     => 0,
         ]);
     })->name('data.reservasi');
 
+    Route::get('/profile', [ProfileController::class, 'index'])
+        ->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 });
 
-Route::middleware(['auth', 'role:resepsionis'])->group(function () {
-
-    Route::get('/home_resepsionis', function () {
-        return view('pages.home_resepsionis');
-    })->name('home.resepsionis');
-
-    Route::get('/data_reservasi', function () {
-        return view('pages.data_reservasi', [
-            'reservasis' => [],
-            'totalPemesanan' => 0,
-            'menunggu' => 0,
-            'dikonfirmasi' => 0,
-            'dibatalkan' => 0,
-        ]);
-    })->name('data.reservasi.resepsionis');
-
-});
-
+// Tamu
 Route::middleware('auth:tamu')->group(function () {
     Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])
         ->name('dashboard.tamu');
@@ -93,31 +85,14 @@ Route::middleware('auth:tamu')->group(function () {
         ->name('invoice.show');
 });
 
-Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])
-        ->name('profile');
-    Route::post('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
-});
-
 Route::resource('kamar', KamarController::class);
 Route::resource('tipe-kamar', TipeKamarController::class);
 
-Route::middleware(['auth','role:admin'])->group(function () {
-
-    Route::get(
-        '/verifikasi_pembayaran',
-        [PembayaranController::class, 'index']
-    )->name('verifikasi.pembayaran');
-
-    Route::post(
-        '/verifikasi_pembayaran/{id}/verifikasi',
-        [PembayaranController::class, 'verifikasi']
-    )->name('pembayaran.verifikasi');
-
-    Route::get(
-        '/verifikasi_pembayaran/{id}',
-        [PembayaranController::class, 'detail']
-    )->name('pembayaran.detail');
-
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/verifikasi_pembayaran', [PembayaranController::class, 'index'])
+        ->name('verifikasi.pembayaran');
+    Route::post('/verifikasi_pembayaran/{id}/verifikasi', [PembayaranController::class, 'verifikasi'])
+        ->name('pembayaran.verifikasi');
+    Route::get('/verifikasi_pembayaran/{id}', [PembayaranController::class, 'detail'])
+        ->name('pembayaran.detail');
 });

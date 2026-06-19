@@ -1,9 +1,9 @@
 @php
 
-    if (Auth::guard('tamu')->check()) {
-        $role = 'tamu';
-    } elseif (Auth::check()) {
+    if (Auth::check()) {
         $role = Auth::user()->role;
+    } elseif (Auth::guard('tamu')->check()) {
+        $role = 'tamu';
     } else {
         $role = session('role');
     }
@@ -69,8 +69,7 @@
                     Bantuan
                 </a>
             </nav>
-
-            <!-- TIDAK ADA ROLE / BELUM LOGIN -->
+           
         @else
             <nav class="flex justify-center gap-12 text-[20px] font-semibold text-[#243b53]">
                 <a href="{{ route('landing') }}#beranda" class="hover:text-[#7ea1ba]">Beranda</a>
