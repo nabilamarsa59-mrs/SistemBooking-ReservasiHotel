@@ -13,6 +13,8 @@ use App\Http\Controllers\ProfilTamuController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TipeKamarController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\ReservasiController;
+
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -121,3 +123,4 @@ Route::middleware(['auth','role:admin'])->group(function () {
     )->name('pembayaran.detail');
 
 });
+Route::get('/data-reservasi', [ReservasiController::class, 'index'])->name('data.reservasi');
