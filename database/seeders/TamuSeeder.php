@@ -11,11 +11,12 @@ class TamuSeeder extends Seeder
     public function run(): void
     {
         Tamu::create([
-            'nik' => '21710001',
-            'nama_tamu' => 'Nabila',
-            'password' => Hash::make('password'),
-            'foto_tamu' => 'nabila.jpg',
-            'no_telepon' => '08123456789'
+            'nik'        => '21710001',
+            'name'       => 'Nabila',
+            'email'      => 'nabila@gmail.com',
+            'password'   => Hash::make('nabila321'),
+            'foto_tamu'  => 'nabila.jpg',
+            'phone'      => '08123456789'
         ]);
     }
 }

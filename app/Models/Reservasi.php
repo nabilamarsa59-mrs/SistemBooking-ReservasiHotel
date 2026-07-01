@@ -16,14 +16,13 @@ class Reservasi extends Model
         'id_tipe',
         'check_in',
         'check_out',
+        'status_reservasi',
     ];
 
     protected $casts = [
-        'check_in' => 'date',
+        'check_in'  => 'date',
         'check_out' => 'date',
     ];
-
-    
 
     public function tamu()
     {
@@ -32,11 +31,16 @@ class Reservasi extends Model
 
     public function pengguna()
     {
-        return $this->belongsTo(pengguna::class, 'pengguna_id');
+        return $this->belongsTo(Pengguna::class, 'pengguna_id');
     }
 
     public function tipe()
     {
         return $this->belongsTo(TipeKamar::class, 'id_tipe');
+    }
+
+    public function faktur()
+    {
+        return $this->hasOne(Faktur::class, 'id_reservasi', 'id_reservasi');
     }
 }

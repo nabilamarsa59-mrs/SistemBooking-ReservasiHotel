@@ -1,21 +1,34 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Models;
 
-use Illuminate\Database\Seeder;
-use App\Models\Faktur;
+use Illuminate\Database\Eloquent\Model;
 
-class FakturSeeder extends Seeder
+class Faktur extends Model
 {
-    public function run(): void
+    protected $table = 'faktur';
+    protected $primaryKey = 'no_faktur';
+
+    protected $fillable = [
+        'id_reservasi',
+        'nama_tamu',
+        'tipe_kamar',
+        'durasi',
+        'total_tagihan',
+        'tanggal_faktur',
+    ];
+
+    protected $casts = [
+        'tanggal_faktur' => 'date',
+    ];
+
+    public function reservasi()
     {
-        Faktur::create([
-            'id_reservasi' => 1,
-            'nama_tamu' => 'Nabila',
-            'tipe_kamar' => 'Deluxe',
-            'durasi' => 2,
-            'total_tagihan' => 1000000,
-            'tanggal_faktur' => now()
-        ]);
+        return $this->belongsTo(Reservasi::class, 'id_reservasi');
+    }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'no_faktur');
     }
 }

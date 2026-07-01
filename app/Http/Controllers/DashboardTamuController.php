@@ -15,9 +15,10 @@ class DashboardTamuController extends Controller
 
         $selectedCategory = $request->query('category');
 
-        $reservasiAktif = Reservasi::with('tipe')
+        $reservasiAktif = Reservasi::with(['tipe', 'faktur'])
             ->where('tamu_id', $tamu->id)
             ->where('check_out', '>=', now()->toDateString())
+            ->whereIn('status_reservasi', ['pending', 'aktif']) // ← TAMBAHAN: exclude 'dibatalkan'
             ->latest('id_reservasi')
             ->first();
 
@@ -31,7 +32,6 @@ class DashboardTamuController extends Controller
 
         $rooms = $query->get();
 
-        // Untuk tombol filter kategori — semua tipe yang punya kamar tersedia
         $tipeList = TipeKamar::whereHas('kamar', function ($q) {
             $q->where('status_kamar', 'tersedia');
         })->get();

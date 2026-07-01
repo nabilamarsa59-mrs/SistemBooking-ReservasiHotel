@@ -20,52 +20,36 @@ class Pembayaran extends Model
     ];
 
     protected $casts = [
-        'total_bayar'       => 'double',
-        'status_verifikasi' => 'boolean',
+        'tanggal_pembayaran' => 'date',
     ];
 
-    /**
-     * @param string $pathFile 
-     * @return bool 
-     */
+    public function faktur()
+    {
+        return $this->belongsTo(Faktur::class, 'no_faktur', 'no_faktur');
+    }
+
     public function uploadBukti(string $pathFile): bool
     {
         return $this->update([
-            'bukti_transfer'    => $pathFile,
-            'status_verifikasi' => false, 
+            'bukti_pembayaran'  => $pathFile,
+            'status_pembayaran' => 'pending',
         ]);
     }
 
-    /**
-     * @param bool $diterima 
-     * @return bool
-     */
     public function verifikasiPembayaran(bool $diterima = true): bool
     {
-        $this->update(['status_verifikasi' => $diterima]);
+        $this->update([
+            'status_pembayaran' => $diterima ? 'lunas' : 'pending',
+        ]);
 
-        if ($diterima) {
-            // Konfirmasi reservasi
-            $this->reservasi->update(['status_reservasi' => 'dikonfirmasi']);
+        $reservasi = $this->faktur?->reservasi;
 
-            // Auto-buat faktur jika belum ada
-            if (!$this->reservasi->faktur()->exists()) {
-                Faktur::create([
-                    'id_reservasi'  => $this->id_reservasi,
-                    'tanggal_cetak' => now(),
-                ]);
-            }
-        } else {
-            // Kembalikan ke pending agar tamu bisa upload ulang
-            $this->reservasi->update(['status_reservasi' => 'pending']);
+        if ($reservasi) {
+            $reservasi->update([
+                'status_reservasi' => $diterima ? 'aktif' : 'pending',
+            ]);
         }
 
         return true;
     }
-
-    public function reservasi()
-    {
-        return $this->belongsTo(Reservasi::class, 'id_reservasi');
-    }
-
 }

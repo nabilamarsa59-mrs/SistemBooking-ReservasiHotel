@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             ReservasiSeeder::class,
             FakturSeeder::class,
             PembayaranSeeder::class,
-            PembayaranSeeder::class,
         ]);
     }
 }

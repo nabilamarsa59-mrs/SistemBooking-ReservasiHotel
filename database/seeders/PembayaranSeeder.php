@@ -11,12 +11,12 @@ class PembayaranSeeder extends Seeder
     {
         DB::table('pembayaran')->insert([
             [
-                'no_faktur' => 1001,
+                'no_faktur'          => 1, // ganti dari 1001
                 'tanggal_pembayaran' => now(),
-                'metode_pembayaran' => 'Transfer BCA',
-                'jumlah_bayar' => 500000,
-                'status_pembayaran' => 'pending',
-                'bukti_pembayaran' => null,
+                'metode_pembayaran'  => 'Transfer BCA',
+                'jumlah_bayar'       => 500000,
+                'status_pembayaran'  => 'pending',
+                'bukti_pembayaran'   => null,
             ]
         ]);
     }

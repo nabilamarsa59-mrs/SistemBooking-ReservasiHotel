@@ -3,6 +3,11 @@
 @section('title', 'Pemesanan')
 
 @section('content')
+    <x-breadcrumb :items="[
+        ['label' => 'Dashboard', 'route' => route('dashboard.tamu')],
+        ['label' => 'Pemesanan Kamar']
+    ]" />
+    
     <div class="min-h-screen bg-[#ece6da] px-8 py-8 font-serif text-[#243b53]">
 
         <div class="relative mx-auto max-w-[1450px] border border-gray-300 bg-[#f7f3eb] px-10 py-8 shadow-sm">

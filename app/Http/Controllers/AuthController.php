@@ -49,6 +49,7 @@ class AuthController extends Controller
             ])->withInput();
         }
 
+
         // Pastikan hanya admin dan resepsionis yang bisa login di sini
         if (!in_array($user->role, ['admin', 'resepsionis'])) {
             Auth::logout();

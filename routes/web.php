@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\DashboardTamuController;
@@ -13,13 +14,14 @@ use App\Http\Controllers\ProfilTamuController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TipeKamarController;
 use App\Http\Controllers\PembayaranController;
-
+use App\Http\Controllers\FakturController;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('guest:tamu')->group(function () {
     Route::get('/login_tamu', [RegisterTamuController::class, 'showLoginForm'])->name('login.tamu');
@@ -28,22 +30,32 @@ Route::middleware('guest:tamu')->group(function () {
     Route::post('/register-tamu', [RegisterTamuController::class, 'register'])->name('register.tamu.post');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 Route::post('/logout-tamu', [RegisterTamuController::class, 'logout'])
     ->middleware('auth:tamu')
     ->name('logout.tamu');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
     Route::get('/statistik_admin', [StatistikController::class, 'tampilkanHalaman'])
         ->name('statistik.admin');
+
+    // Verifikasi pemesanan (konfirmasi / tolak reservasi)
     Route::get('/verifikasi_admin', [VerifikasiController::class, 'index'])
         ->name('verifikasi.admin');
     Route::post('/verifikasi/{id}', [VerifikasiController::class, 'approve'])
         ->name('verifikasi.approve');
+    Route::post('/verifikasi/{id}/tolak', [VerifikasiController::class, 'tolak'])
+        ->name('verifikasi.tolak');
+
+    // Verifikasi pembayaran
+    Route::get('/verifikasi_pembayaran', [PembayaranController::class, 'index'])
+        ->name('verifikasi.pembayaran');
+    Route::get('/verifikasi_pembayaran/{id}', [PembayaranController::class, 'detail'])
+        ->name('pembayaran.detail');
+    Route::post('/verifikasi_pembayaran/{id}/verifikasi', [PembayaranController::class, 'verifikasi'])
+        ->name('pembayaran.verifikasi');
 });
 
-// Admin & Resepsionis
 Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
 
     Route::get('/home_resepsionis', function () {
@@ -67,32 +79,42 @@ Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
         ->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])
         ->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update.put');
+
+    Route::resource('kamar', KamarController::class)->except(['index']);
+    Route::resource('tipe-kamar', TipeKamarController::class);
 });
 
-// Tamu
 Route::middleware('auth:tamu')->group(function () {
+
     Route::get('/dashboard_tamu', [DashboardTamuController::class, 'index'])
         ->name('dashboard.tamu');
-    Route::post('/pemesanan', [PemesananController::class, 'store'])
-        ->name('pemesanan.store');
+
     Route::get('/pemesanan', [PemesananController::class, 'showPemesanan'])
         ->name('pemesanan');
+    Route::post('/pemesanan', [PemesananController::class, 'store'])
+        ->name('pemesanan.store');
+    Route::post('/pemesanan/{id}/batalkan', [PemesananController::class, 'batalkan'])
+        ->name('pemesanan.batalkan');
+
     Route::get('/profil', [ProfilTamuController::class, 'index'])
         ->name('profil');
     Route::put('/profil', [ProfilTamuController::class, 'update'])
         ->name('profil.update');
+
     Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
         ->name('invoice.show');
-});
 
-Route::resource('kamar', KamarController::class);
-Route::resource('tipe-kamar', TipeKamarController::class);
+    // Faktur tamu
+    Route::get('/faktur/{id_reservasi}', [FakturController::class, 'show'])
+        ->name('faktur.show');
+    Route::get('/faktur/{id_reservasi}/cetak', [FakturController::class, 'cetak'])
+        ->name('faktur.cetak');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/verifikasi_pembayaran', [PembayaranController::class, 'index'])
-        ->name('verifikasi.pembayaran');
-    Route::post('/verifikasi_pembayaran/{id}/verifikasi', [PembayaranController::class, 'verifikasi'])
-        ->name('pembayaran.verifikasi');
-    Route::get('/verifikasi_pembayaran/{id}', [PembayaranController::class, 'detail'])
-        ->name('pembayaran.detail');
+    // Pembayaran tamu (upload bukti transfer) — INI YANG BARU DITAMBAHKAN
+    Route::get('/faktur/{no_faktur}/bayar', [PembayaranController::class, 'bayarForm'])
+        ->name('pembayaran.bayar.form');
+    Route::post('/faktur/{no_faktur}/bayar', [PembayaranController::class, 'bayar'])
+        ->name('pembayaran.bayar');
 });

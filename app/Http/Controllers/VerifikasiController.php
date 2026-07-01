@@ -3,28 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Pembayaran;
+use App\Models\Reservasi;
 
 class VerifikasiController extends Controller
 {
+
     public function index()
-{
-    $pembayaran = Pembayaran::all();
+    {
+        $reservasiList = Reservasi::with(['tamu', 'tipe', 'faktur'])
+            ->orderByRaw("FIELD(status_reservasi, 'pending', 'aktif', 'dibatalkan')")
+            ->latest('id_reservasi')
+            ->get();
 
-    $statistik = [
-    'menunggu' => Pembayaran::where('status_pembayaran', 'pending')->count(),
+        $statistik = [
+            'menunggu'   => $reservasiList->where('status_reservasi', 'pending')->count(),
+            'aktif'      => $reservasiList->where('status_reservasi', 'aktif')->count(),
+            'dibatalkan' => $reservasiList->where('status_reservasi', 'dibatalkan')->count(),
+            'total'      => $reservasiList->count(),
+        ];
 
-    'terverifikasi' => Pembayaran::where('status_pembayaran', 'lunas')->count(),
+        return view('pages.verifikasi_admin', compact('reservasiList', 'statistik'));
+    }
 
-    'lunas' => Pembayaran::where('status_pembayaran', 'lunas')->count(),
+    public function approve(Request $request, $id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        $reservasi->update(['status_reservasi' => 'aktif']);
 
-    'ditolak' => 0,
+        return redirect()
+            ->route('verifikasi.admin')
+            ->with('success', 'Pemesanan #RSV-' . str_pad($id, 3, '0', STR_PAD_LEFT) . ' berhasil dikonfirmasi.');
+    }
 
-    'total' => Pembayaran::count(),
-];
+    public function tolak(Request $request, $id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        $reservasi->update(['status_reservasi' => 'dibatalkan']);
 
-    return view('pages.verifikasi_admin', compact(
-        'pembayaran',
-        'statistik'
-    ));
-}}
+        return redirect()
+            ->route('verifikasi.admin')
+            ->with('success', 'Pemesanan #RSV-' . str_pad($id, 3, '0', STR_PAD_LEFT) . ' telah ditolak.');
+    }
+}

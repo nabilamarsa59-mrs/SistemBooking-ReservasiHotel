@@ -21,44 +21,6 @@
             </div>
         </section>
 
-        {{-- QUICK ACTION CARDS --}}
-        <section class="px-6 py-8 md:px-10">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <a href="{{ route('pemesanan') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📝</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Pesan Kamar</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📋</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Pemesanan Saya</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📄</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Invoice & Faktur</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">👤</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Profil Saya</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
         {{-- PEMESANAN AKTIF --}}
         <section id="section-reservasi" class="px-6 pt-8 md:px-10">
             @if ($reservasiAktif)
@@ -120,6 +82,7 @@
                         </div>
                     </div>
 
+                    {{-- Info tambahan jika pending --}}
                     @if ($status === 'pending')
                         <div class="mt-4 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-[14px] text-yellow-800">
                             ⏳ Pemesanan Anda sedang diproses. Silakan lakukan pembayaran agar admin dapat memverifikasi.
@@ -127,6 +90,7 @@
                     @endif
 
                     <div class="mt-6 flex justify-end gap-3 border-t border-gray-300 pt-4">
+                        {{-- Tombol bayar muncul saat masih pending dan faktur tersedia --}}
                         @if ($status === 'pending' && $reservasiAktif->faktur)
                             <a href="{{ route('pembayaran.bayar.form', $reservasiAktif->faktur->no_faktur) }}"
                                 class="rounded-full bg-[#243b53] px-6 py-2 text-[15px] font-semibold text-white transition hover:bg-[#7ea1ba]">
@@ -134,6 +98,7 @@
                             </a>
                         @endif
 
+                        {{-- Tombol batal hanya muncul saat pending --}}
                         @if ($status === 'pending')
                             <button type="button"
                                 onclick="openCancelModal(
@@ -183,7 +148,6 @@
                         class="flex-1 rounded-full border border-gray-400 bg-white py-3 text-[15px] font-semibold text-[#243b53] transition hover:bg-gray-100">
                         Kembali
                     </button>
-                    {{-- TIDAK ada @method('PATCH') — route didaftarkan sebagai POST --}}
                     <form id="form-batal" action="" method="POST" class="flex-1">
                         @csrf
                         <button type="submit"
@@ -268,15 +232,23 @@
                         }
 
                         $descMap = [
-                            'standard'     => 'Kamar Standard kami dirancang untuk memberikan kenyamanan dasar dengan nuansa hangat dan bersih. Cocok untuk tamu yang membutuhkan istirahat berkualitas dengan harga terjangkau.',
-                            'suite'        => 'Kamar Suite menawarkan pengalaman menginap premium dengan ruangan yang luas dan dekorasi elegan. Ideal untuk pasangan atau tamu yang menginginkan kemewahan lebih.',
-                            'deluxe'       => 'Kamar Deluxe menghadirkan perpaduan sempurna antara kenyamanan dan gaya. Dengan desain interior modern dan fasilitas lengkap untuk pengalaman menginap tak terlupakan.',
-                            'presidential' => 'Presidential Suite adalah puncak kemewahan di Hotel Pulas. Dengan ruang tamu terpisah, kamar mandi eksklusif, dan layanan personal setara bintang lima.',
-                            'presidental'  => 'Presidential Suite adalah puncak kemewahan di Hotel Pulas. Dengan ruang tamu terpisah, kamar mandi eksklusif, dan layanan personal setara bintang lima.',
+                            'standard' =>
+                                'Kamar Standard kami dirancang untuk memberikan kenyamanan dasar dengan nuansa hangat dan bersih. Cocok untuk tamu yang membutuhkan istirahat berkualitas dengan harga terjangkau.',
+                            'suite' =>
+                                'Kamar Suite menawarkan pengalaman menginap premium dengan ruangan yang luas dan dekorasi elegan. Ideal untuk pasangan atau tamu yang menginginkan kemewahan lebih.',
+                            'deluxe' =>
+                                'Kamar Deluxe menghadirkan perpaduan sempurna antara kenyamanan dan gaya. Dengan desain interior modern dan fasilitas lengkap untuk pengalaman menginap tak terlupakan.',
+                            'presidential' =>
+                                'Presidential Suite adalah puncak kemewahan di Hotel Pulas. Dengan ruang tamu terpisah, kamar mandi eksklusif, dan layanan personal setara bintang lima.',
+                            'presidental' =>
+                                'Presidential Suite adalah puncak kemewahan di Hotel Pulas. Dengan ruang tamu terpisah, kamar mandi eksklusif, dan layanan personal setara bintang lima.',
                         ];
                         $desc = 'Kamar hadir dengan fasilitas lengkap dan suasana nyaman untuk menunjang istirahat Anda.';
                         foreach ($descMap as $key => $val) {
-                            if (str_contains($slug, $key)) { $desc = $val; break; }
+                            if (str_contains($slug, $key)) {
+                                $desc = $val;
+                                break;
+                            }
                         }
                     @endphp
 
@@ -401,16 +373,17 @@
     </div>
 
     <style>
-        body.modal-open { overflow: hidden; }
+        body.modal-open {
+            overflow: hidden;
+        }
     </style>
 
     <script>
         function openCancelModal(id, tipe, ci, co) {
             document.getElementById('modal-tipe-info').textContent = tipe;
             document.getElementById('modal-kode-info').textContent = '#RSV-' + String(id).padStart(3, '0');
-            document.getElementById('modal-ci-info').textContent  = ci;
-            document.getElementById('modal-co-info').textContent  = co;
-            // POST ke /pemesanan/{id}/batalkan — sesuai route web.php
+            document.getElementById('modal-ci-info').textContent = ci;
+            document.getElementById('modal-co-info').textContent = co;
             document.getElementById('form-batal').action = '/pemesanan/' + id + '/batalkan';
             document.getElementById('modal-cancel').classList.remove('hidden');
             document.getElementById('modal-cancel').classList.add('flex');
@@ -450,15 +423,15 @@
         }
 
         function cekKetersediaan() {
-            const ci     = inputCheckin.value;
-            const co     = inputCheckout.value;
-            const errEl  = document.getElementById('error-tanggal');
+            const ci    = inputCheckin.value;
+            const co    = inputCheckout.value;
+            const errEl = document.getElementById('error-tanggal');
             const errTxt = document.getElementById('error-tanggal-text');
             const infoEl = document.getElementById('info-tanggal');
             const infoTxt = document.getElementById('info-tanggal-text');
 
-            errEl.classList.add('hidden');  errEl.classList.remove('flex');
-            infoEl.classList.add('hidden'); infoEl.classList.remove('flex');
+            errEl.classList.add('hidden');   errEl.classList.remove('flex');
+            infoEl.classList.add('hidden');  infoEl.classList.remove('flex');
 
             if (!ci || !co) {
                 errTxt.textContent = 'Harap isi tanggal check-in dan check-out terlebih dahulu.';
@@ -523,4 +496,4 @@
             }
         });
     </script>
-@endsection
+@endsection 

@@ -4,7 +4,10 @@
 
 @section('content')
 
-   
+<x-breadcrumb :items="[
+    ['label' => 'Home', 'route' => route('home.resepsionis')],
+    ['label' => 'Data Pemesanan']
+]" />
 
     <div class="min-h-screen bg-[#F2EDE4] px-12 py-10 font-serif text-[#243b53]">
 

@@ -4,6 +4,11 @@
 
 @section('content')
 
+<x-breadcrumb :items="[
+    ['label' => 'Dashboard Admin', 'route' => route('statistik.admin')],
+    ['label' => 'Statistik']
+]" />
+
     <div class="bg-[#F2EDE4] min-h-screen px-12 py-10 font-serif text-[#243b53]">
 
         <div class="mb-8">

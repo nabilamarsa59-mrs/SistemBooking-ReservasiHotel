@@ -10,13 +10,13 @@ class ProfileController extends Controller
     {
 
         $profile = [
-            'nama' => 'Nabila Marsa',
-            'email' => 'nabilamarsa@gmail.com',
+            'nama' => 'Revan',
+            'email' => 'resepsionis@gmail.com',
             'telepon' => '082344556677',
             'password' => '12345678',
-            'gender' => 'Perempuan',
-            'alamat' => 'Bengkong Kodim',
-            'role' => 'admin', // admin / resepsionis
+            'gender' => 'Laki-laki',
+            'alamat' => 'Batam',
+            'role' => 'resepsionis', // admin / resepsionis
         ];
 
         return view('pages.profile', compact('profile'));

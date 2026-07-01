@@ -34,7 +34,7 @@ class KamarSeeder extends Seeder
             [
                 'id_tipe' => 3,
                 'no_kamar' => '301',
-                'status_kamar' => 'maintenance',
+                'status_kamar' => 'perbaikan',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

@@ -1,42 +1,45 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Models;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 
-class ReservasiSeeder extends Seeder
+class Reservasi extends Model
 {
-    public function run(): void
+    protected $table = 'reservasi';
+    protected $primaryKey = 'id_reservasi';
+
+    protected $fillable = [
+        'tamu_id',
+        'pengguna_id',
+        'id_tipe',
+        'check_in',
+        'check_out',
+        'status_reservasi', // ← tambah ini
+    ];
+
+    protected $casts = [
+        'check_in'  => 'date',
+        'check_out' => 'date',
+    ];
+
+    public function tamu()
     {
-        DB::table('reservasi')->insert([
-            [
-                'tamu_id' => 1,
-                'pengguna_id' => 1,
-                'id_tipe' => 1,
-                'check_in' => '2026-05-10',
-                'check_out' => '2026-05-11',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'tamu_id' => 2,
-                'pengguna_id' => 1,
-                'id_tipe' => 2,
-                'check_in' => '2026-05-11',
-                'check_out' => '2026-05-13',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'tamu_id' => 3,
-                'pengguna_id' => 1,
-                'id_tipe' => 1,
-                'check_in' => '2026-05-12',
-                'check_out' => '2026-05-13',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        return $this->belongsTo(Tamu::class, 'tamu_id');
+    }
+
+    public function pengguna()
+    {
+        return $this->belongsTo(pengguna::class, 'pengguna_id');
+    }
+
+    public function tipe()
+    {
+        return $this->belongsTo(TipeKamar::class, 'id_tipe');
+    }
+
+    public function faktur()
+    {
+        return $this->hasOne(Faktur::class, 'id_reservasi');
     }
 }
