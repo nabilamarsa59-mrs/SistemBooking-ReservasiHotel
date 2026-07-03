@@ -14,7 +14,13 @@ use App\Http\Controllers\ProfilTamuController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TipeKamarController;
 use App\Http\Controllers\PembayaranController;
+<<<<<<< HEAD
 use App\Http\Controllers\FakturController;
+=======
+use App\Http\Controllers\ReservasiController;
+
+
+>>>>>>> 5fe6b1cabb45edd5c3812d050b63159869ddb486
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -106,6 +112,7 @@ Route::middleware('auth:tamu')->group(function () {
     Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
         ->name('invoice.show');
 
+<<<<<<< HEAD
     // Faktur tamu
     Route::get('/faktur/{id_reservasi}', [FakturController::class, 'show'])
         ->name('faktur.show');
@@ -118,3 +125,7 @@ Route::middleware('auth:tamu')->group(function () {
     Route::post('/faktur/{no_faktur}/bayar', [PembayaranController::class, 'bayar'])
         ->name('pembayaran.bayar');
 });
+=======
+});
+Route::get('/data-reservasi', [ReservasiController::class, 'index'])->name('data.reservasi');
+>>>>>>> 5fe6b1cabb45edd5c3812d050b63159869ddb486

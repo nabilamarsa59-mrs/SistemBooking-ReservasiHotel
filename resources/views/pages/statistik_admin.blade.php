@@ -36,11 +36,10 @@
             </div>
         </div>
 
-        @php
-            $pendapatanBulanIni = 85000000;
-            $pendapatanBulanLalu = 48000000;
-            $selisihPendapatan = round((($pendapatanBulanIni - $pendapatanBulanLalu) / $pendapatanBulanLalu) * 100, 1);
-        @endphp
+    @php
+    $pendapatanBulanIni = $bulanIni?->revenue ?? 0;
+    $pendapatanBulanLalu = $bulanLalu?->revenue ?? 0;
+    @endphp
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
@@ -76,16 +75,15 @@
             </div>
         </div>
 
-        @php
-            $kunjunganBulanIni = 60;
-            $kunjunganBulanLalu = 55;
-            $selisihKunjungan = round((($kunjunganBulanIni - $kunjunganBulanLalu) / $kunjunganBulanLalu) * 100, 1);
-        @endphp
+    @php
+    $kunjunganBulanIni = $bulanIni?->visitors ?? 0;
+    $kunjunganBulanLalu = $bulanLalu?->visitors ?? 0;
+    @endphp
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
                 <p class="text-[17px] text-[#47627A]">Bulan ini</p>
-                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">Mei 2025</h3>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1"> {{ $bulanIni?->month }} </h3>
                 <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
                     {{ $kunjunganBulanIni }} Tamu
                 </p>
@@ -94,7 +92,7 @@
 
             <div class="rounded-2xl border border-[#D1CCC0] bg-white p-7 shadow-md">
                 <p class="text-[17px] text-[#47627A]">Bulan lalu</p>
-                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1">April 2025</h3>
+                <h3 class="text-[22px] font-semibold text-[#243b53] mt-1"> {{ $bulanLalu?->month }} </h3>
                 <p class="text-[30px] font-bold text-[#0B2A55] mt-2">
                     {{ $kunjunganBulanLalu }} Tamu
                 </p>
@@ -147,32 +145,31 @@
         };
 
         new Chart(document.getElementById('chartPendapatan'), {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei'],
-                datasets: [{
-                    data: [45, 58, 53, 48, 85],
-                    backgroundColor: '#7BAFC4',
-                    borderRadius: 8,
-                    borderSkipped: false
-                }]
-            },
-            options: baseOptions
-        });
+    type: 'bar',
+    data: {
+        labels: {!! json_encode($labels) !!},
+        datasets: [{
+            data: {!! json_encode($revenues) !!},
+            backgroundColor: '#7BAFC4',
+            borderRadius: 8,
+            borderSkipped: false
+        }]
+    },
+    options: baseOptions
+});
 
         new Chart(document.getElementById('chartKunjungan'), {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei'],
-                datasets: [{
-                    data: [45, 50, 42, 55, 60],
-                    backgroundColor: '#7BAFC4',
-                    borderRadius: 8,
-                    borderSkipped: false
-                }]
-            },
-            options: baseOptions
-        });
-    </script>
+    type: 'bar',
+    data: {
+        labels: {!! json_encode($labels) !!},
+        datasets: [{
+            data: {!! json_encode($visitors) !!},
+            backgroundColor: '#7BAFC4',
+            borderRadius: 8,
+            borderSkipped: false
+        }]
+    },
+    options: baseOptions
+});
 
 @endsection
