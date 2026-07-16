@@ -1,227 +1,103 @@
 @extends('layouts.app')
 
-@section('title', 'Profile')
+@section('title', 'Profil ' . ucfirst($user->role ?? 'Pengguna'))
 
 @section('content')
+    <div class="min-h-screen bg-[#F2EDE4] px-6 py-6 font-serif text-[#243b53]">
 
-    @php
-        $role = session('role');
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
-        if ($role == 'admin') {
-            $judulProfil = 'Informasi Profil Admin';
-            $deskripsiProfil = 'Kelola informasi akun admin Pulas.';
-            $nama = 'Admin Pulas';
-            $email = 'admin@gmail.com';
-            $telepon = '081234567890';
-            $jenisKelamin = 'Perempuan';
-            $alamat = 'Batam';
-        } elseif ($role == 'resepsionis') {
-            $judulProfil = 'Informasi Profil Resepsionis';
-            $deskripsiProfil = 'Kelola informasi akun resepsionis Pulas.';
-            $nama = 'Revan';
-            $email = 'resepsionis@gmail.com';
-            $telepon = '082344556677';
-            $jenisKelamin = 'Laki-laki';
-            $alamat = 'Batam';
-        } else {
-            header('Location: ' . route('dashboard.tamu'));
-            exit();
-        }
+            {{-- SIDEBAR --}}
+            <div class="flex min-h-[440px] flex-col rounded-2xl border border-[#D1CCC0] bg-white p-5 text-center shadow-md">
+                <span class="mx-auto mb-5 inline-block w-fit rounded-full bg-[#7ea1ba]/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#0B2A55]">
+                    {{ $user->role }}
+                </span>
 
-        $fotoProfil = session('foto_profile')
-            ? asset('storage/' . session('foto_profile'))
-            : asset('images/logo_PBL.jpeg');
-    @endphp
-
-    <div class="min-h-screen bg-[#F2EDE4] px-12 py-10">
-
-        <div id="success-message"
-            class="hidden mb-6 rounded-xl border border-[#7EA1BA] bg-white px-5 py-4 text-[#243b53] shadow-sm">
-            Perubahan profil berhasil disimpan sementara.
-        </div>
-
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-
-                <div
-                    class="flex min-h-[560px] flex-col rounded-2xl border border-[#D1CCC0] bg-white p-8 text-center shadow-md">
-                    <h2 class="mb-8 text-[30px] font-bold text-[#0B2A55]">
-                        Foto Profil
-                    </h2>
-
-                    <div class="relative mx-auto mb-5 h-40 w-40">
-                        <div
-                            class="flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border border-[#D1CCC0] bg-[#F2EDE4] shadow-sm">
-                            <img id="fotoPreview" src="{{ $fotoProfil }}" class="h-full w-full object-cover">
-                        </div>
-
-                        <input type="file" name="foto" id="fotoInput" accept="image/*" class="hidden"
-                            onchange="previewFoto(event)">
-
-                        <label for="fotoInput"
-                            class="absolute bottom-2 right-2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[#7EA1BA] text-[28px] font-bold text-white shadow-md transition hover:bg-[#668BA5]">
-                            +
-                        </label>
-                    </div>
-
-                    <p class="mb-8 text-[17px] text-[#47627A]">
-                        Tambahkan Foto Profil
-                    </p>
-
-                    <button type="button" onclick="enableEdit()"
-                        class="w-full rounded-xl border border-[#7EA1BA] bg-white py-3 text-[17px] font-semibold text-[#0B2A55] shadow-sm transition hover:bg-[#7EA1BA] hover:text-white">
-                        Edit Profil
-                    </button>
-
-                    <div class="mt-auto pt-4">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="block w-full rounded-xl border border-red-200 bg-red-50 py-3 text-[17px] font-semibold text-red-600 shadow-sm transition hover:bg-red-100">
-                                Keluar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="overflow-hidden rounded-2xl border border-[#D1CCC0] bg-white shadow-md lg:col-span-2">
-
-                    <div class="relative border-b border-[#E2E8F0] px-8 py-6">
-                        <button type="button" onclick="window.history.back()"
-                            class="absolute right-6 top-6 text-[26px] text-gray-400 transition hover:text-gray-700">
-                            &times;
+                <div class="mt-auto pt-3">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full rounded-lg border border-red-200 bg-red-50 py-2 text-[14px] font-semibold text-red-600 shadow-sm transition hover:bg-red-100">
+                            Keluar
                         </button>
+                    </form>
+                </div>
+            </div>
 
-                        <h1 class="text-[34px] font-bold text-[#0B2A55]">
-                            {{ $judulProfil }}
-                        </h1>
+            {{-- PANEL KANAN --}}
+            <div class="relative overflow-hidden rounded-2xl border border-[#D1CCC0] bg-white shadow-md lg:col-span-2">
 
-                        <p class="mt-1 text-[16px] text-[#47627A]">
-                            {{ $deskripsiProfil }}
-                        </p>
-                    </div>
-
-                    <div class="space-y-6 p-8">
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">Nama Lengkap</label>
-                            <input name="nama" value="{{ $nama }}" disabled
-                                class="profile-input rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
-                        </div>
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">Email</label>
-                            <input name="email" value="{{ $email }}" disabled
-                                class="profile-input rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
-                        </div>
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">No Telepon</label>
-                            <input name="telepon" value="{{ $telepon }}" disabled
-                                class="profile-input rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
-                        </div>
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">Kata Sandi</label>
-
-                            <div class="relative md:col-span-2">
-                                <input id="passwordField" name="password" type="password" value="resepsionis123" disabled
-                                    class="profile-input w-full rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 pr-12 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA]">
-
-                                <button type="button" onclick="togglePassword()"
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-[18px] text-gray-400 hover:text-gray-700">
-                                    👁
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">Jenis Kelamin</label>
-                            <input name="jenis_kelamin" value="{{ $jenisKelamin }}" disabled
-                                class="profile-input rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
-                        </div>
-
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold text-[#243b53]">Alamat</label>
-                            <input name="alamat" value="{{ $alamat }}" disabled
-                                class="profile-input rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
-                        </div>
-
-                        <div class="flex justify-end pt-4">
-                            <button type="button" id="saveBtn" onclick="saveProfile()" disabled
-                                class="rounded-xl bg-gray-200 px-8 py-3 text-[17px] font-semibold text-gray-500 shadow-sm transition">
-                                Simpan Perubahan
-                            </button>
-                        </div>
-
-                    </div>
+                <div class="relative border-b border-[#E2E8F0] px-5 py-4">
+                    <button type="button" onclick="history.back()"
+                        class="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-[18px] font-bold text-[#8896A5] transition hover:bg-[#F2EDE4] hover:text-[#243b53]"
+                        title="Kembali">
+                        &times;
+                    </button>
+                    <h1 class="text-[20px] font-bold text-[#0B2A55]">Informasi Profil {{ ucfirst($user->role) }}</h1>
+                    <p class="mt-0.5 text-[13px] text-[#47627A]">Nama dan jenis kelamin dapat diubah. Data lain hanya bisa dilihat.</p>
                 </div>
 
+                @if (session('success'))
+                    <div class="mx-5 mt-4 rounded-lg border border-green-300 bg-green-50 px-4 py-2 text-[13px] font-semibold text-green-700">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="mx-5 mt-4 rounded-lg border border-red-300 bg-red-50 px-4 py-2 text-[13px] text-red-700">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                <form action="{{ route('profile.update') }}" method="POST" class="space-y-3 p-5">
+                    @csrf
+                    @method('PUT')
+
+                    {{-- NAMA — bisa diedit --}}
+                    <div class="grid grid-cols-1 items-center gap-2 md:grid-cols-3">
+                        <label class="text-[13px] font-semibold">Nama</label>
+                        <input type="text" name="nama" value="{{ old('nama', $user->nama) }}"
+                            class="rounded-lg border border-[#D1CCC0] bg-white px-3 py-2 text-[13px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
+                    </div>
+
+                    {{-- EMAIL — hanya tampil --}}
+                    <div class="grid grid-cols-1 items-center gap-2 md:grid-cols-3">
+                        <label class="text-[13px] font-semibold">Email</label>
+                        <p class="rounded-lg bg-[#F2EDE4] px-3 py-2 text-[13px] text-[#47627A] md:col-span-2">{{ $user->email }}</p>
+                    </div>
+
+                    {{-- NO TELEPON — hanya tampil --}}
+                    <div class="grid grid-cols-1 items-center gap-2 md:grid-cols-3">
+                        <label class="text-[13px] font-semibold">No Telepon</label>
+                        <p class="rounded-lg bg-[#F2EDE4] px-3 py-2 text-[13px] text-[#47627A] md:col-span-2">{{ $user->no_telepon }}</p>
+                    </div>
+
+                    {{-- JENIS KELAMIN — bisa diedit --}}
+                    <div class="grid grid-cols-1 items-center gap-2 md:grid-cols-3">
+                        <label class="text-[13px] font-semibold">Jenis Kelamin</label>
+                        <select name="jenis_kelamin"
+                            class="rounded-lg border border-[#D1CCC0] bg-white px-3 py-2 text-[13px] text-[#243b53] outline-none focus:border-[#7EA1BA] md:col-span-2">
+                            <option value="L" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'L' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="P" {{ old('jenis_kelamin', $user->jenis_kelamin) == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                    </div>
+
+                    {{-- ALAMAT — hanya tampil --}}
+                    <div class="grid grid-cols-1 items-center gap-2 md:grid-cols-3">
+                        <label class="text-[13px] font-semibold">Alamat</label>
+                        <p class="rounded-lg bg-[#F2EDE4] px-3 py-2 text-[13px] text-[#47627A] md:col-span-2">{{ $user->alamat }}</p>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="submit"
+                            class="rounded-lg bg-[#7EA1BA] px-6 py-2 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#668BA5]">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-
 @endsection
-
-@push('scripts')
-    <script>
-        function previewFoto(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('fotoPreview');
-
-            if (file) {
-                preview.src = URL.createObjectURL(file);
-
-                const saveBtn = document.getElementById('saveBtn');
-                saveBtn.disabled = false;
-                saveBtn.classList.remove('bg-gray-200', 'text-gray-500');
-                saveBtn.classList.add('bg-[#7EA1BA]', 'text-white', 'hover:bg-[#668BA5]');
-            }
-        }
-
-        function enableEdit() {
-            document.querySelectorAll('.profile-input').forEach(input => {
-                input.disabled = false;
-                input.classList.remove('bg-[#F8FAFC]');
-                input.classList.add('bg-white');
-            });
-
-            const saveBtn = document.getElementById('saveBtn');
-            saveBtn.disabled = false;
-            saveBtn.classList.remove('bg-gray-200', 'text-gray-500');
-            saveBtn.classList.add('bg-[#7EA1BA]', 'text-white', 'hover:bg-[#668BA5]');
-        }
-
-        function saveProfile() {
-            document.querySelectorAll('.profile-input').forEach(input => {
-                input.disabled = true;
-                input.classList.remove('bg-white');
-                input.classList.add('bg-[#F8FAFC]');
-            });
-
-            const saveBtn = document.getElementById('saveBtn');
-            saveBtn.disabled = true;
-            saveBtn.classList.remove('bg-[#7EA1BA]', 'text-white', 'hover:bg-[#668BA5]');
-            saveBtn.classList.add('bg-gray-200', 'text-gray-500');
-
-            document.getElementById('success-message').classList.remove('hidden');
-
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        function togglePassword() {
-            const field = document.getElementById('passwordField');
-
-            if (field.type === 'password') {
-                field.type = 'text';
-            } else {
-                field.type = 'password';
-            }
-        }
-    </script>
-@endpush

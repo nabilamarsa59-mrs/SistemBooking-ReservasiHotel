@@ -80,7 +80,7 @@ class AuthController extends Controller
             case 'admin':
                 return redirect()->route('statistik.admin');
             case 'resepsionis':
-                return redirect()->route('home.resepsionis');
+                return redirect()->route('data.kamar');
             default:
                 return redirect()->route('login');
         }

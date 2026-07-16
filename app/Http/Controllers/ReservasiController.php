@@ -64,11 +64,11 @@ class ReservasiController extends Controller
         // Simpan reservasi dengan status pending
         $reservasi = Reservasi::create([
             'tamu_id'          => $tamu->id,
-            'pengguna_id'      => 1, // default admin/resepsionis
+            'pengguna_id'      => 1, 
             'id_tipe'          => $request->id_tipe,
             'check_in'         => $request->check_in,
             'check_out'        => $request->check_out,
-            'status_reservasi' => 'pending', // ← selalu mulai dari pending
+            'status_reservasi' => 'pending', 
         ]);
 
         // Buat faktur otomatis setelah reservasi

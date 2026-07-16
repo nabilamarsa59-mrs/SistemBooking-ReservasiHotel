@@ -21,44 +21,6 @@
             </div>
         </section>
 
-        {{-- QUICK ACTION CARDS --}}
-        <section class="px-6 py-8 md:px-10">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <a href="{{ route('pemesanan') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📝</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Pesan Kamar</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📋</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Pemesanan Saya</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">📄</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Invoice & Faktur</p>
-                    </div>
-                </a>
-                <a href="{{ route('profil') }}"
-                    class="flex items-center gap-4 rounded-lg border border-gray-400 bg-[#f2eee6] p-5 transition hover:bg-[#7ea1ba] hover:text-white hover:shadow-lg">
-                    <div class="text-[32px]">👤</div>
-                    <div>
-                        <p class="text-[14px] font-semibold uppercase text-gray-600"></p>
-                        <p class="text-[16px] font-bold">Profil Saya</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
         {{-- PEMESANAN AKTIF --}}
         <section id="section-reservasi" class="px-6 pt-8 md:px-10">
             @if ($reservasiAktif)
@@ -127,13 +89,6 @@
                     @endif
 
                     <div class="mt-6 flex justify-end gap-3 border-t border-gray-300 pt-4">
-                        @if ($status === 'pending' && $reservasiAktif->faktur)
-                            <a href="{{ route('pembayaran.bayar.form', $reservasiAktif->faktur->no_faktur) }}"
-                                class="rounded-full bg-[#243b53] px-6 py-2 text-[15px] font-semibold text-white transition hover:bg-[#7ea1ba]">
-                                Bayar Sekarang
-                            </a>
-                        @endif
-
                         @if ($status === 'pending')
                             <button type="button"
                                 onclick="openCancelModal(

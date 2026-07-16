@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Pulas')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        /* Mengecilkan tampilan SELURUH halaman, termasuk elemen yang pakai
+           ukuran px langsung (mis. text-[13px], px-3, dst).
+           'zoom' benar-benar merender ulang halaman lebih kecil,
+           beda dengan font-size yang cuma pengaruh ke elemen berbasis rem.
+           Ubah angkanya (0.1 = 10%) sampai pas: 0.9 = 90%, 0.8 = 80%, dst. */
+        html {
+            zoom: 0.85;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-[#ece6da] text-[#243b53] font-serif">

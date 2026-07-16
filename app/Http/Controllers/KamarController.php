@@ -33,7 +33,7 @@ class KamarController extends Controller
 
         Kamar::create($request->only(['id_tipe', 'no_kamar', 'status_kamar']));
 
-        return redirect()->route('kamar.index')
+        return redirect()->route('data.kamar')
             ->with('success', 'Kamar berhasil ditambahkan');
     }
 
@@ -49,7 +49,7 @@ class KamarController extends Controller
 
         $kamar->update($request->only(['id_tipe', 'no_kamar', 'status_kamar']));
 
-        return redirect()->route('kamar.index')
+        return redirect()->route('data.kamar')
             ->with('success', 'Kamar berhasil diperbarui');
     }
 
@@ -57,7 +57,7 @@ class KamarController extends Controller
     {
         Kamar::findOrFail($id)->delete();
 
-        return redirect()->route('kamar.index')
+        return redirect()->route('data.kamar')
             ->with('success', 'Kamar berhasil dihapus');
     }
 }

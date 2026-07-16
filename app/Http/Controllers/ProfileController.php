@@ -3,28 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    /**
+     * Tampilkan halaman profil admin / resepsionis.
+     */
     public function index()
     {
+        $user = Auth::user();
 
-        $profile = [
-            'nama' => 'Revan',
-            'email' => 'resepsionis@gmail.com',
-            'telepon' => '082344556677',
-            'password' => '12345678',
-            'gender' => 'Laki-laki',
-            'alamat' => 'Batam',
-            'role' => 'resepsionis', // admin / resepsionis
-        ];
-
-        return view('pages.profile', compact('profile'));
+        return view('pages.profile', compact('user'));
     }
 
+    /**
+     * Update profil — hanya nama dan jenis_kelamin yang boleh diubah.
+     * Field lain (email, no_telepon, alamat, foto, password) tidak bisa diedit dari sini.
+     */
     public function update(Request $request)
     {
-        return redirect()->route('profile')
-            ->with('success', 'Profil berhasil diperbarui.');
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'nama'          => ['required', 'string', 'max:255'],
+            'jenis_kelamin' => ['required', 'in:L,P'],
+        ]);
+
+        $user->update($validated);
+
+        return redirect()->route('profile')->with('success', 'Profil berhasil diperbarui.');
     }
 }

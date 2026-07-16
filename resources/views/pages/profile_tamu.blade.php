@@ -32,7 +32,7 @@
 
                 <button type="button" onclick="showPanel('panel-profil')"
                     class="mb-4 w-full rounded-xl border border-[#7EA1BA] bg-white py-3 text-[17px] font-semibold text-[#0B2A55] shadow-sm transition hover:bg-[#7EA1BA] hover:text-white">
-                    Edit Profil
+                    Profil Saya
                 </button>
 
                 <button type="button" onclick="showPanel('panel-invoice')"
@@ -64,66 +64,43 @@
                     &times;
                 </a>
 
-                {{-- PANEL PROFIL --}}
+                {{-- PANEL PROFIL (READ-ONLY, sesuai data registrasi) --}}
                 <div id="panel-profil">
                     <div class="border-b border-[#E2E8F0] px-8 py-6 pr-20">
                         <h1 class="text-[34px] font-bold text-[#0B2A55]">Informasi Profil Tamu</h1>
-                        <p class="mt-1 text-[16px] text-[#47627A]">Kelola informasi pribadi dan data akun tamu Pulas.</p>
+                        <p class="mt-1 text-[16px] text-[#47627A]">Data akun tamu Pulas sesuai saat pendaftaran.</p>
                     </div>
 
-                    @if (session('success'))
-                        <div class="mx-8 mt-6 rounded-xl border border-green-300 bg-green-50 px-5 py-3 font-semibold text-green-700">
-                            {{ session('success') }}
+                    <div class="space-y-6 p-8">
+                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
+                            <label class="text-[18px] font-semibold">NIK</label>
+                            <div class="rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] md:col-span-2">
+                                {{ $user->nik ?? '-' }}
+                            </div>
                         </div>
-                    @endif
-
-                    @if ($errors->any())
-                        <div class="mx-8 mt-6 rounded-xl border border-red-300 bg-red-50 px-5 py-3 text-red-700">
-                            @foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach
-                        </div>
-                    @endif
-
-                    <form action="{{ route('profil.update') }}" method="POST" id="form-profil" class="space-y-6 p-8">
-                        @csrf
-                        @method('PUT')
-
                         <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
                             <label class="text-[18px] font-semibold">Nama Lengkap</label>
-                            <input name="nama" value="{{ $user->name }}" readonly
-                                class="input-field rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] outline-none md:col-span-2">
+                            <div class="rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] md:col-span-2">
+                                {{ $user->name }}
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
                             <label class="text-[18px] font-semibold">Email</label>
-                            <input name="email" value="{{ $user->email }}" readonly
-                                class="input-field rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] outline-none md:col-span-2">
+                            <div class="rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] md:col-span-2">
+                                {{ $user->email }}
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
                             <label class="text-[18px] font-semibold">No Telepon</label>
-                            <input name="telepon" value="{{ $user->telepon }}" readonly
-                                class="input-field rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] outline-none md:col-span-2">
-                        </div>
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold">Jenis Kelamin</label>
-                            <input name="jenis_kelamin" value="{{ $user->jenis_kelamin }}" readonly
-                                class="input-field rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] outline-none md:col-span-2">
-                        </div>
-                        <div class="grid grid-cols-1 items-center gap-4 md:grid-cols-3">
-                            <label class="text-[18px] font-semibold">Alamat</label>
-                            <input name="alamat" value="{{ $user->alamat }}" readonly
-                                class="input-field rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] outline-none md:col-span-2">
+                            <div class="rounded-xl border border-[#D1CCC0] bg-[#F8FAFC] px-5 py-3 text-[16px] text-[#243b53] md:col-span-2">
+                                {{ $user->telepon }}
+                            </div>
                         </div>
 
-                        <div class="flex justify-end gap-4 pt-4">
-                            <button type="button" id="btn-edit" onclick="toggleEdit()"
-                                class="rounded-xl border border-[#7EA1BA] bg-white px-8 py-3 text-[17px] font-semibold text-[#0B2A55] shadow-sm transition hover:bg-[#7EA1BA] hover:text-white">
-                                Edit Profil
-                            </button>
-                            <button type="submit" id="btn-simpan"
-                                class="hidden rounded-xl bg-[#7EA1BA] px-8 py-3 text-[17px] font-semibold text-white shadow-sm transition hover:bg-[#668BA5]">
-                                Simpan Perubahan
-                            </button>
-                        </div>
-                    </form>
+                        <p class="pt-2 text-[14px] text-[#8896A5]">
+                            * Data ini diambil dari informasi saat Anda mendaftar dan tidak dapat diubah di halaman ini.
+                        </p>
+                    </div>
                 </div>
 
                 {{-- PANEL INVOICE --}}
@@ -194,7 +171,7 @@
         </div>
 
         {{-- RIWAYAT PEMESANAN --}}
-        <div class="mt-8 rounded-2xl border border-[#D1CCC0] bg-white p-8 shadow-md">
+        <div id="riwayat" class="mt-8 scroll-mt-24 rounded-2xl border border-[#D1CCC0] bg-white p-8 shadow-md">
             <h2 class="mb-5 border-b border-[#E2E8F0] pb-4 text-[26px] font-bold text-[#0B2A55]">
                 Riwayat Pemesanan
             </h2>
@@ -300,27 +277,12 @@
         </div>
     </div>
 
-    <style>
-        .input-field[readonly] { background: #F8FAFC; color: #243b53; cursor: default; }
-        .input-field:not([readonly]) { background: white; color: #243b53; cursor: text; }
-    </style>
-
     <script>
         function showPanel(id) {
             ['panel-profil', 'panel-invoice'].forEach(p =>
                 document.getElementById(p).classList.add('hidden')
             );
             document.getElementById(id).classList.remove('hidden');
-        }
-
-        function toggleEdit() {
-            document.querySelectorAll('#form-profil .input-field').forEach(input => {
-                input.removeAttribute('readonly');
-                input.classList.remove('bg-[#F8FAFC]');
-                input.classList.add('bg-white');
-            });
-            document.getElementById('btn-edit').classList.add('hidden');
-            document.getElementById('btn-simpan').classList.remove('hidden');
         }
 
         document.getElementById('foto-input').addEventListener('change', function (e) {
@@ -355,6 +317,11 @@
         // Buka panel invoice langsung jika ada hash #invoice di URL
         if (window.location.hash === '#invoice') {
             showPanel('panel-invoice');
+        }
+
+        // Scroll otomatis ke riwayat pemesanan jika ada hash #riwayat di URL
+        if (window.location.hash === '#riwayat') {
+            document.getElementById('riwayat').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 @endsection

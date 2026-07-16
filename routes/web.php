@@ -14,13 +14,7 @@ use App\Http\Controllers\ProfilTamuController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\TipeKamarController;
 use App\Http\Controllers\PembayaranController;
-<<<<<<< HEAD
 use App\Http\Controllers\FakturController;
-=======
-use App\Http\Controllers\ReservasiController;
-
-
->>>>>>> 5fe6b1cabb45edd5c3812d050b63159869ddb486
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/landing', [LandingController::class, 'index'])->name('landing');
@@ -64,10 +58,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:admin,resepsionis'])->group(function () {
 
-    Route::get('/home_resepsionis', function () {
-        return view('pages.home_resepsionis');
-    })->name('home.resepsionis');
-
+    // Data kamar — ini sekaligus jadi halaman "beranda" resepsionis setelah login
     Route::get('/data_kamar', [KamarController::class, 'index'])
         ->name('data.kamar');
 
@@ -112,20 +103,15 @@ Route::middleware('auth:tamu')->group(function () {
     Route::get('/invoice/{id}', [ProfilTamuController::class, 'showInvoice'])
         ->name('invoice.show');
 
-<<<<<<< HEAD
     // Faktur tamu
     Route::get('/faktur/{id_reservasi}', [FakturController::class, 'show'])
         ->name('faktur.show');
     Route::get('/faktur/{id_reservasi}/cetak', [FakturController::class, 'cetak'])
         ->name('faktur.cetak');
 
-    // Pembayaran tamu (upload bukti transfer) — INI YANG BARU DITAMBAHKAN
+    // Pembayaran tamu (upload bukti transfer)
     Route::get('/faktur/{no_faktur}/bayar', [PembayaranController::class, 'bayarForm'])
         ->name('pembayaran.bayar.form');
     Route::post('/faktur/{no_faktur}/bayar', [PembayaranController::class, 'bayar'])
         ->name('pembayaran.bayar');
 });
-=======
-});
-Route::get('/data-reservasi', [ReservasiController::class, 'index'])->name('data.reservasi');
->>>>>>> 5fe6b1cabb45edd5c3812d050b63159869ddb486
